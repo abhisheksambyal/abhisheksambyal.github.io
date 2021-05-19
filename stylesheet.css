@@ -61,6 +61,11 @@ span.highlight {
   background-color: #ffffd0;
 }
 
+#introduction {
+  background-color: beige;
+  border-radius: 10px;
+}
+
 @media screen and ( max-width: 420px ) {
   td>img {
     width: 120px;

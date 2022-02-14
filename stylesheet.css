@@ -67,6 +67,11 @@ span.highlight {
   padding-bottom: 5px;
 }
 
+.news 
+{
+  line-height:150%
+}
+
 @media screen and ( max-width: 420px ) {
   td>img {
     width: 120px;

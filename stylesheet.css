@@ -12,6 +12,7 @@ a:focus,
 a:hover {
   color: #f09228;
   text-decoration: none;
+  font-weight: 600;
 }
 
 body,

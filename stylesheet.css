@@ -38,6 +38,43 @@ name {
   font-size: 32px;
 }
 
+#introduction {
+  width:100%;
+  border:0px;
+  border-spacing:0px;
+  border-collapse:separate;
+  margin-right:auto;
+  margin-left:auto;
+  margin-top: 40px;
+}
+
+#news {
+  width:100%;
+  border:0px;
+  border-spacing:0px;
+  border-collapse:separate;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+#publications {
+  width:100%;
+  border:0px;
+  border-spacing:0px;
+  border-collapse:separate;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+#ta {
+  width:100%;
+  border:0px;
+  border-spacing:0px;
+  border-collapse:separate;
+  margin-right:auto;
+  margin-left:auto;
+}
+
 .paperlinks{
   padding-top: 10px;
 }

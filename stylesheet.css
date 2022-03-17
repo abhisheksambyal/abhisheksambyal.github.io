@@ -14,12 +14,20 @@ a:hover {
   text-decoration: none;
 }
 
-body,
+/* body,
 td,
 th,
 tr,
 p,
 a {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+} */
+
+
+body {
   font-family: 'Lato', sans-serif;
   font-size: 16px;
   font-weight: 400;

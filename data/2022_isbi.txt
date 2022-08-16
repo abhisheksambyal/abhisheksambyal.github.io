@@ -1,9 +1,0 @@
-@INPROCEEDINGS{9761638,
-  author={Singh Sambyal, Abhishek and Krishnan, Narayanan C and Bathula, Deepti R},
-  booktitle={2022 IEEE 19th International Symposium on Biomedical Imaging (ISBI)}, 
-  title={Towards Reducing Aleatoric Uncertainty for Medical Imaging Tasks}, 
-  year={2022},
-  volume={},
-  number={},
-  pages={1-4},
-  doi={10.1109/ISBI52829.2022.9761638}}

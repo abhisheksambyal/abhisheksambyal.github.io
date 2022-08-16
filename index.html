@@ -146,7 +146,7 @@
           <!-- Publications -->
           <!-- Publications -->
           <!-- Publications -->
-          <table id="publications">
+          <table id="publications" width="100%" align="center" border="0" cellspacing="0" cellpadding="15">
             <tbody>
               <!-- Heading -->
               <tr>
@@ -156,13 +156,13 @@
               </tr>
 
               <!-- Publication Entries -->
+
               <tr>
-                <td style="padding:20px;width:30%;vertical-align:middle">
-                  <img src="images/isbi2022.png" alt="prl" width="180" height="100" ,
-                    style="padding-top:10px;padding-bottom:10px;border-radius:15px;border:1px solid black;">
-                </td>
-                <td width="90%" valign="middle" style="padding-top:20px;padding-bottom:20px;">
-                  <!-- <td width="75%", valign="top", style="padding:20px;"> -->
+                <td width="20%" valign="top" align="center"><a href="https://ieeexplore.ieee.org/document/9761638" target="_blank">
+                <!-- <img src="images/isbi2022.png" alt="isbi2022" width="90%" style="padding-top:0px;padding-bottom:0px;border-radius:15px;border:1px solid black"> -->
+                <img src="images/isbi2022.png" alt="isbi2022" width="160" height="120" style="padding:10px;border-radius:15px;border:1px solid black">
+                </a></td>
+                <td width="80%" valign="top">
                   <a href="https://ieeexplore.ieee.org/document/9761638" target="_blank">
                     <papertitle>Towards Reducing Aleatoric Uncertainty for Medical Imaging Tasks</papertitle>
                   </a>
@@ -170,45 +170,76 @@
                   <strong>Abhishek Singh Sambyal</strong>, Narayanan C. Krishnan, Deepti R. Bathula
                   <br>
                   <em>IEEE 19th International Symposium on Biomedical Imaging (ISBI)</em>, 2022
-                  <div class="paperlinks">
-                    <a href="https://arxiv.org/pdf/2110.11012.pdf" target="_blank">PDF</a>
-                    |
-                  <a href="data/2022_isbi.txt">bibtex</a>
+              
+                  <div class="paperlinks" id="trau">
+                  <a href="javascript:toggleblock('whirl_abs')">abstract</a> |
+                  <a shape="rect" href="javascript:togglebib('trau')" class="togglebib">bibtex</a>
+              
+                  <p align="justify"> <i id="whirl_abs" style="display: none;">In safety-critical applications like medical diagnosis, certainty associated with a model’s prediction is just as important as its accuracy. Consequently, uncertainty estimation and reduction play a crucial role. Uncertainty in predictions can be attributed to noise or randomness in data (aleatoric) and incorrect model inferences (epistemic). While model uncertainty can be reduced with more data or bigger models, aleatoric uncertainty is more intricate. This work proposes a novel approach that interprets data uncertainty estimated from a self-supervised task as noise inherent to the data and utilizes it to reduce aleatoric uncertainty in another task related to the same dataset via data augmentation. The proposed method was evaluated on a benchmark medical imaging dataset with image reconstruction as the self-supervised task and segmentation as the image analysis task. Our findings demonstrate the effectiveness of the proposed approach in significantly reducing the aleatoric uncertainty in the image segmentation task while achieving better or on-par performance compared to the standard augmentation techniques.</i></p>
+              
+              <pre xml:space="preserve" style="display: none;">
+@INPROCEEDINGS{trau,
+  title={Towards Reducing Aleatoric Uncertainty for Medical Imaging
+  Tasks}, 
+  author={Singh Sambyal, Abhishek and Krishnan,Narayanan C and
+  Bathula, Deepti R},
+  booktitle={2022 IEEE 19th International Symposium on Biomedical
+  Imaging (ISBI)}, 
+  year={2022},
+  pages={1-4},
+  doi={10.1109/ISBI52829.2022.9761638}}
+              </pre>
                   </div>
                 </td>
               </tr>
 
+
+
+
               <tr>
-                <td style="padding:20px;width:30%;vertical-align:middle">
-                  <img src="images/2018_advances.png" alt="prl" width="180" height="100" ,
-                    style="padding-top:10px;padding-bottom:10px;border-radius:15px;border:1px solid black;">
-                </td>
-                <td width="90%" valign="middle" style="padding-top:20px;padding-bottom:20px;">
-                  <!-- <td width="75%", valign="top", style="padding:20px;"> -->
-                  <a href="https://ieeexplore.ieee.org/abstract/document/8745790">
+                <td width="20%" valign="top" align="center"><a href="https://ieeexplore.ieee.org/abstract/document/8745790" target="_blank">
+                <!-- <img src="images/isbi2022.png" alt="isbi2022" width="90%" style="padding-top:0px;padding-bottom:0px;border-radius:15px;border:1px solid black"> -->
+                <img src="images/2018_advances.png" alt="adlt" width="160" height="120" style="padding:10px;border-radius:15px;border:1px solid black">
+                </a></td>
+                <td width="80%" valign="top">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/8745790" target="_blank">
                     <papertitle>Advances in Deep Learning Techniques for Medical Image Analysis</papertitle>
                   </a>
                   <br>
                   Usma Niyaz, <strong>Abhishek Singh Sambyal</strong>, Devanand
                   <br>
                   <em>Fifth International Conference on Parallel, Distributed and Grid Computing (PDGC)</em>, 2018
-                  <div class="paperlinks">
-                  <a
-                    href="data/2018_papers_updated_Advances in Deep Learning Techniques for Medical Image Analysis.pdf">PDF</a>
-                  |
-                  <a href="data/abhishek_2018_advances_ieee.txt">bibtex</a>
-                </div>
+              
+                  <div class="paperlinks" id="adlt">
+                  <a href="javascript:toggleblock('adlt_abs')">abstract</a> |
+                  <a shape="rect" href="javascript:togglebib('adlt')" class="togglebib">bibtex</a>
+              
+                  <p align="justify"> <i id="adlt_abs" style="display: none;">Deep learning is contributing to the high level of services to the healthcare sector. As the digital medical data is increasing exponentially with time, early detection and prediction of diseases are becoming more efficient because of the deep learning techniques which reduce the fatality rate to a great extent. The main focus of this paper is to provide the comprehensive review of deep learning in the domain of medical image processing and analysis. We have demonstrated the use of new deep learning architectures in oncology for the prediction of different types of cancer like the brain, lung, skin, etc. The state-of-the-art architectures effectively carry out analysis of 2D and 3D medical images to make the diagnosis of patients faster and more accurate. The use of popular approaches in machine learning such as ensemble and transfer learning with fine-tuning of parameters improve the performance of the deep neural networks in medical image analysis. The existing deep networks urge the new image classification network called Capsule Network (CapsNet) to make the classification and detection comparatively better. The equivariance characteristics of CapsNet make it more influential as it discourages the effect of any structural invariance of an input image on the network.</i></p>
+              
+              <pre xml:space="preserve" style="display: none;">
+@INPROCEEDINGS{adlt,
+  title={Advances in Deep Learning Techniques for Medical Image 
+  Analysis}, 
+  author={Niyaz, Usma and Sambyal, Abhishek Singh and Devanand},
+  booktitle={2018 Fifth International Conference on Parallel, 
+  Distributed and Grid Computing (PDGC)}, 
+  year={2018},
+  doi={10.1109/PDGC.2018.8745790}}
+              </pre>
+                  </div>
                 </td>
               </tr>
 
+
+
+
               <tr>
-                <td style="padding:20px;width:30%;vertical-align:middle">
-                  <img src="images/2018_evaluation.png" alt="prl" width="180" height="100" ,
-                    style="padding-top:10px;padding-bottom:10px;border-radius:15px;border:1px solid black;">
-                </td>
-                <td width="90%" valign="middle" style="padding-top:20px;padding-bottom:20px;">
-                  <!-- <td width="75%", valign="top", style="padding:20px;"> -->
-                  <a href="https://link.springer.com/chapter/10.1007/978-981-15-0035-0_6">
+                <td width="20%" valign="top" align="center"><a href="https://link.springer.com/chapter/10.1007/978-981-15-0035-0_6" target="_blank">
+                <!-- <img src="images/isbi2022.png" alt="isbi2022" width="90%" style="padding-top:0px;padding-bottom:0px;border-radius:15px;border:1px solid black"> -->
+                <img src="images/2018_evaluation.png" alt="osm" width="160" height="120" style="padding:10px;border-radius:15px;border:1px solid black">
+                </a></td>
+                <td width="80%" valign="top">
+                  <a href="https://link.springer.com/chapter/10.1007/978-981-15-0035-0_6" target="_blank">
                     <papertitle>Evaluation of Deep Learning Model with Optimizing and Satisficing Metrics for Lung
                       Segmentation</papertitle>
                   </a>
@@ -216,23 +247,37 @@
                   Usma Niyaz, <strong>Abhishek Singh Sambyal</strong>, Devanand
                   <br>
                   <em>Soft Computing for Problem Solving (SocProS)[Proceedings in AISC]</em>, 2018
-                  <div class="paperlinks">
-                  <a
-                    href="data/2018_papers_updated_Evaluation of Deep Learning Model with Optimizing and Satisficing Metrics for Lung Segmentation.pdf">PDF</a>
-                  |
-                  <a href="data/abhishek_2018_evaluationvit_springer.txt">bibtex</a>
-                </div>
+              
+                  <div class="paperlinks" id="osm">
+                  <a href="javascript:toggleblock('osm_abs')">abstract</a> |
+                  <a shape="rect" href="javascript:togglebib('osm')" class="togglebib">bibtex</a>
+              
+                  <p align="justify"> <i id="osm_abs" style="display: none;">The segmentation in medical image analysis is a crucial and prerequisite process during the diagnosis of the diseases. The need for segmentation is important to attain the region of interest where the probability of occurrence of an abnormality such as a nodule in the lungs or tumor in the brain is high. In this paper, we have proposed a new architecture called FS-Net which is a convolutional neural network- based model for the segmentation of lungs in CT scan images. It performs encoding of images into the feature maps and then decodes the feature maps into their respective lung masks. We have also trained the state-of-the-art U-Net on the same dataset and compared the results on the basis of optimizing and satisficing metrics. These metrics are useful for the selection of a better model with the maximum score at the satisfying condition. The FS-Net is computationally very efficient and achieves promising dice coefficient and loss score when compared with the U-Net taking one-third of the time.</i></p>
+              
+              <pre xml:space="preserve" style="display: none;">
+@InProceedings{osm,
+  title={Evaluation of Deep Learning Model with Optimizing 
+  and Satisficing Metrics for Lung Segmentation},
+  author={Niyaz, Usma and Singh Sambyal, Abhishek
+  and Padha, Devanand},
+  booktitle={Soft Computing for Problem Solving},
+  year={2020},
+  }
+              </pre>
+                  </div>
                 </td>
               </tr>
 
+
+
+
               <tr>
-                <td style="padding:20px;width:30%;vertical-align:middle">
-                  <img src="images/2016_knowledge.png" alt="prl" width="180" height="100" ,
-                    style="padding-top:10px;padding-bottom:10px;border-radius:15px;border:1px solid black;">
-                </td>
-                <td width="90%" valign="middle" style="padding-top:20px;padding-bottom:20px;">
-                  <!-- <td width="75%", valign="top", style="padding:20px;"> -->
-                  <a href="https://ieeexplore.ieee.org/abstract/document/7915086">
+                <td width="20%" valign="top" align="center"><a href="https://ieeexplore.ieee.org/abstract/document/7915086" target="_blank">
+                <!-- <img src="images/isbi2022.png" alt="isbi2022" width="90%" style="padding-top:0px;padding-bottom:0px;border-radius:15px;border:1px solid black"> -->
+                <img src="images/2016_knowledge.png" alt="knowabs" width="160" height="120" style="padding:10px;border-radius:15px;border:1px solid black">
+                </a></td>
+                <td width="80%" valign="top">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/7915086" target="_blank">
                     <papertitle>Knowledge abstraction from textural features of brain MRI images for diagnosing brain tumor
                       using statistical techniques and associative classification</papertitle>
                   </a>
@@ -240,16 +285,30 @@
                   <strong>Abhishek Singh Sambyal</strong>, Asha T.
                   <br>
                   <em>International Conference on Systems in Medicine and Biology (ICSMB)</em>, 2016
-                  <div class="paperlinks">
-                  <a
-                    href="data/2016_papers_updated_Knowledge Abstraction from Textural Features of Brain MRI Images for Diagnosing Brain Tumor using Statistical Techniques and Associative Classification.pdf">PDF</a>
-                  |
+              
+                  <div class="paperlinks" id="knowabs">
+                  <a href="javascript:toggleblock('knowabs_abs')">abstract</a> |
+                  <a shape="rect" href="javascript:togglebib('knowabs')" class="togglebib">bibtex</a> |
                   <a href="https://github.com/abhisheksambyal/Disease-Detection-using-image-processing-and-data-mining">code</a>
-                  |
-                  <a href="data/abhishek_2016_knowledgeabstractioniitkgp_ieee.txt">bibtex</a>
-                </div>
+              
+                  <p align="justify"> <i id="knowabs_abs" style="display: none;">This paper presents a methodology for finding the association rules using associative classification which can be used to abstract knowledge from brain MRI images. Reducing the size of images using different thresholds help to reduce the complexity of the proposed system without affecting the correctness of these images. Textural features are taken into consideration because when there is a wide variation of features of discrete gray tone, the texture dominates more. Gray-Tone Spatial-Dependence matrices are calculated from images in which textural information is contained. The system uses a supervised learning approach for selecting the important features from different textural features. Using associative classification, the rules are generated from selected textural features which abstract the knowledge from the images.</i></p>
+              
+              <pre xml:space="preserve" style="display: none;">
+@INPROCEEDINGS{knowabs,
+  title={Knowledge abstraction from textural features 
+  of brain MRI images for diagnosing brain tumor using 
+  statistical techniques and associative classification}, 
+  author={Sambyal, Abhishek Singh and Asha, T.},
+  booktitle={2016 International Conference on Systems in 
+  Medicine and Biology (ICSMB)}, 
+  year={2016},
+  doi={10.1109/ICSMB.2016.7915086}}
+              </pre>
+                  </div>
                 </td>
               </tr>
+
+
             </tbody>
           </table>
 

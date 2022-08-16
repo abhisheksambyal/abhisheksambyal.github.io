@@ -5,7 +5,7 @@ function hideallbibs()
 {
     var el = document.getElementsByTagName("div") ;
     for (var i = 0 ; i < el.length ; ++i) {
-        if (el[i].className == "paper") {
+        if (el[i].className == "paperlinks") {
             var bib = el[i].getElementsByTagName("pre") ;
             if (bib.length > 0) {
                 bib [0] .style.display = 'none' ;

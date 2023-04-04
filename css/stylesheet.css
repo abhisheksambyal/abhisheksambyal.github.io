@@ -116,3 +116,15 @@ name {
     border-radius: 50%;
   }
 }
+
+/* .badge {
+  background-color: rgb(156, 138, 230);
+  color: rgb(255, 255, 255);
+  padding: 4px 8px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.badge:hover .badge:active {
+  color: rgb(255, 255, 255);
+} */

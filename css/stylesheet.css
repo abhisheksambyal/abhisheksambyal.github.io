@@ -117,14 +117,42 @@ name {
   }
 }
 
-/* .badge {
-  background-color: rgb(156, 138, 230);
-  color: rgb(255, 255, 255);
-  padding: 4px 8px;
-  text-align: center;
-  border-radius: 5px;
+
+
+/* Boxed style for CV/Github and Publication: abstract/code etc. */
+
+.boxed:hover,.boxed:active {
+  text-decoration: underline;
+  /* background: #dbc9f1; */
+  background: #c9cef1;
+  color: #121212 !important
 }
 
-.badge:hover .badge:active {
-  color: rgb(255, 255, 255);
-} */
+.boxed {
+  text-decoration: none !important;
+  color: #000 !important;
+  /* border: 1px solid #839cbf; */
+  border: 1px solid #839cbf;
+  font-family: monospace;
+  padding: 2px 5px 0px;
+  font-size: 14px;
+  /* background: #d4dce9; */
+  background: #FFF8DC;
+  margin-left: 4px;
+  display: inline-block;
+  vertical-align: bottom;
+  border-radius: 3px
+}
+
+.boxed_publication:hover,.boxed_publication:active {
+  text-decoration: underline;
+  background: #dedede;
+  /* background: #dbc9f1; */
+  color: #121212 !important
+}
+.boxed_publication {
+  font-size: 12px;
+  background: 	#ffffff;
+  padding: 1px 5px 1px;
+  margin: 0px;
+}

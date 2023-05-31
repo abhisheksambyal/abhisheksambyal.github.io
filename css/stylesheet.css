@@ -157,3 +157,7 @@ name {
   padding: 1px 5px 1px;
   margin: 0px;
 }
+
+.badge {
+  vertical-align: top;
+}

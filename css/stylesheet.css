@@ -14,23 +14,11 @@ a:hover {
   text-decoration: none;
 }
 
-/* body,
-td,
-th,
-tr,
-p,
-a {
-  font-family: 'Lato', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: normal;
-} */
-
-
 body {
-  font-family: 'Lato', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
+  /* font-family: 'Lato', sans-serif; */
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
   line-height: normal;
 }
 
@@ -44,6 +32,11 @@ papertitle {
 
 name {
   font-size: 32px;
+  font-weight: 300;
+}
+firstname {
+  font-size: 32px;
+  font-weight: 700;
 }
 
 #introduction {
@@ -84,9 +77,15 @@ name {
   margin-left:auto;
 }
 
+.topbar a {
+  text-decoration: none;
+  color: white;
+}
+
 .topbar a:hover {
   text-decoration: underline;
-  font-weight: 600;
+  font-weight: 700;
+  color: white;
 }
 
 .paperlinks{
@@ -103,10 +102,12 @@ name {
 }
 
 .profileimage {
-  border-radius: 50px;
+  width:80%;
+  border-radius:20px;
   background: #e0e0e0;
   box-shadow:  20px 20px 60px #707070,
              -20px -20px 60px #ffffff;
+  margin-left: 0px;
   /* margin-top: 17px; */
 }
 

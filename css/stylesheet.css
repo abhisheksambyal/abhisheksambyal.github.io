@@ -162,3 +162,17 @@ firstname {
 .badge {
   vertical-align: top;
 }
+
+
+
+
+/* resources stylesheet starts here */
+.heading-spacing{
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+.listitem-spacing{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}

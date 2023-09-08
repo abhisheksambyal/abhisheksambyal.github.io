@@ -176,3 +176,7 @@ firstname {
   padding-top: 3px;
   padding-bottom: 3px;
 }
+
+.resource-heading li{
+  margin-top: 5px;
+}

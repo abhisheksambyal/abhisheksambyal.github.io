@@ -56,7 +56,7 @@ firstname {
   border-collapse:separate;
   margin-right:auto;
   margin-left:auto;
-  /* margin-top: 40px; */
+  margin-bottom: 20px;
 }
 
 #news {
@@ -68,6 +68,7 @@ firstname {
   margin-left:auto; */
   font-size: 15px;
   padding-right: 7px;
+  margin-bottom: 20px;
 }
 
 
@@ -78,6 +79,7 @@ firstname {
   border-collapse:separate;
   margin-right:auto;
   margin-left:auto;
+  margin-bottom: 20px;
 }
 
 #ta {
@@ -88,6 +90,7 @@ firstname {
   /* margin-right:auto;
   margin-left:auto; */
   padding-right: 5px;
+  margin-bottom: 20px;
 }
 
 .topbar a {

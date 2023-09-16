@@ -6,6 +6,7 @@ html {
 a {
   color: #1772d0;
   text-decoration: none;
+  word-wrap: break-word;
 }
 
 a:focus,
@@ -20,7 +21,16 @@ body {
   font-size: 15px;
   font-weight: 300;
   line-height: normal;
+  padding-top: 40px;
 }
+
+@media screen and (max-width: 445px) {
+    body { padding-top: 80px; }
+}
+/* 
+@media screen and (max-width: 768px) {
+    .profileimage { display: none; }
+} */
 
 heading {
   font-size: 24px;
@@ -46,7 +56,7 @@ firstname {
   border-collapse:separate;
   margin-right:auto;
   margin-left:auto;
-  margin-top: 40px;
+  /* margin-top: 40px; */
 }
 
 #news {
@@ -114,16 +124,20 @@ firstname {
   /* margin-top: 17px; */
 }
 
-@media screen and ( max-width: 420px ){
-  td>img {
-    width: 120px;
-    /* height: 70px; */
-    border-radius: 50%;
-  }
+#template-reference {
+  padding-right: 7px;
 }
 
+/* @media screen and ( max-width: 420px ){ */
+  /* td>img { */
+    /* width: 120px; */
+    /* border-radius: 50%; */
+  /* } */
+/* } */
 
 
+
+/* ################################################### */
 /* Boxed style for CV/Github and Publication: abstract/code etc. */
 
 .boxed:hover,.boxed:active {
@@ -165,11 +179,17 @@ firstname {
 .badge {
   vertical-align: top;
 }
+/* ################################################### */
+/* #########  END  ########### */
+/* ################################################### */
 
 
 
 
-/* resources stylesheet starts here */
+
+/* ########################### */
+/* # Resource Page Stylesheet */
+/* ########################### */
 .heading-spacing{
   padding-left: 20px;
   padding-bottom: 20px;
@@ -183,3 +203,6 @@ firstname {
 .resource-heading li{
   margin-top: 5px;
 }
+/* ########################### */
+/* #########  END  ########### */
+/* ########################### */

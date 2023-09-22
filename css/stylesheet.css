@@ -34,6 +34,7 @@ body {
 
 heading {
   font-size: 24px;
+  font-weight: 400;
 }
 
 papertitle {
@@ -117,6 +118,18 @@ firstname {
   line-height:150%
 }
 
+.abstract_text {
+  font-size: 14px;
+  margin: 10px 12px 6px 0px; 
+}
+
+.bibtex_text {
+  font-size: 14px;
+  margin: 10px 6px 6px 0px; 
+  font-family: Roboto;
+  font-weight: 300;
+}
+
 .profileimage {
   width:80%;
   border-radius:20px;
@@ -160,10 +173,10 @@ firstname {
   font-size: 14px;
   /* background: #d4dce9; */
   background: #FFF8DC;
-  margin-left: 4px;
   display: inline-block;
   vertical-align: bottom;
-  border-radius: 3px
+  border-radius: 3px;
+  margin: 3px;
 }
 
 .boxed_publication:hover,.boxed_publication:active {

@@ -189,6 +189,45 @@
               <!-- Publication Entries -->
 
               <tr>
+                <td width="20%" valign="top" align="center"><a href="https://www.sciencedirect.com/science/article/pii/S0169260723004820" target="_blank">
+                <!-- <img src="images/isbi2022.png" alt="isbi2022" width="90%" style="padding-top:0px;padding-bottom:0px;border-radius:15px;border:1px solid black"> -->
+                <img src="images/cmpb-2023.png" alt="cmpb2023" width="160" height="120" style="padding:10px;border-radius:15px;border:1px solid black">
+                </a></td>
+                <td width="80%" valign="top">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S0169260723004820" target="_blank">
+                    <papertitle>Understanding Calibration of Deep Neural Networks for Medical Image Classification</papertitle>
+                  </a>
+                  <br>
+                  <strong>Abhishek Singh Sambyal</strong>, Usma Niyaz, Narayanan C. Krishnan, Deepti R. Bathula
+                  <br>
+                  <em>Computer Methods and Programs in Biomedicine</em>, 2023
+              
+                  <div class="paperlinks" id="cmpb-2023">
+                  <a href="javascript:toggleblock('cmpb-2023_abs')" class="boxed boxed_publication">abstract</a>
+                  <a href="https://www.sciencedirect.com/science/article/pii/S0169260723004820" class="boxed boxed_publication" target="_blank">journal</a>
+                  <a href="https://arxiv.org/abs/2309.13132" class="boxed boxed_publication" target="_blank">arxiv</a>
+                  <a shape="rect" href="javascript:togglebib('cmpb-2023')" class="togglebib boxed boxed_publication">bibtex</a>
+              
+                  <p class="abstract_text" align="justify"> <span id="cmpb-2023_abs" style="display: none;">In the field of medical image analysis, achieving high accuracy is not enough; ensuring well-calibrated predictions is also crucial. Confidence scores of a deep neural network play a pivotal role in explainability by providing insights into the model's certainty, identifying cases that require attention, and establishing trust in its predictions. Consequently, the significance of a well-calibrated model becomes paramount in the medical imaging domain, where accurate and reliable predictions are of utmost importance. While there has been a significant effort towards training modern deep neural networks to achieve high accuracy on medical imaging tasks, model calibration and factors that affect it remain under-explored. To address this, we conducted a comprehensive empirical study that explores model performance and calibration under different training regimes. We considered fully supervised training, which is the prevailing approach in the community, as well as rotation-based self-supervised method with and without transfer learning, across various datasets and architecture sizes. Multiple calibration metrics were employed to gain a holistic understanding of model calibration. Our study reveals that factors such as weight distributions and the similarity of learned representations correlate with the calibration trends observed in the models. Notably, models trained using rotation-based self-supervised pretrained regime exhibit significantly better calibration while achieving comparable or even superior performance compared to fully supervised models across different medical imaging datasets. These findings shed light on the importance of model calibration in medical image analysis and highlight the benefits of incorporating self-supervised learning approach to improve both performance and calibration.</span></p>
+              
+              <pre xml:space="preserve" class="bibtex_text" style="display: none;">
+@article{understandingcalibration-2023,
+      title = {Understanding calibration of deep neural networks for medical image classification},
+      journal = {Computer Methods and Programs in Biomedicine},
+      volume = {242},
+      pages = {107816},
+      year = {2023},
+      issn = {0169-2607},
+      doi = {https://doi.org/10.1016/j.cmpb.2023.107816},
+      author = {Abhishek Singh Sambyal and Usma Niyaz and Narayanan C. Krishnan and Deepti R. Bathula},
+  }
+              </pre>
+                  </div>
+                </td>
+              </tr>
+              
+              
+              <tr>
                 <td width="20%" valign="top" align="center"><a href="https://ieeexplore.ieee.org/document/9761638" target="_blank">
                 <!-- <img src="images/isbi2022.png" alt="isbi2022" width="90%" style="padding-top:0px;padding-bottom:0px;border-radius:15px;border:1px solid black"> -->
                 <img src="images/isbi2022.png" alt="isbi2022" width="160" height="120" style="padding:10px;border-radius:15px;border:1px solid black">
@@ -212,12 +251,13 @@
               
               <pre xml:space="preserve" class="bibtex_text" style="display: none;">
 @inproceedings{trau,
-  title={Towards Reducing Aleatoric Uncertainty for Medical Imaging Tasks}, 
-  author={Singh Sambyal, Abhishek and Krishnan,Narayanan C and Bathula, Deepti R},
-  booktitle={2022 IEEE 19th International Symposium on Biomedical Imaging (ISBI)}, 
-  year={2022},
-  pages={1-4},
-  doi={10.1109/ISBI52829.2022.9761638}}
+      title={Towards Reducing Aleatoric Uncertainty for Medical Imaging Tasks}, 
+      author={Singh Sambyal, Abhishek and Krishnan,Narayanan C and Bathula, Deepti R},
+      booktitle={2022 IEEE 19th International Symposium on Biomedical Imaging (ISBI)}, 
+      year={2022},
+      pages={1-4},
+      doi={10.1109/ISBI52829.2022.9761638}
+}
               </pre>
                   </div>
                 </td>
@@ -248,11 +288,12 @@
               
               <pre xml:space="preserve" class="bibtex_text" style="display: none;">
 @inproceedings{adlt,
-  title={Advances in Deep Learning Techniques for Medical Image Analysis}, 
-  author={Niyaz, Usma and Sambyal, Abhishek Singh and Devanand},
-  booktitle={2018 Fifth International Conference on Parallel, Distributed and Grid Computing (PDGC)}, 
-  year={2018},
-  doi={10.1109/PDGC.2018.8745790}}
+      title={Advances in Deep Learning Techniques for Medical Image Analysis}, 
+      author={Niyaz, Usma and Sambyal, Abhishek Singh and Devanand},
+      booktitle={2018 Fifth International Conference on Parallel, Distributed and Grid Computing (PDGC)}, 
+      year={2018},
+      doi={10.1109/PDGC.2018.8745790}
+}
               </pre>
                   </div>
                 </td>
@@ -284,10 +325,11 @@
               
               <pre xml:space="preserve" class="bibtex_text" style="display: none;">
 @inproceedings{osm,
-  title={Evaluation of Deep Learning Model with Optimizing  and Satisficing Metrics for Lung Segmentation},
-  author={Niyaz, Usma and Singh Sambyal, Abhishek and Padha, Devanand},
-  booktitle={Soft Computing for Problem Solving},
-  year={2020}}
+      title={Evaluation of Deep Learning Model with Optimizing  and Satisficing Metrics for Lung Segmentation},
+      author={Niyaz, Usma and Singh Sambyal, Abhishek and Padha, Devanand},
+      booktitle={Soft Computing for Problem Solving},
+      year={2020}
+}
               </pre>
                   </div>
                 </td>
@@ -320,12 +362,13 @@
               
               <pre xml:space="preserve" class="bibtex_text" style="display: none;">
 @inproceedings{knowabs,
-  title={Knowledge abstraction from textural features of brain MRI images for diagnosing brain tumor using 
-  statistical techniques and associative classification}, 
-  author={Sambyal, Abhishek Singh and Asha, T.},
-  booktitle={2016 International Conference on Systems in Medicine and Biology (ICSMB)}, 
-  year={2016},
-  doi={10.1109/ICSMB.2016.7915086}}
+      title={Knowledge abstraction from textural features of brain MRI images for diagnosing brain tumor using 
+      statistical techniques and associative classification}, 
+      author={Sambyal, Abhishek Singh and Asha, T.},
+      booktitle={2016 International Conference on Systems in Medicine and Biology (ICSMB)}, 
+      year={2016},
+      doi={10.1109/ICSMB.2016.7915086}
+}
               </pre>
                   </div>
                 </td>

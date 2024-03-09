@@ -113,6 +113,12 @@ firstname {
   padding-bottom: 7px;
 }
 
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, #e9ecef, rgba(0, 0, 0, 0.75), #e9ecef);
+}
+
 .news 
 {
   line-height:150%

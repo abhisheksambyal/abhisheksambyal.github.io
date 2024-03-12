@@ -55,9 +55,10 @@ firstname {
   border:0px;
   border-spacing:0px;
   border-collapse:separate;
-  margin-right:auto;
-  margin-left:auto;
-  margin-bottom: 20px;
+  /* margin-right:auto; */
+  /* margin-left:auto; */
+  /* margin-bottom: 20px; */
+  padding: 10px;
 }
 
 #news {
@@ -68,8 +69,8 @@ firstname {
   /* margin-right:auto;
   margin-left:auto; */
   font-size: 15px;
-  padding-right: 7px;
-  margin-bottom: 20px;
+  /* padding-right: 7px; */
+  /* margin-bottom: 20px; */
 }
 
 
@@ -78,9 +79,9 @@ firstname {
   border:0px;
   border-spacing:0px;
   border-collapse:separate;
-  margin-right:auto;
-  margin-left:auto;
-  margin-bottom: 20px;
+  /* margin-right:auto;
+  margin-left:auto; */
+  /* margin-bottom: 20px; */
 }
 
 #ta {
@@ -90,8 +91,8 @@ firstname {
   border-collapse:separate;
   /* margin-right:auto;
   margin-left:auto; */
-  padding-right: 5px;
-  margin-bottom: 20px;
+  /* padding-right: 5px; */
+  /* margin-bottom: 20px; */
 }
 
 .topbar a {

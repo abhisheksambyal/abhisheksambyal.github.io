@@ -59,6 +59,7 @@ firstname {
   /* margin-left:auto; */
   /* margin-bottom: 20px; */
   padding: 10px;
+  padding-bottom: 0px;
 }
 
 #news {
@@ -69,9 +70,16 @@ firstname {
   /* margin-right:auto;
   margin-left:auto; */
   font-size: 15px;
-  /* padding-right: 7px; */
+  padding-right: 15px;
   /* margin-bottom: 20px; */
 }
+
+/* Reduce the padding when screen size is small for news section */
+@media(max-width:700px){
+  #news{
+    padding-right: 10px;
+  }
+ }
 
 
 #publications {
@@ -142,7 +150,7 @@ hr {
 }
 
 .profileimage {
-  width:75%;
+  width:70%;
   border-radius:20px;
   background: #e0e0e0;
   /* box-shadow:  20px 20px 60px #707070, -20px -20px 60px #ffffff; */

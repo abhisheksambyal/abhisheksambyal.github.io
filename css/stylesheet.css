@@ -143,11 +143,15 @@ hr {
 }
 
 .bibtex_text {
-  font-size: 14px;
+  font-size: 12px;
   margin: 10px 6px 6px 0px; 
-  font-family: Roboto;
-  font-weight: 300;
+  max-width: 550px !important;
 }
+@media(max-width:600px){
+  .bibtex_text{
+    max-width: 600px !important;
+  }
+ }
 
 .profileimage {
   width:70%;
@@ -160,15 +164,6 @@ hr {
 #template-reference {
   padding-right: 7px;
 }
-
-/* @media screen and ( max-width: 420px ){ */
-  /* td>img { */
-    /* width: 120px; */
-    /* border-radius: 50%; */
-  /* } */
-/* } */
-
-
 
 /* ################################################### */
 /* Boxed style for CV/Github and Publication: abstract/code etc. */

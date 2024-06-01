@@ -62,8 +62,9 @@ firstname {
   /* margin-right:auto; */
   /* margin-left:auto; */
   /* margin-bottom: 20px; */
-  padding: 10px;
-  padding-bottom: 0px;
+  /* padding: 10px; */
+  /* padding-bottom: 0px; */
+  padding-left: 30px
 }
 
 #news {
@@ -86,7 +87,7 @@ firstname {
  }
 
 
-#publications {
+#papers {
   width:100%;
   border:0px;
   border-spacing:0px;

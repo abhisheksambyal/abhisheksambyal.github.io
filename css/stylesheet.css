@@ -65,13 +65,8 @@ p {
 }
 
 #papers {
-  width:100%;
-  border:0px;
-  border-spacing:0px;
-  border-collapse:separate;
-  /* margin-right:auto;
-  margin-left:auto; */
-  /* margin-bottom: 20px; */
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 #ta {
@@ -84,6 +79,11 @@ p {
   /* padding-right: 5px; */
   /* margin-bottom: 20px; */
 }
+
+.ta {
+  padding-bottom: 7px;
+}
+
 
 .topbar {
   font-weight: 400;
@@ -104,9 +104,7 @@ p {
   padding-top: 10px;
 }
 
-.ta {
-  padding-bottom: 7px;
-}
+
 
 hr {
   border: 0;

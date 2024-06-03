@@ -64,25 +64,6 @@ p {
   margin-bottom: revert;
 }
 
-#news {
-  width:100%;
-  border:0px;
-  border-spacing:0px;
-  border-collapse:separate;
-  /* margin-right:auto;
-  margin-left:auto; */
-  /* font-size: 15px; */
-  padding-right: 15px;
-}
-
-/* Reduce the padding when screen size is small for news section */
-@media(max-width:700px){
-  #news{
-    padding-right: 10px;
-  }
- }
-
-
 #papers {
   width:100%;
   border:0px;
@@ -133,11 +114,6 @@ hr {
   background-image: linear-gradient(to right, #e9ecef, rgba(0, 0, 0, 0.75), #e9ecef);
 }
 
-.news 
-{
-  line-height:150%
-}
-
 .abstract_text {
   font-size: 14px;
   margin: 10px 12px 6px 0px; 
@@ -164,6 +140,14 @@ hr {
   border-radius: 8px;
   box-shadow: 3px 3px 6px #888;
 }
+
+#news 
+{
+  margin-right: 10px;
+  margin-left: 10px;
+  line-height:150%;
+}
+
 
 #template-reference {
   padding-right: 7px;

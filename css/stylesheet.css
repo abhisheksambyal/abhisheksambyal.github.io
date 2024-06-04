@@ -28,14 +28,6 @@ body {
   padding-top: 40px;
 }
 
-/* @media screen and (max-width: 445px) {
-    body { padding-top: 80px; }
-} */
-/* 
-@media screen and (max-width: 768px) {
-    .profileimage { display: none; }
-} */
-
 heading {
   font-size: 24px;
   font-weight: 400;
@@ -93,8 +85,6 @@ p {
   padding-top: 10px;
 }
 
-
-
 hr {
   border: 0;
   height: 1px;
@@ -102,12 +92,12 @@ hr {
 }
 
 .abstract_text {
-  font-size: 14px;
+  font-size: 13px;
   margin: 10px 12px 6px 0px; 
 }
 
 .bibtex_text {
-  font-size: 12px;
+  font-size: 13px;
   margin: 10px 6px 6px 0px; 
   max-width: 550px !important;
 }

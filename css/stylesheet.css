@@ -1,3 +1,18 @@
+/* Check YT: https://youtu.be/AmY3db_Qs94?t=157
+and change to dark mode.
+Replace all color values with the respective HSL values. */
+/* :root {
+  --bg: hsl(0, 0%, 90%);
+  --fg: hsl(0, 0%, 10%);
+}
+
+@media (prefers-color-scheme:dark) {
+  :root {
+    --bg: hsl(0, 0%, 10%);
+    --fg: hsl(0, 0%, 90%);
+  }
+} */
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 40px;

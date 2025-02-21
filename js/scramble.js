@@ -30,7 +30,7 @@ function rescramble() {
 }
 
 function initAnimatedBubbleSort() {
-	this.interval = setInterval(this.objName + '.bubbleSortStep()', 6);
+	this.interval = setInterval(this.objName + '.bubbleSortStep()', 4);
 }
 
 function bubbleSortStep() {		

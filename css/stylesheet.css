@@ -191,6 +191,7 @@ hr {
   /* background: #dbc9f1; */
   color: #121212 !important
 }
+
 .boxed_publication {
   font-size: 12px;
   background: 	#ffffff;
@@ -201,6 +202,21 @@ hr {
 .badge {
   vertical-align: top;
 }
+
+.bg-primary {
+  --bs-bg-opacity: 0.6;
+}
+.bg-warning {
+  --bs-bg-opacity: 0.6;
+}
+.bg-info {
+  --bs-bg-opacity: 0.6;
+}
+.subbadge-text-color {
+  color: #41464b
+}
+
+
 /* ################################################### */
 /* #########  END  ########### */
 /* ################################################### */

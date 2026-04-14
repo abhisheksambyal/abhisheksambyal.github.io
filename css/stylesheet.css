@@ -134,7 +134,7 @@ hr {
   margin-left: 0px; */
 
   /* box-shadow:  20px 20px 60px #707070, -20px -20px 60px #ffffff; */
-  height: 220px;
+  height: 255px;
   /* margin-right: 20px; 
   margin-bottom: 20px; */
   margin: 20px;
@@ -177,8 +177,8 @@ hr {
   font-family: monospace;
   padding: 2px 5px 0px;
   font-size: 14px;
-  /* background: #d4dce9; */
-  background: #FFF8DC;
+  /* background: #FFF8DC; */
+  background: #f9fafb;
   display: inline-block;
   vertical-align: bottom;
   border-radius: 3px;

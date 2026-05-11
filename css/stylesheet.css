@@ -250,6 +250,136 @@ hr {
 }
 
 /* ########################### */
+/* # Conference Deadlines Card */
+/* ########################### */
+.deadline-card {
+  background: #fdfdfd;
+  border: 1px solid #e2e5e9;
+  border-radius: 10px;
+  padding: 20px 22px 16px;
+  margin: 10px 0 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.deadline-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.deadline-card-header h6 {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+
+.deadline-card-header .deadline-year {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.deadline-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+.deadline-table th {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  padding: 0 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.deadline-table td {
+  padding: 7px 6px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f8f9fb;
+  color: #334155;
+}
+
+.deadline-table tr:last-child td { border-bottom: none; }
+.deadline-table tr:hover td { background: #f8fafc; }
+
+.deadline-conf-name { font-weight: 600; color: #0f172a; white-space: nowrap; }
+.deadline-conf-name a { color: inherit; text-decoration: none; }
+.deadline-conf-name a:hover { color: #1772d0; }
+
+.deadline-tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.deadline-tag.tag-cv  { background: #ede9fe; color: #6d28d9; }
+.deadline-tag.tag-ml  { background: #dbeafe; color: #1d4ed8; }
+.deadline-tag.tag-med { background: #dcfce7; color: #15803d; }
+
+.deadline-status { font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 600; white-space: nowrap; }
+.deadline-status.status-passed   { color: #94a3b8; font-weight: 500; }
+.deadline-status.status-upcoming { color: #16a34a; }
+.deadline-status.status-soon     { color: #d97706; }
+.deadline-status.status-urgent   { color: #dc2626; }
+
+.deadline-date     { white-space: nowrap; }
+.deadline-location { color: #64748b; white-space: nowrap; }
+
+.deadline-est {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.52rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #f59e0b;
+  background: #fef3c7;
+  padding: 0 4px;
+  border-radius: 2px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.deadline-section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  padding: 12px 6px 4px !important;
+  border-bottom: none !important;
+}
+
+.deadline-card-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #eef0f3;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .deadline-card { padding: 14px 12px 10px; overflow-x: auto; }
+  .deadline-table { font-size: 11px; min-width: 520px; }
+}
+
+/* ########################### */
 /* # Phone Badge Styles */
 /* ########################### */
 .phone-badge-wrapper {

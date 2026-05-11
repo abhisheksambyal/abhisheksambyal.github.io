@@ -1,0 +1,198 @@
+name: Update Conference Deadlines
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *'  # every 3 days at midnight UTC
+  workflow_dispatch:        # allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update-deadlines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch and update deadlines
+        run: |
+          python3 << 'SCRIPT'
+          import urllib.request, json, re
+          from datetime import datetime, timedelta
+
+          YAML_URL = "https://raw.githubusercontent.com/paperswithcode/ai-deadlines/gh-pages/_data/conferences.yml"
+
+          TRACKED = {
+              "CVPR": "CV", "ECCV": "CV", "ICCV": "CV",
+              "ICML": "ML", "NeurIPS": "ML", "ICLR": "ML",
+              "MICCAI": "Med", "MIDL": "Med", "ISBI": "Med",
+          }
+
+          # Medical imaging fallbacks (often missing upstream)
+          LOCAL_FALLBACK = [
+              {"name": "MICCAI", "year": 2026, "link": "https://miccai.org/",          "deadline": "2026-02-26", "place": "Strasbourg, France", "date": "Sep 27 – Oct 1, 2026"},
+              {"name": "MIDL",   "year": 2026, "link": "https://2026.midl.io/",        "deadline": "2025-12-10", "place": "Taipei, Taiwan",      "date": "Jul 8–10, 2026"},
+              {"name": "ISBI",   "year": 2026, "link": "https://biomedicalimaging.org/","deadline": "2025-11-14", "place": "London, UK",          "date": "Apr 8–11, 2026"},
+          ]
+
+          # Typical deadline month/day for each conference (used for estimation)
+          DEADLINE_PATTERN = {
+              "CVPR":    (11, 13),  # mid-November
+              "ECCV":    (3, 5),    # early March
+              "ICCV":    (3, 7),    # early March (biennial)
+              "ICML":    (1, 28),   # late January
+              "NeurIPS": (5, 6),    # early May
+              "ICLR":    (9, 24),   # late September (year before)
+              "MICCAI":  (2, 26),   # late February
+              "MIDL":    (12, 10),  # mid-December (year before)
+              "ISBI":    (11, 14),  # mid-November (year before)
+          }
+
+          # Conference date patterns (month text) for estimation
+          CONF_DATE_PATTERN = {
+              "CVPR": "Jun", "ECCV": "Sep", "ICCV": "Oct",
+              "ICML": "Jul", "NeurIPS": "Dec", "ICLR": "Apr",
+              "MICCAI": "Sep–Oct", "MIDL": "Jul", "ISBI": "Apr",
+          }
+
+          CONF_LINKS = {
+              "CVPR": "https://cvpr.thecvf.com/", "ECCV": "https://ecva.net/",
+              "ICCV": "https://thecvf.com/", "ICML": "https://icml.cc/",
+              "NeurIPS": "https://neurips.cc/", "ICLR": "https://iclr.cc/",
+              "MICCAI": "https://miccai.org/", "MIDL": "https://midl.io/",
+              "ISBI": "https://biomedicalimaging.org/",
+          }
+
+          def parse_yaml(text):
+              entries, current = [], None
+              for line in text.split("\n"):
+                  line = line.rstrip("\r")
+                  if line.startswith("- "):
+                      if current: entries.append(current)
+                      current = {}
+                      kv(current, line[2:])
+                  elif current and re.match(r"^\s{2}\S", line):
+                      kv(current, line.strip())
+              if current: entries.append(current)
+              return entries
+
+          def kv(obj, s):
+              m = re.match(r"^(\w+):\s*(.*)", s)
+              if m: obj[m.group(1)] = m.group(2).strip("'\" ")
+
+          def to_entry(e):
+              return {
+                  "name": e.get("title", ""),
+                  "year": int(e.get("year", 0)),
+                  "link": e.get("link", ""),
+                  "deadline": e.get("deadline", "")[:10],
+                  "place": e.get("place", "TBA"),
+                  "date": e.get("date", "TBA"),
+              }
+
+          def estimate_next(name, last_year, last_deadline_str):
+              """Generate an estimated entry for the next cycle."""
+              month, day = DEADLINE_PATTERN.get(name, (1, 1))
+
+              # Figure out the next conference year
+              # For conferences where deadline is in the year before (ICLR, MIDL, ISBI),
+              # the conference year = deadline year + 1
+              if name in ("ICLR", "MIDL", "ISBI"):
+                  # deadline in year Y, conference in year Y+1
+                  next_conf_year = last_year + 1
+                  deadline_year = last_year + 1  # next deadline year
+              else:
+                  next_conf_year = last_year + 1
+                  deadline_year = last_year + 1
+
+              # ICCV is biennial (odd years)
+              if name == "ICCV" and next_conf_year % 2 == 0:
+                  next_conf_year += 1
+                  deadline_year = next_conf_year
+
+              est_deadline = f"{deadline_year}-{month:02d}-{day:02d}"
+              conf_month = CONF_DATE_PATTERN.get(name, "TBA")
+
+              return {
+                  "name": name,
+                  "year": next_conf_year,
+                  "link": CONF_LINKS.get(name, ""),
+                  "deadline": est_deadline,
+                  "place": "TBA",
+                  "date": f"{conf_month} {next_conf_year} (est.)",
+                  "estimated": True,
+              }
+
+          # --- Fetch upstream ---
+          try:
+              with urllib.request.urlopen(YAML_URL) as r:
+                  upstream = parse_yaml(r.read().decode())
+          except Exception as ex:
+              print(f"Warning: fetch failed: {ex}")
+              upstream = []
+
+          # Pick latest year per conference from upstream
+          best = {}
+          for e in upstream:
+              title = e.get("title", "").upper()
+              match = next((k for k in TRACKED if k.upper() == title), None)
+              if not match: continue
+              year = int(e.get("year", 0))
+              if match not in best or year > best[match]["year"]:
+                  entry = to_entry(e)
+                  entry["name"] = match
+                  best[match] = entry
+
+          # Merge with local fallback
+          for fb in LOCAL_FALLBACK:
+              name = fb["name"]
+              if name not in best or fb["year"] > best[name]["year"]:
+                  best[name] = fb
+
+          # --- For any conference whose deadline has passed, add estimated next cycle ---
+          now = datetime.now()
+          result = []
+          for name in TRACKED:
+              entry = best.get(name)
+              if not entry:
+                  continue
+
+              dl = datetime.strptime(entry["deadline"], "%Y-%m-%d") if entry.get("deadline") else None
+
+              if dl and dl < now:
+                  # Deadline passed — generate estimate for next cycle
+                  est = estimate_next(name, entry["year"], entry["deadline"])
+                  est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
+
+                  # If estimated deadline is also in the past, push one more year
+                  if est_dl < now:
+                      est = estimate_next(name, est["year"], est["deadline"])
+
+                  result.append(est)
+              else:
+                  # Deadline is upcoming — use real data
+                  result.append(entry)
+
+          result.sort(key=lambda x: x.get("deadline", ""))
+
+          output_data = {
+              "last_updated": datetime.utcnow().strftime("%b %d, %Y"),
+              "conferences": result
+          }
+
+          with open("data/deadlines.json", "w") as f:
+              json.dump(output_data, f, indent=2)
+
+          print(f"Updated {len(result)} conferences:")
+          for c in result:
+              tag = " (estimated)" if c.get("estimated") else ""
+              print(f"  {c['name']} {c['year']} — deadline {c['deadline']}{tag}")
+          SCRIPT
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/deadlines.json
+          git diff --cached --quiet || git commit -m "chore: auto-update conference deadlines [$(date +%Y-%m-%d)]"
+          git push

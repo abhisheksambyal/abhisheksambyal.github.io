@@ -1,14 +1,86 @@
 {
-  "last_updated": "May 11, 2026",
+  "last_updated": "May 12, 2026",
   "conferences": [
-    { "name": "ICLR",    "year": 2027, "link": "https://iclr.cc/",              "deadline": "2026-09-24", "place": "TBA", "date": "Apr 2027 (est.)",       "estimated": true },
-    { "name": "CVPR",    "year": 2027, "link": "https://cvpr.thecvf.com/",      "deadline": "2026-11-13", "place": "TBA", "date": "Jun 2027 (est.)",       "estimated": true },
-    { "name": "ISBI",    "year": 2027, "link": "https://biomedicalimaging.org/", "deadline": "2026-11-14", "place": "TBA", "date": "Apr 2027 (est.)",       "estimated": true },
-    { "name": "MIDL",    "year": 2027, "link": "https://midl.io/",              "deadline": "2026-12-10", "place": "TBA", "date": "Jul 2027 (est.)",       "estimated": true },
-    { "name": "ICML",    "year": 2027, "link": "https://icml.cc/",              "deadline": "2027-01-28", "place": "TBA", "date": "Jul 2027 (est.)",       "estimated": true },
-    { "name": "MICCAI",  "year": 2027, "link": "https://miccai.org/",           "deadline": "2027-02-26", "place": "TBA", "date": "Sep–Oct 2027 (est.)",   "estimated": true },
-    { "name": "ECCV",    "year": 2027, "link": "https://ecva.net/",             "deadline": "2027-03-05", "place": "TBA", "date": "Sep 2027 (est.)",       "estimated": true },
-    { "name": "ICCV",    "year": 2027, "link": "https://thecvf.com/",           "deadline": "2027-03-07", "place": "Hong Kong", "date": "Oct 2027 (est.)",  "estimated": true },
-    { "name": "NeurIPS", "year": 2027, "link": "https://neurips.cc/",           "deadline": "2027-05-06", "place": "TBA", "date": "Dec 2027 (est.)",       "estimated": true }
+    {
+      "name": "ICML",
+      "year": 2026,
+      "link": "https://icml.cc/",
+      "deadline": "2026-01-28",
+      "place": "TBA",
+      "date": "Jul 2026 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "ECCV",
+      "year": 2026,
+      "link": "https://ecva.net/",
+      "deadline": "2026-03-05",
+      "place": "TBA",
+      "date": "Sep 2026 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "NeurIPS",
+      "year": 2026,
+      "link": "https://neurips.cc/",
+      "deadline": "2026-05-06",
+      "place": "TBA",
+      "date": "Dec 2026 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "ICLR",
+      "year": 2026,
+      "link": "https://iclr.cc/",
+      "deadline": "2026-09-24",
+      "place": "TBA",
+      "date": "Apr 2026 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "CVPR",
+      "year": 2026,
+      "link": "https://cvpr.thecvf.com/",
+      "deadline": "2026-11-13",
+      "place": "TBA",
+      "date": "Jun 2026 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "MICCAI",
+      "year": 2027,
+      "link": "https://miccai.org/",
+      "deadline": "2027-02-26",
+      "place": "TBA",
+      "date": "Sep\u2013Oct 2027 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "ICCV",
+      "year": 2027,
+      "link": "https://thecvf.com/",
+      "deadline": "2027-03-07",
+      "place": "TBA",
+      "date": "Oct 2027 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "ISBI",
+      "year": 2027,
+      "link": "https://biomedicalimaging.org/",
+      "deadline": "2027-11-14",
+      "place": "TBA",
+      "date": "Apr 2027 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "MIDL",
+      "year": 2027,
+      "link": "https://midl.io/",
+      "deadline": "2027-12-10",
+      "place": "TBA",
+      "date": "Jul 2027 (est.)",
+      "estimated": true
+    }
   ]
 }

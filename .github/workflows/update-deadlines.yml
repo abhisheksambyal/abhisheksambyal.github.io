@@ -122,14 +122,25 @@ jobs:
                           deadlines = entry.get("deadlines", [])
                           sub_dl = ""
                           if deadlines:
+                              # first try abstract or registration
                               for d in deadlines:
-                                  if d.get("type") in ("submission", "paper"):
+                                  if d.get("type") in ("abstract", "registration"):
                                       sub_dl = d.get("date", "")[:10]
                                       break
+                              # if not found, fallback to submission or paper
+                              if not sub_dl:
+                                  for d in deadlines:
+                                      if d.get("type") in ("submission", "paper"):
+                                          sub_dl = d.get("date", "")[:10]
+                                          break
                               if not sub_dl:
                                   sub_dl = deadlines[0].get("date", "")[:10]
-                          if not sub_dl and "deadline" in entry:
-                              sub_dl = str(entry.get("deadline", ""))[:10]
+                          
+                          if not sub_dl:
+                              if "abstract_deadline" in entry:
+                                  sub_dl = str(entry.get("abstract_deadline", ""))[:10]
+                              elif "deadline" in entry:
+                                  sub_dl = str(entry.get("deadline", ""))[:10]
                           
                           if not sub_dl:
                               continue

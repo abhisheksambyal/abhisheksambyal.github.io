@@ -92,25 +92,33 @@ jobs:
 
           def estimate_next(name, last_year, last_deadline_str):
               """Generate an estimated entry for the next cycle."""
-              month, day = DEADLINE_PATTERN.get(name, (1, 1))
-
-              # Figure out the next conference year
-              # For conferences where deadline is in the year before (ICLR, MIDL, ISBI),
-              # the conference year = deadline year + 1
-              if name in ("ICLR", "MIDL", "ISBI"):
-                  # deadline in year Y, conference in year Y+1
-                  next_conf_year = last_year + 1
-                  deadline_year = last_year + 1  # next deadline year
-              else:
-                  next_conf_year = last_year + 1
-                  deadline_year = last_year + 1
-
+              next_conf_year = last_year + 1
+              
               # ICCV is biennial (odd years)
               if name == "ICCV" and next_conf_year % 2 == 0:
                   next_conf_year += 1
-                  deadline_year = next_conf_year
 
-              est_deadline = f"{deadline_year}-{month:02d}-{day:02d}"
+              delta_years = next_conf_year - last_year
+
+              try:
+                  if last_deadline_str:
+                      ld = datetime.strptime(last_deadline_str, "%Y-%m-%d")
+                      deadline_year = ld.year + delta_years
+                      month, day = ld.month, ld.day
+                  else:
+                      raise ValueError("No deadline")
+              except ValueError:
+                  month, day = DEADLINE_PATTERN.get(name, (1, 1))
+                  deadline_year = next_conf_year - 1 if name in ("ICLR", "CVPR", "MIDL", "ISBI") else next_conf_year
+
+              try:
+                  est_deadline = f"{deadline_year}-{month:02d}-{day:02d}"
+                  datetime.strptime(est_deadline, "%Y-%m-%d")
+              except ValueError:
+                  if month == 2 and day == 29:
+                      est_deadline = f"{deadline_year}-02-28"
+                  else:
+                      est_deadline = f"{deadline_year}-{month:02d}-{day:02d}"
               conf_month = CONF_DATE_PATTERN.get(name, "TBA")
 
               return {
@@ -164,9 +172,10 @@ jobs:
                   est = estimate_next(name, entry["year"], entry["deadline"])
                   est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
 
-                  # If estimated deadline is also in the past, push one more year
-                  if est_dl < now:
+                  # If estimated deadline is also in the past, keep pushing until it's in the future
+                  while est_dl < now:
                       est = estimate_next(name, est["year"], est["deadline"])
+                      est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
 
                   result.append(est)
               else:

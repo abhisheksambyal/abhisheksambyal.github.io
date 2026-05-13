@@ -574,3 +574,27 @@ hr {
 /* ########################### */
 /* #########  END  ########### */
 /* ########################### */
+
+@media (min-width: 992px) {
+  body.papersift-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-top: 40px;
+    box-sizing: border-box;
+  }
+  body.papersift-page > .col-lg-10 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  body.papersift-page > .col-lg-10 > div {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+  body.papersift-page .phone-badge-wrapper {
+    margin-bottom: 0 !important;
+  }
+}

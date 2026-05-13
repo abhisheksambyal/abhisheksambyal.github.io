@@ -16,43 +16,43 @@ jobs:
 
       - name: Fetch and update deadlines
         run: |
+          pip install pyyaml
           python3 << 'SCRIPT'
-          import urllib.request, json, re
-          from datetime import datetime, timedelta
+          import urllib.request, json, yaml
+          from datetime import datetime
 
-          YAML_URL = "https://raw.githubusercontent.com/paperswithcode/ai-deadlines/gh-pages/_data/conferences.yml"
+          API_URL = "https://huggingface.co/api/spaces/huggingface/ai-deadlines/tree/main/src/data/conferences"
+          RAW_BASE = "https://huggingface.co/spaces/huggingface/ai-deadlines/raw/main/"
 
           TRACKED = {
-              "CVPR": "CV", "ECCV": "CV", "ICCV": "CV",
-              "ICML": "ML", "NeurIPS": "ML", "ICLR": "ML",
-              "MICCAI": "Med", "MIDL": "Med", "ISBI": "Med",
+              "CVPR": "CV", "ECCV": "CV", "ICCV": "CV", "WACV": "CV", "BMVC": "CV",
+              "ICML": "ML", "NeurIPS": "ML", "ICLR": "ML", "AISTATS": "ML", "UAI": "ML", "AAAI": "ML",
+              "MICCAI": "Med", "MIDL": "Med", "ISBI": "Med", "IPMI": "Med",
           }
 
-          # Medical imaging fallbacks (often missing upstream)
           LOCAL_FALLBACK = [
               {"name": "MICCAI", "year": 2026, "link": "https://miccai.org/",          "deadline": "2026-02-26", "place": "Strasbourg, France", "date": "Sep 27 – Oct 1, 2026"},
               {"name": "MIDL",   "year": 2026, "link": "https://2026.midl.io/",        "deadline": "2025-12-10", "place": "Taipei, Taiwan",      "date": "Jul 8–10, 2026"},
               {"name": "ISBI",   "year": 2026, "link": "https://biomedicalimaging.org/","deadline": "2025-11-14", "place": "London, UK",          "date": "Apr 8–11, 2026"},
+              {"name": "IPMI",   "year": 2025, "link": "https://ipmi2025.org/",        "deadline": "2024-12-13", "place": "TBA",                 "date": "Jun 2025"},
+              {"name": "NeurIPS","year": 2026, "link": "https://neurips.cc/",          "deadline": "2026-05-06", "place": "TBA",                 "date": "Dec 2026"},
+              {"name": "BMVC",   "year": 2026, "link": "https://bmva.org/",            "deadline": "2026-05-10", "place": "TBA",                 "date": "Nov 2026"},
           ]
 
-          # Typical deadline month/day for each conference (used for estimation)
           DEADLINE_PATTERN = {
-              "CVPR":    (11, 13),  # mid-November
-              "ECCV":    (3, 5),    # early March
-              "ICCV":    (3, 7),    # early March (biennial)
-              "ICML":    (1, 28),   # late January
-              "NeurIPS": (5, 6),    # early May
-              "ICLR":    (9, 24),   # late September (year before)
-              "MICCAI":  (2, 26),   # late February
-              "MIDL":    (12, 10),  # mid-December (year before)
-              "ISBI":    (11, 14),  # mid-November (year before)
+              "CVPR":    (11, 13),  "ECCV":    (3, 5),    "ICCV":    (3, 7),
+              "ICML":    (1, 28),   "NeurIPS": (5, 6),    "ICLR":    (9, 24),
+              "MICCAI":  (2, 26),   "MIDL":    (12, 10),  "ISBI":    (11, 14),
+              "WACV":    (8, 30),   "BMVC":    (5, 10),   "IPMI":    (12, 10),
+              "AISTATS": (10, 15),  "UAI":     (2, 20),   "AAAI":    (8, 15),
           }
 
-          # Conference date patterns (month text) for estimation
           CONF_DATE_PATTERN = {
               "CVPR": "Jun", "ECCV": "Sep", "ICCV": "Oct",
               "ICML": "Jul", "NeurIPS": "Dec", "ICLR": "Apr",
               "MICCAI": "Sep–Oct", "MIDL": "Jul", "ISBI": "Apr",
+              "WACV": "Jan-Feb", "BMVC": "Nov", "IPMI": "Jun",
+              "AISTATS": "Apr-May", "UAI": "Jul", "AAAI": "Feb",
           }
 
           CONF_LINKS = {
@@ -61,45 +61,16 @@ jobs:
               "NeurIPS": "https://neurips.cc/", "ICLR": "https://iclr.cc/",
               "MICCAI": "https://miccai.org/", "MIDL": "https://midl.io/",
               "ISBI": "https://biomedicalimaging.org/",
+              "WACV": "https://thecvf.com/", "BMVC": "https://bmva.org/",
+              "IPMI": "https://ipmi-conference.org/", "AISTATS": "https://aistats.org/",
+              "UAI": "https://auai.org/", "AAAI": "https://aaai.org/",
           }
 
-          def parse_yaml(text):
-              entries, current = [], None
-              for line in text.split("\n"):
-                  line = line.rstrip("\r")
-                  if line.startswith("- "):
-                      if current: entries.append(current)
-                      current = {}
-                      kv(current, line[2:])
-                  elif current and re.match(r"^\s{2}\S", line):
-                      kv(current, line.strip())
-              if current: entries.append(current)
-              return entries
-
-          def kv(obj, s):
-              m = re.match(r"^(\w+):\s*(.*)", s)
-              if m: obj[m.group(1)] = m.group(2).strip("'\" ")
-
-          def to_entry(e):
-              return {
-                  "name": e.get("title", ""),
-                  "year": int(e.get("year", 0)),
-                  "link": e.get("link", ""),
-                  "deadline": e.get("deadline", "")[:10],
-                  "place": e.get("place", "TBA"),
-                  "date": e.get("date", "TBA"),
-              }
-
           def estimate_next(name, last_year, last_deadline_str):
-              """Generate an estimated entry for the next cycle."""
               next_conf_year = last_year + 1
-              
-              # ICCV is biennial (odd years)
-              if name == "ICCV" and next_conf_year % 2 == 0:
+              if name in ("ICCV", "IPMI") and next_conf_year % 2 == 0:
                   next_conf_year += 1
-
               delta_years = next_conf_year - last_year
-
               try:
                   if last_deadline_str:
                       ld = datetime.strptime(last_deadline_str, "%Y-%m-%d")
@@ -109,8 +80,7 @@ jobs:
                       raise ValueError("No deadline")
               except ValueError:
                   month, day = DEADLINE_PATTERN.get(name, (1, 1))
-                  deadline_year = next_conf_year - 1 if name in ("ICLR", "CVPR", "MIDL", "ISBI") else next_conf_year
-
+                  deadline_year = next_conf_year - 1 if name in ("ICLR", "CVPR", "MIDL", "ISBI", "WACV", "AISTATS", "AAAI", "IPMI") else next_conf_year
               try:
                   est_deadline = f"{deadline_year}-{month:02d}-{day:02d}"
                   datetime.strptime(est_deadline, "%Y-%m-%d")
@@ -120,7 +90,6 @@ jobs:
                   else:
                       est_deadline = f"{deadline_year}-{month:02d}-{day:02d}"
               conf_month = CONF_DATE_PATTERN.get(name, "TBA")
-
               return {
                   "name": name,
                   "year": next_conf_year,
@@ -131,71 +100,83 @@ jobs:
                   "estimated": True,
               }
 
-          # --- Fetch upstream ---
           try:
-              with urllib.request.urlopen(YAML_URL) as r:
-                  upstream = parse_yaml(r.read().decode())
+              with urllib.request.urlopen(API_URL) as r:
+                  files = json.load(r)
+                  paths = [f["path"] for f in files if f["path"].endswith(".yml")]
           except Exception as ex:
-              print(f"Warning: fetch failed: {ex}")
-              upstream = []
+              print(f"Warning: api fetch failed: {ex}")
+              paths = []
 
-          # Pick latest year per conference from upstream
           best = {}
-          for e in upstream:
-              title = e.get("title", "").upper()
-              match = next((k for k in TRACKED if k.upper() == title), None)
+          for path in paths:
+              conf_key = path.split("/")[-1].replace(".yml", "").upper()
+              match = next((k for k in TRACKED if k.upper() == conf_key), None)
               if not match: continue
-              year = int(e.get("year", 0))
-              if match not in best or year > best[match]["year"]:
-                  entry = to_entry(e)
-                  entry["name"] = match
-                  best[match] = entry
+              try:
+                  with urllib.request.urlopen(RAW_BASE + path) as r:
+                      content = r.read().decode()
+                      data = yaml.safe_load(content)
+                      for entry in data:
+                          year = int(entry.get("year", 0))
+                          deadlines = entry.get("deadlines", [])
+                          sub_dl = ""
+                          if deadlines:
+                              for d in deadlines:
+                                  if d.get("type") in ("submission", "paper"):
+                                      sub_dl = d.get("date", "")[:10]
+                                      break
+                              if not sub_dl:
+                                  sub_dl = deadlines[0].get("date", "")[:10]
+                          if not sub_dl and "deadline" in entry:
+                              sub_dl = str(entry.get("deadline", ""))[:10]
+                          
+                          if not sub_dl:
+                              continue
+                          
+                          if year > best.get(match, {}).get("year", 0):
+                              best[match] = {
+                                  "name": match,
+                                  "year": year,
+                                  "link": entry.get("link", ""),
+                                  "deadline": sub_dl,
+                                  "place": f"{entry.get('city', 'TBA')}",
+                                  "date": entry.get("date", "TBA")
+                              }
+              except Exception as e:
+                  print(f"Failed to fetch/parse {path}: {e}")
 
-          # Merge with local fallback
           for fb in LOCAL_FALLBACK:
               name = fb["name"]
               if name not in best or fb["year"] > best[name]["year"]:
                   best[name] = fb
 
-          # --- For any conference whose deadline has passed, add estimated next cycle ---
           now = datetime.now()
           result = []
           for name in TRACKED:
               entry = best.get(name)
-              if not entry:
-                  continue
-
+              if not entry: continue
               dl = datetime.strptime(entry["deadline"], "%Y-%m-%d") if entry.get("deadline") else None
-
               if dl and dl < now:
-                  # Deadline passed — generate estimate for next cycle
                   est = estimate_next(name, entry["year"], entry["deadline"])
                   est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
-
-                  # If estimated deadline is also in the past, keep pushing until it's in the future
                   while est_dl < now:
                       est = estimate_next(name, est["year"], est["deadline"])
                       est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
-
                   result.append(est)
               else:
-                  # Deadline is upcoming — use real data
                   result.append(entry)
 
           result.sort(key=lambda x: x.get("deadline", ""))
-
           output_data = {
               "last_updated": datetime.utcnow().strftime("%b %d, %Y"),
               "conferences": result
           }
-
           with open("data/deadlines.json", "w") as f:
               json.dump(output_data, f, indent=2)
-
           print(f"Updated {len(result)} conferences:")
           for c in result:
-              tag = " (estimated)" if c.get("estimated") else ""
-              print(f"  {c['name']} {c['year']} — deadline {c['deadline']}{tag}")
+              print(f"  {c['name']} {c['year']} — deadline {c['deadline']} {'(estimated)' if c.get('estimated') else ''}")
           SCRIPT
 
       - name: Commit if changed

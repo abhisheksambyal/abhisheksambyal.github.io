@@ -1,14 +1,6 @@
 {
-  "last_updated": "Jun 17, 2026",
+  "last_updated": "Jun 18, 2026",
   "conferences": [
-    {
-      "name": "WACV",
-      "year": 2027,
-      "link": "https://wacv.thecvf.com/",
-      "deadline": "2026-06-18",
-      "place": "Buena Vista, FL",
-      "date": "January 5 - January 9, 2027"
-    },
     {
       "name": "AAAI",
       "year": 2027,
@@ -133,6 +125,15 @@
       "deadline": "2027-05-10",
       "place": "TBA",
       "date": "Nov 2027 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "WACV",
+      "year": 2028,
+      "link": "https://thecvf.com/",
+      "deadline": "2027-06-18",
+      "place": "TBA",
+      "date": "Jan-Feb 2028 (est.)",
       "estimated": true
     }
   ]

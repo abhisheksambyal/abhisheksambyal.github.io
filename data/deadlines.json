@@ -1,15 +1,6 @@
 {
-  "last_updated": "Jul 24, 2026",
+  "last_updated": "Jul 25, 2026",
   "conferences": [
-    {
-      "name": "AAAI",
-      "year": 2027,
-      "link": "https://aaai.org/",
-      "deadline": "2026-07-25",
-      "place": "TBA",
-      "date": "Feb 2027 (est.)",
-      "estimated": true
-    },
     {
       "name": "ICLR",
       "year": 2027,
@@ -134,6 +125,15 @@
       "deadline": "2027-06-18",
       "place": "TBA",
       "date": "Jan-Feb 2028 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "AAAI",
+      "year": 2028,
+      "link": "https://aaai.org/",
+      "deadline": "2027-07-25",
+      "place": "TBA",
+      "date": "Feb 2028 (est.)",
       "estimated": true
     }
   ]

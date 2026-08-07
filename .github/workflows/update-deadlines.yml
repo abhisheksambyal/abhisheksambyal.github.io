@@ -18,8 +18,8 @@ jobs:
         run: |
           pip install pyyaml
           python3 << 'SCRIPT'
-          import urllib.request, json, yaml
-          from datetime import datetime
+          import urllib.request, json, yaml, re
+          from datetime import datetime, timedelta
 
           API_URL = "https://huggingface.co/api/spaces/huggingface/ai-deadlines/tree/main/src/data/conferences"
           RAW_BASE = "https://huggingface.co/spaces/huggingface/ai-deadlines/raw/main/"
@@ -66,14 +66,99 @@ jobs:
               "UAI": "https://auai.org/", "AAAI": "https://aaai.org/",
           }
 
+          # Conferences that don't run every year. ICCV/IPMI are odd-year-only;
+          # ECCV is even-year-only (it alternates with ICCV).
+          ODD_YEAR_ONLY = ("ICCV", "IPMI")
+          EVEN_YEAR_ONLY = ("ECCV",)
+
+          def tz_offset_hours(tz):
+              # Most CS/ML deadlines are quoted "AoE" (Anywhere on Earth, UTC-12),
+              # not the viewer's own timezone — treating the quoted local time as
+              # if it were already UTC would make a deadline look up to 12h later
+              # (or, for positive-offset zones, earlier) than it really is.
+              if not tz:
+                  return 0
+              tz = tz.strip().upper()
+              if tz == "AOE":
+                  return -12
+              if tz == "UTC":
+                  return 0
+              m = re.match(r'^UTC([+-])(\d{1,2})(?::?(\d{2}))?$', tz)
+              if m:
+                  sign = 1 if m.group(1) == "+" else -1
+                  return sign * (int(m.group(2)) + int(m.group(3) or 0) / 60)
+              return 0
+
+          def to_utc(date_str, tz):
+              """'2026-08-21 23:59:59' + 'AoE' -> naive UTC datetime + a human-readable
+              'as quoted' string, so the true instant is used for pass/upcoming logic
+              while the original wording stays available for display/verification."""
+              naive_local = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+              utc_dt = naive_local - timedelta(hours=tz_offset_hours(tz))
+              quoted = naive_local.strftime("%b %d, %Y, %I:%M %p") + (f" {tz}" if tz else "")
+              return utc_dt, quoted
+
+          def parse_flexible(s):
+              """Deadlines are either a real confirmed UTC instant ('...THH:MM:SSZ')
+              or a plain 'YYYY-MM-DD' pattern-based guess with no known time/zone."""
+              if not s:
+                  return None
+              for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d"):
+                  try:
+                      return datetime.strptime(s, fmt)
+                  except ValueError:
+                      continue
+              return None
+
+          def scrape_official_iclr(year):
+              # Best-effort supplement: ICLR reliably publishes exact dates on its
+              # own site before the community-maintained dataset catches up. Never
+              # let a failure here break the pipeline — just fall back silently.
+              try:
+                  url = f"https://iclr.cc/Conferences/{year}"
+                  req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                  with urllib.request.urlopen(req, timeout=15) as r:
+                      html = r.read().decode(errors="ignore")
+                  # Guard against a fallback/redirect page silently serving a
+                  # different (usually the current, already-passed) edition.
+                  if f"<title>{year} Conference</title>" not in html:
+                      return None
+                  m_abs = re.search(r'var\s+abstract_deadline\s*=\s*"([^"]+)"', html)
+                  if not m_abs:
+                      return None
+                  abs_dt = datetime.strptime(m_abs.group(1).replace(" UTC", "").strip(), "%Y/%m/%d %H:%M:%S")
+                  if abs_dt < datetime.utcnow():
+                      return None
+                  return {
+                      "name": "ICLR",
+                      "year": year,
+                      "link": url,
+                      "deadline": abs_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                      "deadline_quoted": abs_dt.strftime("%b %d, %Y, %I:%M %p") + " UTC",
+                      "deadline_label": "Abstract Submission (confirmed via iclr.cc)",
+                      "place": "TBA",
+                      "date": f"{year} (confirmed via iclr.cc)",
+                  }
+              except Exception as ex:
+                  print(f"Info: official ICLR scrape for {year} unavailable: {ex}")
+                  return None
+
+          # Conferences with a reliable, scrapable official site that publishes
+          # exact dates ahead of the community-maintained dataset. Only add an
+          # entry here once you've verified the site's markup is stable enough
+          # to parse (see scrape_official_iclr for the pattern).
+          OFFICIAL_SCRAPERS = {"ICLR": scrape_official_iclr}
+
           def estimate_next(name, last_year, last_deadline_str):
               next_conf_year = last_year + 1
-              if name in ("ICCV", "IPMI") and next_conf_year % 2 == 0:
+              if name in ODD_YEAR_ONLY and next_conf_year % 2 == 0:
+                  next_conf_year += 1
+              elif name in EVEN_YEAR_ONLY and next_conf_year % 2 == 1:
                   next_conf_year += 1
               delta_years = next_conf_year - last_year
               try:
-                  if last_deadline_str:
-                      ld = datetime.strptime(last_deadline_str, "%Y-%m-%d")
+                  ld = parse_flexible(last_deadline_str) if last_deadline_str else None
+                  if ld:
                       deadline_year = ld.year + delta_years
                       month, day = ld.month, ld.day
                   else:
@@ -100,6 +185,17 @@ jobs:
                   "estimated": True,
               }
 
+          # Last known-good data, used as a final fallback layer so a scrape
+          # failure never silently drops a conference that was previously known.
+          previous = {}
+          try:
+              with open("data/deadlines.json") as f:
+                  for c in json.load(f).get("conferences", []):
+                      if c.get("name"):
+                          previous[c["name"]] = c
+          except Exception as ex:
+              print(f"Warning: could not read previous data/deadlines.json: {ex}")
+
           try:
               with urllib.request.urlopen(API_URL) as r:
                   files = json.load(r)
@@ -117,40 +213,102 @@ jobs:
                   with urllib.request.urlopen(RAW_BASE + path) as r:
                       content = r.read().decode()
                       data = yaml.safe_load(content)
+                      now_ts = datetime.utcnow()
                       for entry in data:
                           year = int(entry.get("year", 0))
                           deadlines = entry.get("deadlines", [])
-                          sub_dl = ""
-                          if deadlines:
-                              # first try abstract or registration
-                              for d in deadlines:
-                                  if d.get("type") in ("abstract", "registration"):
-                                      sub_dl = d.get("date", "")[:10]
-                                      break
-                              # if not found, fallback to submission or paper
-                              if not sub_dl:
-                                  for d in deadlines:
-                                      if d.get("type") in ("submission", "paper"):
-                                          sub_dl = d.get("date", "")[:10]
-                                          break
-                              if not sub_dl:
-                                  sub_dl = deadlines[0].get("date", "")[:10]
-                          
-                          if not sub_dl:
+
+                          # Some conferences (WACV, ECCV, ...) run multiple submission
+                          # rounds, each with its own "registration" (a prerequisite
+                          # gate before you can submit) and "submission"/"paper"/
+                          # "abstract" deadline. Scan *every* entry rather than the
+                          # first match so a passed early round doesn't hide a later
+                          # round that's still open.
+                          # Some sources (ECCV) reuse type "submission" for unrelated
+                          # side-tracks (tutorial/workshop/art proposals), not just the
+                          # main paper deadline. Filter those out by label so they don't
+                          # get mistaken for the real (and often much later) cutoff.
+                          SIDE_TRACK_KEYWORDS = ("tutorial", "workshop", "art", "demo", "dataset", "challenge")
+
+                          abstract_candidates = []  # (utc_dt, iso_str, quoted, label) type == abstract
+                          paper_candidates = []     # (utc_dt, iso_str, quoted, label) main paper deadline
+                          reg_candidates = []       # (utc_dt, iso_str, quoted, label) type == registration
+                          for d in deadlines:
+                              raw_date = str(d.get("date", ""))
+                              if not raw_date:
+                                  continue
+                              try:
+                                  # Deadlines are quoted in their own local timezone (often
+                                  # AoE, not UTC) — convert to a true UTC instant so
+                                  # pass/upcoming comparisons are correct everywhere.
+                                  utc_dt, quoted = to_utc(raw_date[:19], d.get("timezone"))
+                                  iso_str = utc_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+                              except ValueError:
+                                  continue
+                              dtype = d.get("type")
+                              label = d.get("label", "")
+                              if dtype == "abstract":
+                                  abstract_candidates.append((utc_dt, iso_str, quoted, label))
+                              elif dtype == "paper":
+                                  paper_candidates.append((utc_dt, iso_str, quoted, label))
+                              elif dtype == "submission":
+                                  if not any(kw in label.lower() for kw in SIDE_TRACK_KEYWORDS):
+                                      paper_candidates.append((utc_dt, iso_str, quoted, label))
+                              elif dtype == "registration":
+                                  reg_candidates.append((utc_dt, iso_str, quoted, label))
+
+                          sub_candidates = abstract_candidates + paper_candidates
+                          if not sub_candidates:
+                              # Legacy/simple entries with no structured deadlines list,
+                              # and no time-of-day/timezone info to work with.
+                              legacy_dl = ""
                               if "abstract_deadline" in entry:
-                                  sub_dl = str(entry.get("abstract_deadline", ""))[:10]
+                                  legacy_dl = str(entry.get("abstract_deadline", ""))[:10]
                               elif "deadline" in entry:
-                                  sub_dl = str(entry.get("deadline", ""))[:10]
-                          
-                          if not sub_dl:
-                              continue
-                          
+                                  legacy_dl = str(entry.get("deadline", ""))[:10]
+                              if not legacy_dl:
+                                  continue
+                              sub_candidates = [(datetime.strptime(legacy_dl, "%Y-%m-%d"), legacy_dl, None, "")]
+
+                          # Anchor used to (a) decide whether this edition is fully
+                          # closed and (b) seed next-year's month/day pattern when it
+                          # is. Prefer the abstract deadline when one exists (matches
+                          # the long-standing "abstract is the deadline that matters"
+                          # choice); otherwise fall back to the *latest* paper/
+                          # submission deadline, i.e. the final round for conferences
+                          # like WACV that run several rounds with no abstract step.
+                          anchor_pool = abstract_candidates if abstract_candidates else (paper_candidates or sub_candidates)
+                          closing_dt, closing_str, closing_quoted, closing_label = max(anchor_pool, key=lambda t: t[0])
+
+                          # What to actually display: the soonest submission-type
+                          # deadline that hasn't passed yet, so a passed early round
+                          # doesn't get shown (or mistaken for the edition being over).
+                          upcoming_sub = min((c for c in sub_candidates if c[0] >= now_ts), key=lambda t: t[0], default=None)
+                          upcoming_reg = min((c for c in reg_candidates if c[0] >= now_ts), key=lambda t: t[0], default=None)
+
+                          if upcoming_sub:
+                              deadline_dt, deadline_str, deadline_quoted, deadline_label = upcoming_sub
+                          else:
+                              # Nothing upcoming for this edition — fall through to the
+                              # closing date so the "has this edition passed?" check
+                              # below correctly triggers next-edition estimation.
+                              deadline_dt, deadline_str, deadline_quoted, deadline_label = closing_dt, closing_str, closing_quoted, closing_label
+
                           if year > best.get(match, {}).get("year", 0):
                               best[match] = {
                                   "name": match,
                                   "year": year,
                                   "link": entry.get("link", ""),
-                                  "deadline": sub_dl,
+                                  "deadline": deadline_str,
+                                  "deadline_quoted": deadline_quoted,
+                                  "deadline_label": deadline_label or None,
+                                  # Only surface a registration deadline while this
+                                  # edition still has an open submission window — a
+                                  # registration date from a closed edition isn't
+                                  # actionable and would be misleading.
+                                  "registration_deadline": upcoming_reg[1] if (upcoming_sub and upcoming_reg) else None,
+                                  "registration_deadline_quoted": upcoming_reg[2] if (upcoming_sub and upcoming_reg) else None,
+                                  "registration_label": upcoming_reg[3] if (upcoming_sub and upcoming_reg) else None,
                                   "place": f"{entry.get('city', 'TBA')}",
                                   "date": entry.get("date", "TBA")
                               }
@@ -162,23 +320,52 @@ jobs:
               if name not in best or fb["year"] > best[name]["year"]:
                   best[name] = fb
 
-          now = datetime.now()
+          # Last-resort layer: if a conference has no scraped data and no LOCAL_FALLBACK
+          # entry (e.g. the HF API call failed outright), reuse what was last committed
+          # rather than dropping it from the site entirely.
+          for name in TRACKED:
+              if name not in best and name in previous:
+                  print(f"Warning: no fresh data for {name}, reusing previously committed entry")
+                  best[name] = previous[name]
+
+          now = datetime.utcnow()
           result = []
           for name in TRACKED:
               entry = best.get(name)
-              if not entry: continue
-              dl = datetime.strptime(entry["deadline"], "%Y-%m-%d") if entry.get("deadline") else None
+              if not entry:
+                  print(f"Warning: no data available at all for {name} (dropped from output)")
+                  continue
+              dl = parse_flexible(entry.get("deadline"))
               if dl and dl < now:
-                  est = estimate_next(name, entry["year"], entry["deadline"])
-                  est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
-                  while est_dl < now:
-                      est = estimate_next(name, est["year"], est["deadline"])
-                      est_dl = datetime.strptime(est["deadline"], "%Y-%m-%d")
-                  result.append(est)
+                  # Before falling back to a pattern-based guess, see if the
+                  # conference's own site already has next edition's real dates
+                  # (the community dataset is often a few weeks/months behind).
+                  official = None
+                  scraper = OFFICIAL_SCRAPERS.get(name)
+                  if scraper:
+                      for candidate_year in (entry["year"] + 1, entry["year"] + 2):
+                          official = scraper(candidate_year)
+                          if official:
+                              print(f"Info: using official-site data for {name} {candidate_year}")
+                              break
+                  if official:
+                      result.append(official)
+                  else:
+                      est = estimate_next(name, entry["year"], entry["deadline"])
+                      est_dl = parse_flexible(est["deadline"])
+                      while est_dl < now:
+                          est = estimate_next(name, est["year"], est["deadline"])
+                          est_dl = parse_flexible(est["deadline"])
+                      result.append(est)
               else:
                   result.append(entry)
 
           result.sort(key=lambda x: x.get("deadline", ""))
+
+          if len(result) < len(previous):
+              print(f"Warning: conference count dropped from {len(previous)} to {len(result)} "
+                    f"— check for an upstream scrape failure (see warnings above).")
+
           output_data = {
               "last_updated": datetime.utcnow().strftime("%b %d, %Y"),
               "conferences": result

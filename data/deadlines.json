@@ -8,9 +8,9 @@
       "deadline": "2026-08-29T11:59:59Z",
       "deadline_quoted": "Aug 28, 2026, 11:59 PM AoE",
       "deadline_label": "Round 2 Paper Submissions",
-      "registration_deadline": "2026-08-22T11:59:59Z",
-      "registration_deadline_quoted": "Aug 21, 2026, 11:59 PM AoE",
-      "registration_label": "Round 2 New Paper Registration",
+      "registration_deadline": null,
+      "registration_deadline_quoted": null,
+      "registration_label": null,
       "place": "Buena Vista, FL",
       "date": "January 4 - January 8, 2027"
     },

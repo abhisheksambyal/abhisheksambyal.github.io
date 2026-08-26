@@ -19,10 +19,13 @@
       "year": 2027,
       "link": "https://iclr.cc/Conferences/2027",
       "deadline": "2026-09-19T11:59:59Z",
-      "deadline_quoted": "Sep 19, 2026, 11:59 AM UTC",
-      "deadline_label": "Abstract Submission (confirmed via iclr.cc)",
-      "place": "TBA",
-      "date": "2027 (confirmed via iclr.cc)"
+      "deadline_quoted": "Sep 18, 2026, 11:59 PM AoE",
+      "deadline_label": "Abstract Submission",
+      "registration_deadline": null,
+      "registration_deadline_quoted": null,
+      "registration_label": null,
+      "place": "San Francisco",
+      "date": "April 26-30, 2027"
     },
     {
       "name": "AISTATS",

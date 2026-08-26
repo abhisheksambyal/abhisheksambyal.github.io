@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <script type="text/javascript" src="js/hidebib.js"></script>
+
+  <title>Conference Deadlines | Abhishek Singh Sambyal</title>
+
+  <meta name="Abhishek Singh Sambyal's Homepage" http-equiv="Content-Type" content="Abhishek Singh Sambyal's Homepage">
+  <meta name="description" content="Upcoming conference deadlines for computer vision, machine learning, and medical imaging venues.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ROBOTO Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- INTER Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+    rel="stylesheet">
+
+  <!-- JavaScript to scramble emails -->
+  <script src="js/scramble.js"></script>
+
+  <!-- Abhishek's Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+  <link rel="icon" type="image/png" href="images/title-icon.png">
+
+</head>
+
+<body>
+  <div class="topbar">
+    <ul class="nav fixed-top justify-content-center bg-dark">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">&#8592 back (Home)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="papersift.html" style="color: #f09228; font-weight: 700;">Try PaperSift</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-lg-8 mx-auto p-4 py-md-5">
+    <div class="mx-auto p-4 py-md-2">
+      <h5>Conference Deadlines</h5>
+      <div class="deadline-card">
+        <div class="deadline-card-header">
+          <h6>📅 Conference Dates</h6>
+          <span class="deadline-year" id="deadline-updated">Loading…</span>
+        </div>
+        <div class="deadline-next-banner" id="deadline-next-banner" style="display:none;"></div>
+        <table class="deadline-table">
+          <thead>
+            <tr>
+              <th>Conference</th>
+              <th>Area</th>
+              <th>Submission Deadline</th>
+              <th>Conference</th>
+              <th>Location</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="deadline-tbody">
+            <tr>
+              <td colspan="6" style="text-align:center; color:#94a3b8; padding:20px 0;">Loading deadlines…</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="deadline-card-footer">
+          <button type="button" class="deadline-ics-btn" id="deadline-ics-btn" disabled>📅 Add Active conferences</button>
+          <span class="deadline-card-footer-text">
+            Auto-updated via <a href="https://paperswithcode.co/ai-deadlines"
+              target="_blank">paperswithcode.co/ai-deadlines</a>. Dates marked <span
+              style="color:#f59e0b;font-weight:600;font-size:0.6rem;">EST.</span> are estimates
+            — <span style="color:#16a34a;">●</span> shaded rows are officially confirmed.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/deadlines.js"></script>
+</body>
+
+</html>

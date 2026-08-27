@@ -138,7 +138,7 @@ p {
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 18px;
+  margin-bottom: 8px;
   min-height: 210px;
 }
 
@@ -187,6 +187,137 @@ p {
   }
   .pub-card-body {
     flex: unset;
+  }
+}
+
+/* ########################### */
+/* # BibTeX Modal */
+/* ########################### */
+.bibtex-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 1050;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.bibtex-modal-overlay.open {
+  display: flex;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.bibtex-modal-card {
+  background: #fdfdfd;
+  border: 1px solid #e2e5e9;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  max-width: 620px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bibtex-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.bibtex-modal-title {
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.bibtex-modal-close {
+  border: none;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.bibtex-modal-close:hover {
+  color: #f09228;
+}
+
+.bibtex-modal-body {
+  margin: 0;
+  padding: 18px 20px;
+  overflow: auto;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  background: #f9fafb;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.bx-type {
+  color: #6d28d9;
+  font-weight: 700;
+}
+
+.bx-key {
+  color: #1772d0;
+  font-weight: 700;
+}
+
+.bx-field {
+  color: #15803d;
+}
+
+.bx-value {
+  color: #334155;
+}
+
+.bibtex-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  border-top: 1px solid #eef0f3;
+}
+
+.bibtex-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  border: 1px solid #839cbf;
+  background: #f9fafb;
+  color: #000;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bibtex-copy-btn:hover {
+  background: #c9cef1;
+}
+
+.bibtex-copy-btn.copied {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #15803d;
+}
+
+@media (max-width: 600px) {
+  .bibtex-modal-card {
+    max-height: 85vh;
   }
 }
 

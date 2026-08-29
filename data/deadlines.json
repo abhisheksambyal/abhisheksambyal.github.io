@@ -2,19 +2,6 @@
   "last_updated": "Aug 29, 2026",
   "conferences": [
     {
-      "name": "WACV",
-      "year": 2027,
-      "link": "https://wacv.thecvf.com/",
-      "deadline": "2026-08-29T11:59:59Z",
-      "deadline_quoted": "Aug 28, 2026, 11:59 PM AoE",
-      "deadline_label": "Round 2 Paper Submissions",
-      "registration_deadline": null,
-      "registration_deadline_quoted": null,
-      "registration_label": null,
-      "place": "Buena Vista, FL",
-      "date": "January 4 - January 8, 2027"
-    },
-    {
       "name": "ICLR",
       "year": 2027,
       "link": "https://iclr.cc/Conferences/2027",
@@ -133,6 +120,15 @@
       "deadline": "2027-07-26",
       "place": "TBA",
       "date": "Feb 2028 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "WACV",
+      "year": 2028,
+      "link": "https://thecvf.com/",
+      "deadline": "2027-08-29",
+      "place": "TBA",
+      "date": "Jan-Feb 2028 (est.)",
       "estimated": true
     },
     {

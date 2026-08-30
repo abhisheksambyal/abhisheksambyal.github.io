@@ -1,5 +1,5 @@
 {
-  "last_updated": "Aug 29, 2026",
+  "last_updated": "Aug 30, 2026",
   "conferences": [
     {
       "name": "ICLR",
@@ -117,7 +117,7 @@
       "name": "AAAI",
       "year": 2028,
       "link": "https://aaai.org/",
-      "deadline": "2027-07-26",
+      "deadline": "2027-07-22",
       "place": "TBA",
       "date": "Feb 2028 (est.)",
       "estimated": true

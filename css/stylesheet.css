@@ -191,10 +191,41 @@ p {
 }
 
 /* ########################### */
+/* # Collapsible reveal (abstracts, older news) */
+/* ########################### */
+.reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 250ms var(--ease-out),
+    opacity 180ms var(--ease-out),
+    visibility 0s linear 250ms;
+}
+
+.reveal.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 250ms var(--ease-out),
+    opacity 180ms var(--ease-out),
+    visibility 0s;
+}
+
+/* The inner wrapper is what actually gets clipped as the row collapses. */
+.reveal > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ########################### */
 /* # BibTeX Drawer */
 /* ########################### */
 :root {
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .bibtex-drawer-backdrop {
@@ -314,6 +345,15 @@ body.drawer-open {
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
+  transition:
+    background-color 150ms var(--ease-out),
+    border-color 150ms var(--ease-out),
+    color 150ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.bibtex-copy-btn:active {
+  transform: scale(0.97);
 }
 
 .bibtex-copy-btn:hover {
@@ -348,15 +388,8 @@ body.drawer-open {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bibtex-drawer-panel {
-    transition: none;
-  }
-
-  .bibtex-drawer-backdrop {
-    transition: opacity 150ms linear;
-  }
-}
+/* Reduced-motion overrides live at the end of this file: media queries add no
+   specificity, so they must come after the rules they override. */
 
 hr {
   border: 0;
@@ -438,6 +471,16 @@ hr {
   vertical-align: bottom;
   border-radius: 3px;
   /* margin: 3px; */
+  transition:
+    background-color 120ms var(--ease-out),
+    color 120ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+/* Press feedback: the hover rule above only re-states hover colours, so a
+   press produced no distinct response on its own. */
+.boxed:active {
+  transform: scale(0.97);
 }
 
 .boxed_publication:hover,
@@ -909,5 +952,46 @@ hr {
   }
   body.papersift-page .phone-badge-wrapper {
     margin-bottom: 0 !important;
+  }
+}
+/* ########################### */
+/* # Reduced motion */
+/* ########################### */
+/* Gentler, not zero: size and travel stop animating, but state changes still
+   cross-fade so nothing teleports without explanation. Must stay last in this
+   file — media queries add no specificity, so placement is what makes these
+   win over the base rules above. */
+@media (prefers-reduced-motion: reduce) {
+  .bibtex-drawer-panel {
+    transition: none;
+  }
+
+  .bibtex-drawer-backdrop {
+    transition: opacity 150ms linear;
+  }
+
+  .reveal {
+    transition:
+      opacity 120ms linear,
+      visibility 0s linear 120ms;
+  }
+
+  .reveal.open {
+    transition:
+      opacity 120ms linear,
+      visibility 0s;
+  }
+
+  .boxed,
+  .bibtex-copy-btn {
+    transition:
+      background-color 120ms linear,
+      color 120ms linear,
+      border-color 120ms linear;
+  }
+
+  .boxed:active,
+  .bibtex-copy-btn:active {
+    transform: none;
   }
 }

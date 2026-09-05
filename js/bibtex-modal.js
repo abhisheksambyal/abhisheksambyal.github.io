@@ -1,4 +1,4 @@
-// BibTeX floating-card modal: reads a paper's hidden <pre class="bibtex_text">,
+// BibTeX drawer: reads a paper's hidden <pre class="bibtex_text">,
 // renders it with light token coloring, and offers a copy-to-clipboard button.
 
 function highlightBibtex(text) {
@@ -24,26 +24,62 @@ function highlightBibtex(text) {
   }).join('\n');
 }
 
-function openBibtexModal(paperId) {
+var bibtexDrawerLastFocused = null;
+
+function getBibtexDrawerFocusables() {
+  var panel = document.querySelector('.bibtex-drawer-panel');
+  if (!panel) return [];
+  return Array.prototype.slice.call(
+    panel.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])')
+  );
+}
+
+function trapBibtexDrawerFocus(e) {
+  if (e.key !== 'Tab') return;
+  var focusables = getBibtexDrawerFocusables();
+  if (!focusables.length) return;
+  var first = focusables[0];
+  var last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+}
+
+function openBibtexDrawer(paperId) {
   var source = document.querySelector('#' + paperId + ' pre.bibtex_text');
   if (!source) return;
 
+  bibtexDrawerLastFocused = document.activeElement;
+
   var raw = source.textContent.trim();
-  var contentEl = document.getElementById('bibtex-modal-content');
+  var contentEl = document.getElementById('bibtex-drawer-content');
   contentEl.innerHTML = highlightBibtex(raw);
   contentEl.setAttribute('data-raw', raw);
 
-  document.getElementById('bibtex-modal-overlay').classList.add('open');
-  document.body.classList.add('modal-open');
+  document.getElementById('bibtex-drawer-overlay').classList.add('open');
+  document.body.classList.add('drawer-open');
+  document.addEventListener('keydown', trapBibtexDrawerFocus);
+
+  var closeBtn = document.querySelector('.bibtex-drawer-close');
+  if (closeBtn) closeBtn.focus();
 }
 
-function closeBibtexModal() {
-  document.getElementById('bibtex-modal-overlay').classList.remove('open');
-  document.body.classList.remove('modal-open');
+function closeBibtexDrawer() {
+  document.getElementById('bibtex-drawer-overlay').classList.remove('open');
+  document.body.classList.remove('drawer-open');
+  document.removeEventListener('keydown', trapBibtexDrawerFocus);
+  if (bibtexDrawerLastFocused && typeof bibtexDrawerLastFocused.focus === 'function') {
+    bibtexDrawerLastFocused.focus();
+  }
+  bibtexDrawerLastFocused = null;
 }
 
 function copyBibtex() {
-  var contentEl = document.getElementById('bibtex-modal-content');
+  var contentEl = document.getElementById('bibtex-drawer-content');
   var text = contentEl.getAttribute('data-raw') || '';
   var btn = document.getElementById('bibtex-copy-btn');
 
@@ -73,5 +109,5 @@ function copyBibtex() {
 }
 
 document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') closeBibtexModal();
+  if (e.key === 'Escape') closeBibtexDrawer();
 });

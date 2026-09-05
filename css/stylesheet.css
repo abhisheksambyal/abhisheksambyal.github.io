@@ -237,7 +237,9 @@ p {
   justify-content: flex-end;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 250ms var(--ease-drawer);
+  /* Matches the panel's duration so the scrim and the panel travel together
+     rather than the scrim vanishing while the panel is still moving. */
+  transition: opacity 320ms var(--ease-drawer);
 }
 
 .bibtex-drawer-backdrop.open {
@@ -249,9 +251,10 @@ body.drawer-open {
   overflow: hidden;
 }
 
+/* Elevation only: a hairline border on top of a 40px shadow is doing the same
+   job twice, so the shadow carries the separation by itself. */
 .bibtex-drawer-panel {
   background: #fdfdfd;
-  border-left: 1px solid #e2e5e9;
   box-shadow: -12px 0 40px rgba(0, 0, 0, 0.18);
   width: 100%;
   max-width: 420px;
@@ -376,8 +379,6 @@ body.drawer-open {
     max-width: 100%;
     height: auto;
     max-height: 85vh;
-    border-left: none;
-    border-top: 1px solid #e2e5e9;
     border-radius: 14px 14px 0 0;
     box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.18);
     transform: translateY(100%);
@@ -849,16 +850,23 @@ hr {
   font-size: 0.8rem;
   color: #64748b;
   font-weight: 500;
-  transition: all 0.2s ease;
+  /* Narrowed from `all` to the four properties the hover actually changes. */
+  transition:
+    transform 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.01);
 }
 
-.search-pill:hover {
-  border-color: #6366f1;
-  color: #6366f1;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.08);
+@media (hover: hover) and (pointer: fine) {
+  .search-pill:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(99, 102, 241, 0.08);
+  }
 }
 
 .phone-badge-visual {
@@ -876,13 +884,20 @@ hr {
   position: relative;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
   background: #fff;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Was `all 0.4s` on an overshoot curve: too slow for a hover (150-250ms is
+     the budget) and the bounce made it wobble under the pointer. */
+  transition:
+    transform 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
   cursor: pointer;
 }
 
-.phone-badge-container:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+/* Gated so the lifted state can't stick after a tap on touch devices. */
+@media (hover: hover) and (pointer: fine) {
+  .phone-badge-container:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .phone-badge-container iframe {
@@ -992,6 +1007,19 @@ hr {
 
   .boxed:active,
   .bibtex-copy-btn:active {
+    transform: none;
+  }
+
+  .phone-badge-container,
+  .search-pill {
+    transition:
+      box-shadow 150ms linear,
+      border-color 150ms linear,
+      color 150ms linear;
+  }
+
+  .phone-badge-container:hover,
+  .search-pill:hover {
     transform: none;
   }
 }

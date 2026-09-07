@@ -13,6 +13,13 @@ Replace all color values with the respective HSL values. */
   }
 } */
 
+/* Motion tokens */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 40px;
@@ -112,21 +119,11 @@ hr {
   background-image: linear-gradient(to right, #e9ecef, rgba(0, 0, 0, 0.75), #e9ecef);
 }
 
-.abstract_text {
-  font-size: 13px;
-  margin: 10px 12px 6px 0px;
-}
-
+/* Abstract / BibTeX source blocks. Kept in the DOM as the drawer's content
+   source and as crawlable text; never rendered in place. */
+.abstract_text,
 .bibtex_text {
-  font-size: 13px;
-  margin: 10px 6px 6px 0px;
-  max-width: 550px !important;
-}
-
-@media(max-width:600px) {
-  .bibtex_text {
-    max-width: 600px !important;
-  }
+  display: none;
 }
 
 .profileimage {
@@ -164,12 +161,20 @@ hr {
 /* ################################################### */
 /* Boxed style for CV/Github and Publication: abstract/code etc. */
 
-.boxed:hover,
 .boxed:active {
   text-decoration: underline;
   /* background: #dbc9f1; */
   background: #c9cef1;
   color: #121212 !important
+}
+
+/* Gated: on touch, :hover sticks after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .boxed:hover {
+    text-decoration: underline;
+    background: #c9cef1;
+    color: #121212 !important
+  }
 }
 
 .boxed {
@@ -186,14 +191,30 @@ hr {
   vertical-align: bottom;
   border-radius: 3px;
   /* margin: 3px; */
+  transition: background-color 120ms ease, color 120ms ease;
 }
 
-.boxed_publication:hover,
+/* The abstract/bibtex triggers are <button>, not <a>. */
+button.boxed {
+  line-height: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .boxed_publication:active {
   text-decoration: underline;
   background: #dedede;
   /* background: #dbc9f1; */
   color: #121212 !important
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .boxed_publication:hover {
+    text-decoration: underline;
+    background: #dedede;
+    color: #121212 !important
+  }
 }
 
 .boxed_publication {
@@ -657,5 +678,292 @@ hr {
   }
   body.papersift-page .phone-badge-wrapper {
     margin-bottom: 0 !important;
+  }
+}
+
+/* ################################################### */
+/* Publication drawer (bottom sheet) */
+
+#pub-drawer {
+  /* Reset the UA dialog box and pin it to the bottom edge. */
+  position: fixed;
+  inset: 0;
+  /* The dialog spans the visible width and pins to the bottom-left of it;
+     the sheet inside does the centering. --drawer-vw is that visible width,
+     measured by js/pub-drawer.js: the page overflows horizontally on narrow
+     screens, which inflates the containing block of a fixed element, and
+     centering against that inflated box pushes the sheet off screen. */
+  margin: auto 0 0;
+  width: var(--drawer-vw, 100%);
+  max-width: none;
+  max-height: 85dvh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+
+  transform: translateY(0);
+  opacity: 1;
+  transition:
+    transform 320ms var(--ease-drawer),
+    opacity 320ms var(--ease-drawer),
+    overlay 320ms allow-discrete,
+    display 320ms allow-discrete;
+}
+
+/* Exit state, and — via @starting-style — the pre-entry state. */
+#pub-drawer:not([open]) {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+@starting-style {
+  #pub-drawer[open] {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+#pub-drawer::backdrop {
+  background: rgb(15 23 42 / 0.32);
+  opacity: 1;
+  transition:
+    opacity 320ms var(--ease-out),
+    overlay 320ms allow-discrete,
+    display 320ms allow-discrete;
+}
+
+#pub-drawer:not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  #pub-drawer[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.drawer__sheet {
+  display: flex;
+  flex-direction: column;
+  width: min(720px, 100%);
+  margin-inline: auto;
+  max-height: 85dvh;
+  background: #ffffff;
+  border: 0;
+  border-radius: 14px 14px 0 0;
+  /* Elevation only. The dimmed backdrop already separates the sheet from the
+     page, so an outline on top of the shadow would be doing the job twice. */
+  box-shadow: 0 -6px 24px rgb(15 23 42 / 0.20);
+  overflow: hidden;
+}
+
+.drawer__sheet:focus {
+  outline: none;
+}
+
+.drawer__grabber {
+  flex: none;
+  width: 36px;
+  height: 4px;
+  margin: 8px auto 0;
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.drawer__head {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 18px 10px;
+}
+
+.drawer__title {
+  margin: 0;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+.drawer__venue {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.drawer__close {
+  flex: none;
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.drawer__close:active {
+  background: #e2e8f0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .drawer__close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+}
+
+/* Tabs */
+.drawer__tabs {
+  flex: none;
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.drawer__tabs [role="tab"] {
+  flex: 1 1 50%;
+  padding: 9px 0 11px;
+  border: 0;
+  background: transparent;
+  font-family: monospace;
+  font-size: 12px;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.drawer__tabs [role="tab"][aria-selected="true"] {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.drawer__tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: #1772d0;
+  transform: translateX(0);
+  transition: transform 200ms var(--ease-in-out);
+}
+
+/* Panels */
+.drawer__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 18px 22px;
+}
+
+.drawer__body [role="tabpanel"] {
+  opacity: 1;
+  transition: opacity 120ms ease;
+}
+
+.drawer__body [role="tabpanel"].is-swapping {
+  opacity: 0;
+}
+
+.drawer__body [role="tabpanel"] p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #1e293b;
+  text-align: justify;
+}
+
+/* Justified monospace opens rivers once the measure gets short. */
+@media (max-width: 600px) {
+  .drawer__body [role="tabpanel"] p {
+    text-align: left;
+  }
+}
+
+.drawer__body pre {
+  /* System monospace: no webfont to wait on, and it keeps the aligned
+     columns crisp on every platform. */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 0;
+  color: #1e293b;
+  tab-size: 2;
+}
+
+.drawer__copy {
+  display: block;
+  margin: 0 0 10px auto;
+  padding: 3px 9px;
+  border: 1px solid #839cbf;
+  border-radius: 3px;
+  background: #f9fafb;
+  font-family: monospace;
+  font-size: 12px;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.drawer__copy:active {
+  background: #dedede;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .drawer__copy:hover {
+    background: #dedede;
+  }
+}
+
+.drawer__copy.is-copied {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+  color: #047857;
+}
+
+/* Fewer and gentler, not zero: keep the fade, drop the travel. */
+@media (prefers-reduced-motion: reduce) {
+  #pub-drawer {
+    transition:
+      opacity 150ms ease,
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+
+  #pub-drawer:not([open]) {
+    transform: none;
+  }
+
+  @starting-style {
+    #pub-drawer[open] {
+      transform: none;
+    }
+  }
+
+  #pub-drawer::backdrop {
+    transition:
+      opacity 150ms ease,
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+
+  .drawer__tab-indicator {
+    transition: none;
   }
 }

@@ -967,3 +967,23 @@ button.boxed {
     transition: none;
   }
 }
+
+
+/* ################################################### */
+/* Narrow screens: the page is built from layout tables, whose min-content
+   width (thumbnail column + text column) forced the whole document ~460px
+   wide and made it scroll sideways on any phone. Stack the cells instead of
+   shrinking the images, which would distort them: a table cell constrains an
+   image to the column, not the viewport. */
+
+@media (max-width: 600px) {
+  #introduction > tbody > tr > td,
+  #publications > tbody > tr > td {
+    display: block;
+    width: auto !important;
+  }
+
+  #introduction .profileimage {
+    margin: 0 0 16px;
+  }
+}

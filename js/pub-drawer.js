@@ -22,6 +22,7 @@
   var copyBtn = drawer.querySelector('.drawer__copy');
   var absPanel = document.getElementById('panel-abstract');
   var bibPanel = document.getElementById('panel-bibtex');
+  var bodyEl = drawer.querySelector('.drawer__body');
   var absBody = absPanel.querySelector('p');
   var bibBody = bibPanel.querySelector('pre');
   var tabs = {
@@ -42,6 +43,9 @@
 
     tabs.abstract.setAttribute('aria-selected', String(isAbstract));
     tabs.bibtex.setAttribute('aria-selected', String(!isAbstract));
+    // Roving tabindex: one stop for the whole tablist, arrows move within it.
+    tabs.abstract.tabIndex = isAbstract ? 0 : -1;
+    tabs.bibtex.tabIndex = isAbstract ? -1 : 0;
     indicator.style.transform = isAbstract ? 'translateX(0)' : 'translateX(100%)';
 
     outgoing.hidden = true;
@@ -60,7 +64,51 @@
       incoming.classList.remove('is-swapping');
     }
 
-    drawer.querySelector('.drawer__body').scrollTop = 0;
+    bodyEl.scrollTop = 0;
+  }
+
+  // ---- height ---------------------------------------------------------------
+
+  // An abstract and a BibTeX entry are rarely the same length, so switching
+  // tabs used to resize the sheet under the pointer. Hold the body at the
+  // taller of the two for as long as this paper is open: the sheet is then
+  // stable across tab switches, still sized to its own content rather than to
+  // a fixed guess, and still clamped by the sheet's max-height on long
+  // abstracts (where .drawer__body's own overflow-y takes over).
+  function measurePanel(panel, other) {
+    var wasHidden = panel.hidden;
+    var otherWasHidden = other.hidden;
+    panel.hidden = false;
+    other.hidden = true;
+    var height = bodyEl.scrollHeight;
+    panel.hidden = wasHidden;
+    other.hidden = otherWasHidden;
+    return height;
+  }
+
+  function syncBodyHeight() {
+    // Measure against natural height, not against the height set last time.
+    bodyEl.style.height = '';
+
+    var tallest = 0;
+    if (!tabs.abstract.hidden) tallest = Math.max(tallest, measurePanel(absPanel, bibPanel));
+    if (!tabs.bibtex.hidden) tallest = Math.max(tallest, measurePanel(bibPanel, absPanel));
+
+    if (tallest > 0) bodyEl.style.height = tallest + 'px';
+  }
+
+  // The year is markup-wise a sibling of the venue, not part of it: the row
+  // reads "<em>…(MICCAI)</em>, 2024". Pick up that trailing text so the sheet
+  // doesn't drop the year.
+  function venueWithYear(venue) {
+    var text = venue.textContent.replace(/\s+/g, ' ').trim();
+    var next = venue.nextSibling;
+    if (next && next.nodeType === 3) {
+      var tail = next.textContent.replace(/\s+/g, ' ').trim();
+      var year = tail.match(/^,\s*(\d{4})/);
+      if (year) text += ', ' + year[1];
+    }
+    return text;
   }
 
   // ---- width ---------------------------------------------------------------
@@ -72,9 +120,14 @@
     drawer.style.setProperty('--drawer-vw', document.documentElement.clientWidth + 'px');
   }
 
+  function syncLayout() {
+    syncWidth();
+    if (drawer.open) syncBodyHeight();
+  }
+
   syncWidth();
-  window.addEventListener('resize', syncWidth);
-  window.addEventListener('orientationchange', syncWidth);
+  window.addEventListener('resize', syncLayout);
+  window.addEventListener('orientationchange', syncLayout);
 
   // ---- scroll lock --------------------------------------------------------
 
@@ -99,13 +152,13 @@
     if (!root) return;
 
     var cell = root.closest('td') || root.parentNode;
-    var paperTitle = cell.querySelector('papertitle');
+    var paperTitle = cell.querySelector('.papertitle');
     var venue = cell.querySelector('em');
     var abstract = root.querySelector('.abstract_text');
     var bibtex = root.querySelector('.bibtex_text');
 
     titleEl.textContent = paperTitle ? paperTitle.textContent.trim() : '';
-    venueEl.textContent = venue ? venue.textContent.trim() : '';
+    venueEl.textContent = venue ? venueWithYear(venue) : '';
     absBody.textContent = abstract ? abstract.textContent.trim() : '';
     bibBody.textContent = bibtex ? bibtex.textContent.trim() : '';
 
@@ -124,6 +177,9 @@
     syncWidth();
     lockScroll();
     drawer.showModal();
+    // After showModal: the dialog is display:none until then, so nothing
+    // inside it can be measured before this point.
+    syncBodyHeight();
     // Focus the sheet, not the close button: the dialog is announced without
     // painting a focus ring on a control the user didn't reach for.
     sheet.focus();
@@ -149,6 +205,31 @@
   });
   tabs.bibtex.addEventListener('click', function () {
     selectTab('bibtex', true);
+  });
+
+  // Arrow-key navigation across the tablist, per the ARIA tabs pattern.
+  // Skips a tab that is hidden because the paper has no content for it.
+  drawer.querySelector('.drawer__tabs').addEventListener('keydown', function (event) {
+    var order = ['abstract', 'bibtex'].filter(function (name) {
+      return !tabs[name].hidden;
+    });
+    if (order.length < 2) return;
+
+    var current = tabs.abstract.getAttribute('aria-selected') === 'true' ? 'abstract' : 'bibtex';
+    var i = order.indexOf(current);
+    var next;
+
+    switch (event.key) {
+      case 'ArrowRight': next = order[(i + 1) % order.length]; break;
+      case 'ArrowLeft': next = order[(i - 1 + order.length) % order.length]; break;
+      case 'Home': next = order[0]; break;
+      case 'End': next = order[order.length - 1]; break;
+      default: return;
+    }
+
+    event.preventDefault();
+    selectTab(next, true);
+    tabs[next].focus();
   });
 
   // ---- copy ---------------------------------------------------------------

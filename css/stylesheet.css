@@ -20,9 +20,17 @@ Replace all color values with the respective HSL values. */
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+/* The nav is one non-wrapping row at every width (see .topbar below), so its
+   height is a constant and these two offsets are exact rather than guessed.
+   They previously assumed a single row and left the bar covering content on
+   any viewport where it wrapped. */
+:root {
+  --topbar-h: 46px;
+}
+
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 40px;
+  scroll-padding-top: var(--topbar-h);
 }
 
 a {
@@ -31,40 +39,64 @@ a {
   word-wrap: break-word;
 }
 
-a:focus,
 a:hover {
   color: #f09228;
   text-decoration: none;
 }
 
+/* Keyboard focus has to read as focus, not as hover. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #1772d0;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 body {
-  /* font-family: 'Lato', sans-serif; */
-  /* font-family: 'Roboto', sans-serif; */
-  /* font-family: 'Roboto mono', sans-serif;
-  font-size: 16px; */
-  /* font-family: "Inconsolata", monospace; */
   font-family: monospace;
   font-size: 13px;
   font-weight: 400;
-  line-height: normal;
-  padding-top: 30px;
+  line-height: 1.55;
+  padding-top: var(--topbar-h);
 }
 
-heading {
+.page {
+  width: 100%;
+  max-width: 840px;
+  margin-inline: auto;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+h1 {
+  margin-bottom: 6px;
+}
+
+.section-heading {
+  margin: 0 0 12px;
   font-size: 24px;
   font-weight: 400;
+  line-height: 1.2;
 }
 
-papertitle {
-  font-weight: 700
+/* A real <h3> for the document outline, sized to sit in the body copy rather
+   than as a display heading. Block, so authors start on the next line. */
+.papertitle {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
-name {
+.lastname {
   font-size: 32px;
   font-weight: 300;
 }
 
-firstname {
+.firstname {
   font-size: 32px;
   font-weight: 700;
 }
@@ -94,19 +126,72 @@ p {
   margin-left: 10px;
 }
 
+/* One row, always. The bar is position:fixed, so a wrapping nav silently ate
+   viewport and covered whatever an anchor jump landed on — 93px of a 390px
+   phone at three rows. Scrolling sideways costs the user one gesture; a
+   wrapping bar cost them the top of every section. */
+.topbar .nav {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* !important because it has to beat Bootstrap's .justify-content-center
+     utility on this same element, and Bootstrap's utilities are !important by
+     design. `center` on a scroll container puts the overflow on both sides and
+     strands the leading items at a negative offset no scroll position can
+     reach — "Introduction" and "News" become untappable on a phone. The auto
+     margins below centre the row without that failure mode. */
+  justify-content: flex-start !important;
+}
+
+.topbar .nav::-webkit-scrollbar {
+  display: none;
+}
+
+.topbar .nav-item {
+  flex: none;
+}
+
+/* Auto margins absorb the free space when the row fits (so it reads as
+   centred) and collapse to zero when it doesn't, packing the items to the
+   start so the whole row stays scrollable. */
+.topbar .nav-item:first-child {
+  margin-inline-start: auto;
+}
+
+.topbar .nav-item:last-child {
+  margin-inline-end: auto;
+}
+
 .topbar {
   font-weight: 400;
 }
 
 .topbar a {
+  display: block;
   text-decoration: none;
   color: white;
+  white-space: nowrap;
 }
 
 .topbar a:hover {
   text-decoration: underline;
-  font-weight: 700;
   color: white;
+}
+
+/* Underline on hover rather than a weight change: monospace reflows the whole
+   bar when a label goes bold, nudging every item after it. */
+.topbar a:focus-visible {
+  outline-color: #ffffff;
+  outline-offset: -2px;
+}
+
+/* Was an inline style on the anchor; same colour, now themeable. Needs the
+   .topbar prefix to outrank `.topbar a { color: white }`. */
+.topbar a.nav-link--accent,
+.topbar a.nav-link--accent:hover {
+  color: #f09228;
+  font-weight: 700;
 }
 
 .paperlinks {
@@ -127,35 +212,113 @@ hr {
 }
 
 .profileimage {
-  /* width:70%;
-  border-radius:20px;
-  background: #e0e0e0;
-  margin-left: 0px; */
-
-  /* box-shadow:  20px 20px 60px #707070, -20px -20px 60px #ffffff; */
+  width: 205px;
   height: 255px;
-  /* margin-right: 20px; 
-  margin-bottom: 20px; */
+  object-fit: cover;
   margin: 20px;
   margin-left: 0px;
   border-radius: 8px;
   box-shadow: 3px 3px 6px #888;
 }
 
+/* Publication rows: replaces valign="top" / cellpadding="7" and the inline
+   style repeated on every thumbnail. */
+.pub-table td {
+  vertical-align: top;
+  padding: 7px;
+}
+
+/* A hairline between entries so eight stacked papers read as a list rather
+   than one continuous block. Between rows only — not under the heading, and
+   not trailing after the last paper. */
+.pub-row + .pub-row td {
+  border-top: 1px solid #ebeef2;
+}
+
+.pub-row td {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.pub-thumb-cell {
+  width: 182px;
+}
+
+/* Same three-step hierarchy the drawer uses: the title carries the weight,
+   the venue steps back, and the award sits between them. */
+.pub-authors {
+  margin: 5px 0 0;
+}
+
+.pub-meta {
+  margin: 2px 0 0;
+  color: #5c6b7f;
+}
+
+.pub-award {
+  margin: 2px 0 0;
+  color: #475569;
+}
+
+/* object-fit: contain, not cover. These are method and results figures whose
+   aspect ratios run from 0.91 to 2.31; every one of them used to be squashed
+   into a hard 4:3 box, and cropping a diagram loses its content. The 160x120
+   footprint is unchanged, so the column doesn't move. */
+.pubthumb {
+  display: block;
+  width: 160px;
+  height: 120px;
+  object-fit: contain;
+  /* padding: 10px; */
+  /* background: #fff; */
+  /* border: 1px solid #000; */
+  /* border-radius: 15px; */
+}
+
 #news {
   margin-right: 10px;
   margin-left: 10px;
-  line-height: 150%;
 }
 
 #news li {
   margin-bottom: 5px;
 }
 
+.news-list {
+  margin-bottom: 0;
+}
+
+/* Reads as the original plain "---- more ----" link, but it is a real button
+   carrying aria-expanded, so screen readers and the keyboard get the state
+   that the styling deliberately keeps quiet. */
+.news-more {
+  display: inline-block;
+  margin: 10px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #1772d0;
+  cursor: pointer;
+}
+
+.news-more:hover {
+  color: #f09228;
+}
+
+#hiddennews {
+  margin-top: 10px;
+}
+
+.teaching-list li + li {
+  margin-top: 12px;
+}
+
 
 #template-reference {
   font-size: 12px;
   margin: 10px;
+  text-align: right;
 }
 
 /* ################################################### */
@@ -224,24 +387,31 @@ button.boxed {
   margin: 0px;
 }
 
+/* 11px floor: these carry the date and category of every news item, so they
+   are content, not decoration. Bootstrap's .75em put them at 9.75px. */
 .badge {
   vertical-align: top;
+  font-size: 11px;
 }
 
-.bg-primary {
-  --bs-bg-opacity: 0.6;
+/* Category badges. These used to ride Bootstrap's --bs-bg-opacity: 0.6 with a
+   single grey text colour, which put "Presentation" at 3.95:1 — under the 4.5:1
+   floor at 9.75px bold. Each pair below is now stated explicitly and measured;
+   the hues are the ones that were already there, just resolved to opaque tints
+   with enough separation from the ink. */
+.sub-presentation {
+  background-color: #bcd7fd;
+  color: #29313a;
 }
 
-.bg-warning {
-  --bs-bg-opacity: 0.6;
+.sub-research {
+  background-color: #a8e9f8;
+  color: #3d3520;
 }
 
-.bg-info {
-  --bs-bg-opacity: 0.6;
-}
-
-.subbadge-text-color {
-  color: #41464b
+.sub-award {
+  background-color: #ffe08a;
+  color: #23383d;
 }
 
 
@@ -333,7 +503,9 @@ button.boxed {
 .deadline-next-icon { font-size: 0.85rem; }
 .deadline-next-date { color: #94a3b8; }
 
-.deadline-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+/* Sets its own leading: this is a dense scanning table, so it should not
+   inherit the body's prose line-height. */
+.deadline-table { width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.35; }
 
 .deadline-table th {
   font-family: 'Inter', sans-serif;
@@ -888,6 +1060,16 @@ button.boxed {
   .drawer__body [role="tabpanel"] p {
     text-align: left;
   }
+
+  /* BibTeX keeps its aligned columns rather than wrapping, so on a phone it
+     scrolls sideways. Buy back what fits with smaller type and tighter
+     padding — most entries then land inside the screen. No edge fade: it
+     would dim the last characters once you scrolled to the end, and a
+     part-visible line is already the clearest "there is more" signal. */
+  .drawer__body pre {
+    font-size: 11px;
+    padding: 12px;
+  }
 }
 
 .drawer__body pre {
@@ -898,6 +1080,8 @@ button.boxed {
   line-height: 1.6;
   white-space: pre;
   overflow-x: auto;
+  /* Don't hand the sideways swipe to the page behind the sheet. */
+  overscroll-behavior-x: contain;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -981,9 +1165,18 @@ button.boxed {
   #publications > tbody > tr > td {
     display: block;
     width: auto !important;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   #introduction .profileimage {
     margin: 0 0 16px;
+  }
+
+  /* Stacked, the thumbnail sits directly above the title; the 7px row padding
+     that separates the two columns on desktop becomes a gap in the wrong axis. */
+  .pub-thumb-cell {
+    width: auto;
+    padding-bottom: 2px;
   }
 }

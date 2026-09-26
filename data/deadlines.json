@@ -2,19 +2,6 @@
   "last_updated": "Sep 26, 2026",
   "conferences": [
     {
-      "name": "ICLR",
-      "year": 2027,
-      "link": "https://iclr.cc/Conferences/2027",
-      "deadline": "2026-09-26T11:59:59Z",
-      "deadline_quoted": "Sep 25, 2026, 11:59 PM AoE",
-      "deadline_label": "Paper Submission",
-      "registration_deadline": null,
-      "registration_deadline_quoted": null,
-      "registration_label": null,
-      "place": "San Francisco",
-      "date": "April 26-30, 2027"
-    },
-    {
       "name": "CVPR",
       "year": 2027,
       "link": "https://cvpr.thecvf.com/",
@@ -120,6 +107,15 @@
       "deadline": "2027-08-29",
       "place": "TBA",
       "date": "Jan-Feb 2028 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "ICLR",
+      "year": 2028,
+      "link": "https://iclr.cc/",
+      "deadline": "2027-09-19",
+      "place": "TBA",
+      "date": "Apr 2028 (est.)",
       "estimated": true
     },
     {

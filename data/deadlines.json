@@ -1,15 +1,6 @@
 {
-  "last_updated": "Sep 25, 2026",
+  "last_updated": "Sep 26, 2026",
   "conferences": [
-    {
-      "name": "AISTATS",
-      "year": 2027,
-      "link": "https://aistats.org/",
-      "deadline": "2026-09-26",
-      "place": "TBA",
-      "date": "Apr-May 2027 (est.)",
-      "estimated": true
-    },
     {
       "name": "ICLR",
       "year": 2027,
@@ -129,6 +120,15 @@
       "deadline": "2027-08-29",
       "place": "TBA",
       "date": "Jan-Feb 2028 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "AISTATS",
+      "year": 2028,
+      "link": "https://aistats.org/",
+      "deadline": "2027-09-26",
+      "place": "TBA",
+      "date": "Apr-May 2028 (est.)",
       "estimated": true
     },
     {

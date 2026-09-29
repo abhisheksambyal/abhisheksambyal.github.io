@@ -127,16 +127,15 @@
         <td>
 
           <!-- Introduction -->
-          <table id="introduction" role="presentation">
-            <tbody>
-              <tr>
-                <td>
+          <section id="introduction" class="hero" aria-labelledby="intro-name">
+            <div class="hero__body">
+              <div class="hero__photo">
                   <img id="profileimage" class="profileimage" alt="Abhishek Singh Sambyal" src="images/thumbs/profile.jpg"
                     width="205" height="255" fetchpriority="high" decoding="async">
-                </td>
-                <td>
-                  <div>
-                    <h1><span class="firstname">Abhishek</span> <span class="lastname">Singh Sambyal</span></h1>
+              </div>
+              <div class="hero__text">
+                    <p class="eyebrow">01 &mdash; Introduction</p>
+                    <h1 id="intro-name"><span class="firstname">Abhishek</span> <span class="lastname">Singh Sambyal</span></h1>
 
                     <p class="emails">
                       <b>email (academics): </b>
@@ -179,20 +178,20 @@
                         class="boxed" target="_blank" rel="noopener"><i class="fa-solid fa-file" aria-hidden="true"></i>
                         CV</a>
                     </p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              </div>
+            </div>
 
-          <hr>
+            <dl class="hero__meta">
+              <div><dt>Postdoc</dt><dd>University of Oulu</dd></div>
+              <div><dt>Group</dt><dd>IMEDS</dd></div>
+              <div><dt>PhD</dt><dd>IIT Ropar</dd></div>
+            </dl>
+          </section>
 
           <!-- News -->
-          <table id="news" role="presentation">
-            <tbody>
-              <tr>
-                <td>
-                  <h2 class="section-heading">Recent News</h2>
+          <section id="news" class="home-section">
+            <h2 class="section-heading"><span class="section-num">02</span>Recent News</h2>
+            <div class="card">
 
                   <ul class="news-list">
                     <li><span class="badge bg-secondary">02 Mar 2026</span>/<span
@@ -294,21 +293,14 @@
                         rel="noopener">(OxML).</a>
                     </li>
                   </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <hr>
+            </div>
+          </section>
 
           <!-- Publications -->
-          <table id="publications" class="pub-table" role="presentation">
+          <section id="publications" class="home-section">
+            <h2 class="section-heading"><span class="section-num">03</span>Publications</h2>
+          <table class="pub-table" role="presentation">
             <tbody>
-              <tr>
-                <td colspan="2">
-                  <h2 class="section-heading">Publications</h2>
-                </td>
-              </tr>
 
               <tr class="pub-row">
                 <td class="pub-thumb-cell"><a href="images/miccai24-lsplus.png" target="_blank" rel="noopener">
@@ -768,55 +760,44 @@
 
             </tbody>
           </table>
+          </section>
 
-          <hr>
+          <!-- Academic Service + Teaching -->
+          <section id="ta" class="home-section">
+            <h2 class="section-heading"><span class="section-num">04</span>Service &amp; Teaching</h2>
+            <div class="card-grid">
+              <div class="card" id="academicservice">
+                <p class="eyebrow">Academic Service</p>
+                <h3 class="card__title">Peer review</h3>
+                <ul class="card__list">
+                  <li>Reviewer: MICCAI '24, '25</li>
+                </ul>
+              </div>
+              <div class="card">
+                <p class="eyebrow">Teaching</p>
+                <h3 class="card__title">Teaching Assistant</h3>
+                <ul class="card__list teaching-list">
+                  <li><strong>Digital Image Processing &amp; Analysis (CS517),</strong> Autumn Semester 2021, 2022
+                    <br>
+                    with <a href="https://drbathula.github.io/" target="_blank" rel="noopener">Dr.
+                      Deepti R. Bathula</a>
+                  </li>
+                  <li><strong>Computer Vision (CS518),</strong> Autumn Semester 2020
+                    <br>
+                    with <a href="https://sites.google.com/site/raamsubram/" target="_blank"
+                      rel="noopener">Dr. Ramanathan Subramanian</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
 
-          <!-- Academic Service -->
-          <table id="academicservice" role="presentation">
-            <tbody>
-              <tr>
-                <td>
-                  <h2 class="section-heading">Academic Service</h2>
-                  <ul>
-                    <li>Reviewer: MICCAI '24, '25</li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <hr>
-
-          <!-- Teaching -->
-          <table id="ta" role="presentation">
-            <tbody>
-              <tr>
-                <td>
-                  <h2 class="section-heading">Teaching</h2>
-                  <ul class="teaching-list">
-                    <li><strong>Digital Image Processing &amp; Analysis (CS517),</strong> Autumn Semester 2021, 2022
-                      <br>
-                      Teaching Assistant with <a href="https://drbathula.github.io/" target="_blank" rel="noopener">Dr.
-                        Deepti R. Bathula</a>
-                    </li>
-                    <li><strong>Computer Vision (CS518),</strong> Autumn Semester 2020
-                      <br>
-                      Teaching Assistant with <a href="https://sites.google.com/site/raamsubram/" target="_blank"
-                        rel="noopener">Dr. Ramanathan Subramanian</a>
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <hr>
-
-          <div id="template-reference">
-            <p>Template from <a href="http://www.cs.berkeley.edu/~barron/" target="_blank" rel="noopener">1</a>, <a
+          <footer id="template-reference" class="page-footer">
+            <span>&mdash; End of page &mdash;</span>
+            <span>Template from <a href="http://www.cs.berkeley.edu/~barron/" target="_blank" rel="noopener">1</a>, <a
                 href="https://www.cs.cmu.edu/~dpathak/" target="_blank" rel="noopener">2</a> and <a
-                href="http://jeffdonahue.com/" target="_blank" rel="noopener">3</a></p>
-          </div>
+                href="http://jeffdonahue.com/" target="_blank" rel="noopener">3</a></span>
+          </footer>
         </td>
       </tr>
     </tbody>

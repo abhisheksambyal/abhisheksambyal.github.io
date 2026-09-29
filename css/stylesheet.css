@@ -28,6 +28,22 @@ Replace all color values with the respective HSL values. */
   --topbar-h: 46px;
 }
 
+/* Surface tokens. Monochrome: a cool off-white page, white blocks lifted off
+   it by a hairline and a soft, neutral shadow — never a coloured one. */
+:root {
+  --page-bg: #f3f4f6;
+  --surface: #ffffff;
+  --surface-2: #fafbfc;
+  --line: #e4e7eb;
+  --line-strong: #cbd2da;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --lift-sm: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 14px -8px rgb(15 23 42 / 0.08);
+  --lift: 0 1px 2px rgb(15 23 42 / 0.04), 0 18px 40px -20px rgb(15 23 42 / 0.16);
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--topbar-h);
@@ -60,26 +76,188 @@ body {
   font-weight: 400;
   line-height: 1.55;
   padding-top: var(--topbar-h);
+  background: var(--page-bg);
 }
 
 .page {
   width: 100%;
-  max-width: 840px;
+  max-width: 900px;
   margin-inline: auto;
   border: 0;
   border-spacing: 0;
   border-collapse: separate;
 }
 
+.page > tbody > tr > td {
+  padding: 32px 16px 0;
+}
+
 h1 {
   margin-bottom: 6px;
 }
 
+/* Numbered section title with a hairline running out to the right edge. */
 .section-heading {
-  margin: 0 0 12px;
-  font-size: 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 18px;
+  font-size: 22px;
   font-weight: 400;
   line-height: 1.2;
+  color: var(--ink);
+}
+
+.section-heading::after {
+  content: "";
+  flex: 1;
+  align-self: center;
+  height: 1px;
+  background: var(--line-strong);
+  opacity: 0.7;
+}
+
+.section-num {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.home-section {
+  margin-top: 56px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Introduction: the one block lifted clearly off the page ---- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 44px 44px 0;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--lift);
+}
+
+/* A faint quarter-disc in the corner, echoing the photo's frame. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -110px;
+  right: -110px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 70%, #eef0f3 0%, #f5f6f8 60%, transparent 71%);
+  pointer-events: none;
+}
+
+.hero__body {
+  position: relative;
+  display: flex;
+  gap: 36px;
+  align-items: flex-start;
+}
+
+.hero__photo {
+  flex: none;
+}
+
+.hero__text {
+  min-width: 0;
+}
+
+.hero h1 {
+  margin: 0 0 14px;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.hero .firstname,
+.hero .lastname {
+  font-size: clamp(28px, 5vw, 38px);
+  letter-spacing: -0.02em;
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero__meta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 32px 0 0;
+  padding: 18px 0 22px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.hero__meta div {
+  display: flex;
+  gap: 10px;
+}
+
+.hero__meta dt {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.hero__meta dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ---- Cards: quieter than the hero — hairline plus a whisper of shadow ---- */
+.card {
+  padding: 26px 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--lift-sm);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card__title {
+  margin: 0 0 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--line-strong);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.card__list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 56px 0 32px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 /* A real <h3> for the document outline, sized to sit in the body copy rather
@@ -101,29 +279,9 @@ h1 {
   font-weight: 700;
 }
 
-#introduction {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
 p {
   margin-top: revert;
   margin-bottom: revert;
-}
-
-#publications {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-#ta {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-#academicservice {
-  margin-right: 10px;
-  margin-left: 10px;
 }
 
 /* One row, always. The bar is position:fixed, so a wrapping nav silently ate
@@ -198,12 +356,6 @@ p {
   padding-top: 10px;
 }
 
-hr {
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(to right, #e9ecef, rgba(0, 0, 0, 0.75), #e9ecef);
-}
-
 /* Abstract / BibTeX source blocks. Kept in the DOM as the drawer's content
    source and as crawlable text; never rendered in place. */
 .abstract_text,
@@ -212,36 +364,48 @@ hr {
 }
 
 .profileimage {
+  display: block;
   width: 205px;
   height: 255px;
   object-fit: cover;
-  margin: 20px;
-  margin-left: 0px;
-  border-radius: 8px;
-  box-shadow: 3px 3px 6px #888;
+  border-radius: var(--radius-md);
+  box-shadow: var(--lift-sm);
 }
 
-/* Publication rows: replaces valign="top" / cellpadding="7" and the inline
-   style repeated on every thumbnail. */
-.pub-table td {
-  vertical-align: top;
-  padding: 7px;
+/* Publications: the rows are still a table in the markup (pub-drawer.js
+   finds each paper's text through closest('td')), but each row renders as
+   its own card. */
+.pub-table,
+.pub-table > tbody {
+  display: block;
+  width: 100%;
 }
 
-/* A hairline between entries so eight stacked papers read as a list rather
-   than one continuous block. Between rows only — not under the heading, and
-   not trailing after the last paper. */
-.pub-row + .pub-row td {
-  border-top: 1px solid #ebeef2;
+.pub-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 22px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--lift-sm);
+  transition: border-color 160ms ease;
+}
+
+.pub-row + .pub-row {
+  margin-top: 12px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pub-row:hover {
+    border-color: var(--line-strong);
+  }
 }
 
 .pub-row td {
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-
-.pub-thumb-cell {
-  width: 182px;
+  display: block;
+  padding: 0;
 }
 
 /* Same three-step hierarchy the drawer uses: the title carries the weight,
@@ -273,11 +437,6 @@ hr {
   /* background: #fff; */
   /* border: 1px solid #000; */
   /* border-radius: 15px; */
-}
-
-#news {
-  margin-right: 10px;
-  margin-left: 10px;
 }
 
 #news li {
@@ -314,20 +473,13 @@ hr {
   margin-top: 12px;
 }
 
-
-#template-reference {
-  font-size: 12px;
-  margin: 10px;
-  text-align: right;
-}
-
 /* ################################################### */
 /* Boxed style for CV/Github and Publication: abstract/code etc. */
 
 .boxed:active {
   text-decoration: underline;
   /* background: #dbc9f1; */
-  background: #c9cef1;
+  background: #e5e7eb;
   color: #121212 !important
 }
 
@@ -335,7 +487,7 @@ hr {
 @media (hover: hover) and (pointer: fine) {
   .boxed:hover {
     text-decoration: underline;
-    background: #c9cef1;
+    background: #e5e7eb;
     color: #121212 !important
   }
 }
@@ -463,7 +615,7 @@ button.boxed {
 
 .deadline-card-header h6 {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-weight: 700;
   font-size: 0.85rem;
   color: #1e293b;
@@ -489,7 +641,7 @@ button.boxed {
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-size: 0.7rem;
   color: #334155;
   background: #f8fafc;
@@ -508,7 +660,7 @@ button.boxed {
 .deadline-table { width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.35; }
 
 .deadline-table th {
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-weight: 600;
   font-size: 0.65rem;
   text-transform: uppercase;
@@ -546,7 +698,7 @@ button.boxed {
 
 .deadline-tag {
   display: inline-block;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-size: 0.58rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -556,11 +708,11 @@ button.boxed {
   white-space: nowrap;
 }
 
-.deadline-tag.tag-cv  { background: #ede9fe; color: #6d28d9; }
+.deadline-tag.tag-cv  { background: #eef0f3; color: #334155; }
 .deadline-tag.tag-ml  { background: #dbeafe; color: #1d4ed8; }
 .deadline-tag.tag-med { background: #dcfce7; color: #15803d; }
 
-.deadline-status { font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 600; white-space: nowrap; }
+.deadline-status { font-family: inherit; font-size: 0.62rem; font-weight: 600; white-space: nowrap; }
 .deadline-status.status-passed   { color: #94a3b8; font-weight: 500; }
 .deadline-status.status-upcoming { color: #16a34a; }
 .deadline-status.status-soon     { color: #d97706; }
@@ -575,7 +727,7 @@ button.boxed {
 
 .deadline-est {
   display: inline-block;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-size: 0.52rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -588,7 +740,7 @@ button.boxed {
 }
 
 .deadline-section-label {
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-size: 0.62rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -614,7 +766,7 @@ button.boxed {
 .deadline-card-footer-text { text-align: right; }
 
 .deadline-ics-btn {
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-size: 0.66rem;
   font-weight: 600;
   color: #1772d0;
@@ -659,7 +811,7 @@ button.boxed {
   right: -10%;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(15, 23, 42, 0.025) 0%, transparent 70%);
   z-index: 0;
 }
 
@@ -679,7 +831,7 @@ button.boxed {
 }
 
 .phone-badge-description h4 {
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   color: #0f172a;
   font-weight: 800;
   font-size: 1.35rem;
@@ -697,14 +849,14 @@ button.boxed {
 
 .phone-badge-description .highlight-box {
   background: rgba(241, 245, 249, 0.5);
-  border-left: 3px solid #6366f1;
+  border: 1px solid var(--line);
   padding: 10px 16px;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   margin: 18px 0;
 }
 
 .phone-badge-description .highlight-box p {
-  margin-bottom: 0;
+  margin: 0;
   font-weight: 500;
   color: #334155;
   font-size: 0.9rem;
@@ -728,7 +880,7 @@ button.boxed {
   content: "→";
   position: absolute;
   left: 0;
-  color: #6366f1;
+  color: var(--ink);
   font-weight: bold;
 }
 
@@ -753,10 +905,10 @@ button.boxed {
 }
 
 .search-pill:hover {
-  border-color: #6366f1;
-  color: #6366f1;
+  border-color: var(--line-strong);
+  color: var(--ink);
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.08);
+  box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.12);
 }
 
 .phone-badge-visual {
@@ -808,7 +960,7 @@ button.boxed {
 
 .badge-caption {
   margin-top: 18px;
-  font-family: 'Roboto', sans-serif;
+  font-family: inherit;
   font-weight: 500;
   color: #333;
 }
@@ -1160,23 +1312,44 @@ button.boxed {
    shrinking the images, which would distort them: a table cell constrains an
    image to the column, not the viewport. */
 
+@media (max-width: 700px) {
+  .card-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 600px) {
-  #introduction > tbody > tr > td,
-  #publications > tbody > tr > td {
-    display: block;
-    width: auto !important;
-    padding-left: 0;
-    padding-right: 0;
+  .page > tbody > tr > td {
+    padding-top: 20px;
   }
 
-  #introduction .profileimage {
-    margin: 0 0 16px;
+  .hero {
+    padding: 24px 20px 0;
+    border-radius: 18px;
   }
 
-  /* Stacked, the thumbnail sits directly above the title; the 7px row padding
-     that separates the two columns on desktop becomes a gap in the wrong axis. */
-  .pub-thumb-cell {
-    width: auto;
-    padding-bottom: 2px;
+  .hero__body {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero__meta {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .home-section {
+    margin-top: 40px;
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+
+  /* Stacked, the thumbnail sits directly above the title. */
+  .pub-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 18px;
   }
 }

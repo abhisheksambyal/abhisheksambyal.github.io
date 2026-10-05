@@ -211,14 +211,40 @@ hr {
   display: none;
 }
 
-.profileimage {
+/* Profile photo: click flips between the aurora photo and the close-up. */
+.profile-flip {
+  position: relative;
+  display: block;
   width: 205px;
   height: 255px;
+  margin: 20px 20px 20px 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.profile-flip img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  margin: 20px;
-  margin-left: 0px;
   border-radius: 8px;
   box-shadow: 3px 3px 6px #888;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: perspective(800px) rotateY(0);
+  transition: transform 700ms cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+
+.profile-flip img + img,
+.profile-flip[aria-pressed="true"] img {
+  transform: perspective(800px) rotateY(180deg);
+}
+
+.profile-flip[aria-pressed="true"] img + img {
+  transform: perspective(800px) rotateY(360deg);
 }
 
 /* Publication rows: replaces valign="top" / cellpadding="7" and the inline
@@ -1134,6 +1160,10 @@ button.boxed {
     transform: none;
   }
 
+  .profile-flip img {
+    transition: none;
+  }
+
   @starting-style {
     #pub-drawer[open] {
       transform: none;
@@ -1169,7 +1199,7 @@ button.boxed {
     padding-right: 0;
   }
 
-  #introduction .profileimage {
+  #introduction .profile-flip {
     margin: 0 0 16px;
   }
 

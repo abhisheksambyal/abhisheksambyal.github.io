@@ -2,30 +2,20 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <script type="text/javascript" src="js/hidebib.js"></script>
 
-  <title>Abhishek Singh Sambyal</title>
-
-  <meta name="Abhishek Singh Sambyal's Homepage" http-equiv="Content-Type" content="Abhishek Singh Sambyal's Homepage">
+  <title>Resources | Abhishek Singh Sambyal</title>
   <meta name="description" content="Abhishek's personal website with latest updates about his research.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
 
-  <!-- ROBOTO Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-  <!-- INTER Font -->
+  <!-- Fonts: Space Grotesk (display), DM Sans (body), JetBrains Mono (labels) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap"
     rel="stylesheet">
 
   <!-- JavaScript to scramble emails -->
@@ -38,68 +28,78 @@
 </head>
 
 <body>
-  <div class="topbar">
-    <ul class="nav fixed-top justify-content-center bg-dark">
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">&#8592 back (Home)</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="papersift.html" style="color: #f09228; font-weight: 700;">Try PaperSift</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="col-lg-8 mx-auto p-4 py-md-5">
-    <div class="mx-auto p-4 py-md-2">
-      <h5>Datasets</h5>
-      <ul class="resource-heading">
-        <li>
-          <b>Computational Biology Datasets Suitable For Machine Learning:</b> <a
-            href="https://github.com/blengerich/CompBioDatasetsForMachineLearning"
-            target="_blank">https://github.com/blengerich/CompBioDatasetsForMachineLearning</a>
-        </li>
-      </ul>
+  <nav class="site-nav" aria-label="Primary">
+    <div class="container site-nav__inner">
+      <a class="site-nav__brand" href="index.html">Abhishek Singh Sambyal</a>
+      <div class="site-nav__links">
+        <a href="index.html#news">News</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#ta">Teaching</a>
+        <a href="deadlines.html">Deadlines</a>
+        <a href="resources.html" aria-current="page">Resources</a>
+        <a class="site-nav__accent" href="papersift.html">PaperSift</a>
+        <a href="https://www.dropbox.com/scl/fi/pygritm6vwzoujvl417wi/CV_Resume_Abhishek_Singh_Sambyal.pdf?rlkey=ovgqjsf0jn3v293fnaj5l36dg&st=8a6djsc0&dl=0"
+          target="_blank" rel="noopener">CV</a>
+      </div>
     </div>
+  </nav>
 
-    <div class="mx-auto p-4 py-md-2">
-      <h5>Conference Deadlines</h5>
-      <ul class="resource-heading">
-        <li>
-          <b>AI Conference Deadlines:</b> <a href="https://paperswithcode.co/ai-deadlines"
-            target="_blank">https://paperswithcode.co/ai-deadlines</a>
-        </li>
-        <li>
-          <b>CS Conference Deadlines:</b> <a href="https://cs-deadlines.cin.ufpe.br/"
-            target="_blank">https://cs-deadlines.cin.ufpe.br/</a>
-        </li>
-      </ul>
+  <main class="container section">
+    <header class="page-head">
+      <h1 class="section-title">Useful links</h1>
+    </header>
+
+    <div class="resource-grid">
+      <section class="card resource-card">
+        <h2>Datasets</h2>
+        <ul>
+          <li>
+            <a href="https://github.com/blengerich/CompBioDatasetsForMachineLearning" target="_blank"
+              rel="noopener">Computational Biology Datasets Suitable For Machine Learning</a>
+            <span class="resource-host">github.com/blengerich/CompBioDatasetsForMachineLearning</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card resource-card">
+        <h2>Conference deadlines</h2>
+        <ul>
+          <li>
+            <a href="https://paperswithcode.co/ai-deadlines" target="_blank" rel="noopener">AI Conference
+              Deadlines</a>
+            <span class="resource-host">paperswithcode.co/ai-deadlines</span>
+          </li>
+          <li>
+            <a href="https://cs-deadlines.cin.ufpe.br/" target="_blank" rel="noopener">CS Conference Deadlines</a>
+            <span class="resource-host">cs-deadlines.cin.ufpe.br</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card resource-card">
+        <h2>Conference rankings</h2>
+        <ul>
+          <li>
+            <a href="https://www.cs.ox.ac.uk/people/michael.wooldridge/conferences.html" target="_blank"
+              rel="noopener">Michael Wooldridge's conference rankings</a>
+            <span class="resource-host">cs.ox.ac.uk/people/michael.wooldridge/conferences.html</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card resource-card">
+        <h2>Institution and faculty search</h2>
+        <ul>
+          <li>
+            <a href="https://csrankings.org/" target="_blank" rel="noopener">CSRankings</a>
+            Identify institutions and faculty actively engaged in research across a number of areas of computer
+            science.
+            <span class="resource-host">csrankings.org</span>
+          </li>
+        </ul>
+      </section>
     </div>
-
-    <div class="mx-auto p-4 py-md-2">
-      <h5>Conference Rankings</h5>
-      <ul class="resource-heading">
-        <li>
-          <a href="https://www.cs.ox.ac.uk/people/michael.wooldridge/conferences.html"
-            target="_blank">https://www.cs.ox.ac.uk/people/michael.wooldridge/conferences.html</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="mx-auto p-4 py-md-2">
-      <h5>Institution and Faculty Search</h5>
-      <ul class="resource-heading">
-        <li>
-          <b>Identify institutions and faculty actively engaged in research across a number of areas of computer
-            science:</b> <a href="https://csrankings.org/" target="_blank">https://csrankings.org/</a>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-
-
-
-
+  </main>
 
   <!-- <div class="col-lg-8 mx-auto p-4 py-md-5">
     <table class="table table-striped table-responsive table-sm" cellspacing="0" width="100%">
@@ -180,7 +180,6 @@
             </tr>
         </tbody>
     </table> -->
-  </div>
 
 </body>
 

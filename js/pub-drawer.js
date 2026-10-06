@@ -151,7 +151,7 @@
     var root = document.getElementById(pubId);
     if (!root) return;
 
-    var cell = root.closest('td') || root.parentNode;
+    var cell = root.closest('.pub-card') || root.parentNode;
     var paperTitle = cell.querySelector('.papertitle');
     var venue = cell.querySelector('em');
     var abstract = root.querySelector('.abstract_text');

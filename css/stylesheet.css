@@ -548,7 +548,7 @@ button.boxed {
 .deadline-card-header .deadline-year {
   font-family: monospace;
   font-size: 0.72rem;
-  color: #94a3b8;
+  color: #475569;
   background: #f1f5f9;
   padding: 2px 8px;
   border-radius: 4px;
@@ -577,7 +577,7 @@ button.boxed {
 .deadline-next-banner a { color: #1772d0; font-weight: 600; text-decoration: none; }
 .deadline-next-banner a:hover { text-decoration: underline; }
 .deadline-next-icon { font-size: 0.85rem; }
-.deadline-next-date { color: #94a3b8; }
+.deadline-next-date { color: #64748b; }
 
 /* Sets its own leading: this is a dense scanning table, so it should not
    inherit the body's prose line-height. */
@@ -586,10 +586,10 @@ button.boxed {
 .deadline-table th {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #94a3b8;
+  color: #64748b;
   padding: 0 6px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f5f9;
@@ -623,7 +623,7 @@ button.boxed {
 .deadline-tag {
   display: inline-block;
   font-family: 'Inter', sans-serif;
-  font-size: 0.58rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -636,8 +636,8 @@ button.boxed {
 .deadline-tag.tag-ml  { background: #dbeafe; color: #1d4ed8; }
 .deadline-tag.tag-med { background: #dcfce7; color: #15803d; }
 
-.deadline-status { font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 600; white-space: nowrap; }
-.deadline-status.status-passed   { color: #94a3b8; font-weight: 500; }
+.deadline-status { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
+.deadline-status.status-passed   { color: #64748b; font-weight: 500; }
 .deadline-status.status-upcoming { color: #16a34a; }
 .deadline-status.status-soon     { color: #d97706; }
 .deadline-status.status-urgent   { color: #dc2626; }
@@ -647,15 +647,15 @@ button.boxed {
 
 .deadline-stack { display: flex; flex-direction: column; gap: 2px; }
 .deadline-substack { white-space: nowrap; }
-.deadline-subtype { color: #94a3b8; font-weight: 600; }
+.deadline-subtype { color: #64748b; font-weight: 600; }
 
 .deadline-est {
   display: inline-block;
   font-family: 'Inter', sans-serif;
-  font-size: 0.52rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #f59e0b;
+  color: #b45309;
   background: #fef3c7;
   padding: 0 4px;
   border-radius: 2px;
@@ -665,7 +665,7 @@ button.boxed {
 
 .deadline-section-label {
   font-family: 'Inter', sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -683,17 +683,17 @@ button.boxed {
   margin-top: 10px;
   padding-top: 8px;
   border-top: 1px solid #eef0f3;
-  font-size: 0.68rem;
-  color: #94a3b8;
+  font-size: 0.6875rem;
+  color: #64748b;
 }
 
 .deadline-card-footer-text { text-align: right; }
 
 .deadline-ics-btn {
   font-family: 'Inter', sans-serif;
-  font-size: 0.66rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  color: #1772d0;
+  color: #1565c0;
   background: #eef4fc;
   border: 1px solid #d7e6f9;
   border-radius: 5px;

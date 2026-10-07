@@ -200,14 +200,23 @@ p {
    highlighting a search result, and a magnifier appears. The icon sits inside
    the link's left padding, absolutely placed, so the bar never shifts. */
 .topbar .nav-link--accent .ps-label {
+  position: relative;
+  isolation: isolate;
   display: inline-block;
-  padding-inline: 2px;
-  margin-inline: -2px;
+  transition: color 200ms ease 120ms;
+}
+
+/* The marker is its own layer behind the text, scaled in from the left. */
+.topbar .nav-link--accent .ps-label::before {
+  content: "";
+  position: absolute;
+  inset: 0 -2px;
+  z-index: -1;
   border-radius: 2px;
-  background-image: linear-gradient(#f09228, #f09228);
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-  transition: background-size 380ms var(--ease-out), color 200ms ease 120ms;
+  background: #f09228;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 380ms var(--ease-out);
 }
 
 .topbar .nav-link--accent .ps-icon {
@@ -223,8 +232,11 @@ p {
 }
 
 .topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label {
-  background-size: 100% 100%;
   color: #212529;
+}
+
+.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label::before {
+  transform: scaleX(1);
 }
 
 .topbar .nav-link--accent:is(:hover, :focus-visible) .ps-icon {
@@ -980,6 +992,7 @@ button.boxed {
 
   .profile-flip img,
   .topbar .nav-link--accent .ps-label,
+  .topbar .nav-link--accent .ps-label::before,
   .topbar .nav-link--accent .ps-icon {
     transition: none;
   }

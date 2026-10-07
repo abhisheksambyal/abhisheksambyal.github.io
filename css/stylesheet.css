@@ -190,8 +190,46 @@ p {
    .topbar prefix to outrank `.topbar a { color: white }`. */
 .topbar a.nav-link--accent,
 .topbar a.nav-link--accent:hover {
+  position: relative;
   color: #f09228;
   font-weight: 700;
+  text-decoration: none;
+}
+
+/* PaperSift hover: an orange marker stroke sweeps in behind the label, as if
+   highlighting a search result, and a magnifier appears. The icon sits inside
+   the link's left padding, absolutely placed, so the bar never shifts. */
+.topbar .nav-link--accent .ps-label {
+  display: inline-block;
+  padding-inline: 2px;
+  margin-inline: -2px;
+  border-radius: 2px;
+  background-image: linear-gradient(#f09228, #f09228);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 380ms var(--ease-out), color 200ms ease 120ms;
+}
+
+.topbar .nav-link--accent .ps-icon {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transform: translate(4px, -50%) scale(0.7);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+  pointer-events: none;
+}
+
+.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label {
+  background-size: 100% 100%;
+  color: #212529;
+}
+
+.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-icon {
+  opacity: 1;
+  transform: translate(0, -50%) scale(1);
 }
 
 .paperlinks {
@@ -940,7 +978,9 @@ button.boxed {
     transform: none;
   }
 
-  .profile-flip img {
+  .profile-flip img,
+  .topbar .nav-link--accent .ps-label,
+  .topbar .nav-link--accent .ps-icon {
     transition: none;
   }
 

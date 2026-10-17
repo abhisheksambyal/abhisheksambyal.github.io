@@ -261,40 +261,14 @@ hr {
   display: none;
 }
 
-/* Profile photo: click flips between the aurora photo and the close-up. */
-.profile-flip {
-  position: relative;
-  display: block;
+.profileimage {
   width: 205px;
   height: 255px;
-  margin: 20px 20px 20px 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-
-.profile-flip img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   object-fit: cover;
+  margin: 20px;
+  margin-left: 0px;
   border-radius: 8px;
   box-shadow: 3px 3px 6px #888;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: perspective(800px) rotateY(0);
-  transition: transform 700ms cubic-bezier(0.34, 1.25, 0.64, 1);
-}
-
-.profile-flip img + img,
-.profile-flip[aria-pressed="true"] img {
-  transform: perspective(800px) rotateY(180deg);
-}
-
-.profile-flip[aria-pressed="true"] img + img {
-  transform: perspective(800px) rotateY(360deg);
 }
 
 /* Publication rows: replaces valign="top" / cellpadding="7" and the inline
@@ -539,7 +513,6 @@ button.boxed {
 
 .deadline-card-header h6 {
   margin: 0;
-  font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 0.85rem;
   color: #1e293b;
@@ -565,7 +538,6 @@ button.boxed {
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
-  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   color: #334155;
   background: #f8fafc;
@@ -584,7 +556,6 @@ button.boxed {
 .deadline-table { width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.35; }
 
 .deadline-table th {
-  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.6875rem;
   text-transform: uppercase;
@@ -622,7 +593,6 @@ button.boxed {
 
 .deadline-tag {
   display: inline-block;
-  font-family: 'Inter', sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -632,11 +602,11 @@ button.boxed {
   white-space: nowrap;
 }
 
-.deadline-tag.tag-cv  { background: #ede9fe; color: #6d28d9; }
+.deadline-tag.tag-cv  { background: #ccfbf1; color: #0f766e; }
 .deadline-tag.tag-ml  { background: #dbeafe; color: #1d4ed8; }
 .deadline-tag.tag-med { background: #dcfce7; color: #15803d; }
 
-.deadline-status { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
+.deadline-status { font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
 .deadline-status.status-passed   { color: #64748b; font-weight: 500; }
 .deadline-status.status-upcoming { color: #16a34a; }
 .deadline-status.status-soon     { color: #d97706; }
@@ -651,7 +621,6 @@ button.boxed {
 
 .deadline-est {
   display: inline-block;
-  font-family: 'Inter', sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -664,7 +633,6 @@ button.boxed {
 }
 
 .deadline-section-label {
-  font-family: 'Inter', sans-serif;
   font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -690,7 +658,6 @@ button.boxed {
 .deadline-card-footer-text { text-align: right; }
 
 .deadline-ics-btn {
-  font-family: 'Inter', sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
   color: #1565c0;
@@ -990,7 +957,6 @@ button.boxed {
     transform: none;
   }
 
-  .profile-flip img,
   .topbar .nav-link--accent .ps-label,
   .topbar .nav-link--accent .ps-label::before,
   .topbar .nav-link--accent .ps-icon {
@@ -1032,7 +998,7 @@ button.boxed {
     padding-right: 0;
   }
 
-  #introduction .profile-flip {
+  #introduction .profileimage {
     margin: 0 0 16px;
   }
 

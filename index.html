@@ -131,13 +131,8 @@
             <tbody>
               <tr>
                 <td>
-                  <button type="button" id="profileimage" class="profile-flip" aria-pressed="false"
-                    aria-label="Flip profile photo">
-                    <img src="images/thumbs/profile-aurora.jpg" alt="Abhishek Singh Sambyal under the northern lights"
-                      width="205" height="255" fetchpriority="high" decoding="async">
-                    <img src="images/thumbs/profile.jpg" alt="Abhishek Singh Sambyal, close-up"
-                      width="205" height="255" fetchpriority="low" decoding="async">
-                  </button>
+                  <img id="profileimage" class="profileimage" alt="Abhishek Singh Sambyal" src="images/thumbs/profile.jpg"
+                    width="205" height="255" fetchpriority="high" decoding="async">
                 </td>
                 <td>
                   <div>
@@ -873,11 +868,6 @@
         btn.textContent = open ? '---- more ----' : '---- less ----';
       });
     })();
-
-    // Profile photo flip; the animation itself is CSS.
-    document.getElementById('profileimage').addEventListener('click', function () {
-      this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') !== 'true');
-    });
   </script>
 </body>
 

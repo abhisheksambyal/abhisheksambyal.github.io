@@ -7,13 +7,16 @@
 
   <title>Conference Deadlines | Abhishek Singh Sambyal</title>
   <meta name="description" content="Upcoming conference deadlines for computer vision, machine learning, and medical imaging venues.">
-  <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/png" href="images/title-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=Source+Serif+4:opsz,ital,wght@8..60,0,400;8..60,0,600;8..60,1,400&display=swap" rel="stylesheet">
+  <!-- Apply a stored light/dark choice before first paint -->
+  <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <script src="js/theme.js" defer></script>
   <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 
@@ -23,6 +26,7 @@
       <li class="nav-item"><a class="nav-link" href="index.html">&larr; Home</a></li>
       <li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li>
       <li class="nav-item"><a class="nav-link nav-link--accent" href="https://papersift.github.io/" target="_blank" rel="noopener"><svg class="ps-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="10" y1="10" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="ps-label">Try PaperSift</span></a></li>
+      <li class="nav-item"><button type="button" class="theme-toggle" aria-label="Switch colour theme"><svg class="icon-moon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M13.5 9.6A5.5 5.5 0 0 1 6.4 2.5a5.5 5.5 0 1 0 7.1 7.1z" fill="currentColor"/></svg><svg class="icon-sun" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06"/></g></svg></button></li>
     </ul>
   </div>
 

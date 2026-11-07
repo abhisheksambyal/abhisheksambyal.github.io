@@ -1,204 +1,177 @@
-/* Check YT: https://youtu.be/AmY3db_Qs94?t=157
-and change to dark mode.
-Replace all color values with the respective HSL values. */
-/* :root {
-  --bg: hsl(0, 0%, 90%);
-  --fg: hsl(0, 0%, 10%);
-}
+/* ==========================================================================
+   abhisheksambyal.com
+   Type and colour after the editorial academic style: Source Serif 4 for
+   reading, Source Sans 3 for labels and chrome, warm paper, hairlines in
+   place of cards. Layout is a "ledger": section labels in a left gutter,
+   content in a ~42rem measure to the right.
+   ========================================================================== */
 
-@media (prefers-color-scheme:dark) {
-  :root {
-    --bg: hsl(0, 0%, 10%);
-    --fg: hsl(0, 0%, 90%);
-  }
-} */
-
-/* Motion tokens */
 :root {
+  --paper: #f7f6f2;
+  --paper-2: #efede7;
+  --ink: #1c1c1c;
+  --muted: #5c5c5c;
+  --faint: #6f6c65;
+  --line: #d8d4cc;
+  --link: #1a365d;
+  --link-hover: #9b2c2c;
+  --accent: #9b2c2c;
+  --ok: #2f7d4f;
+  --warn: #8f5310;
+  --bad: #b42323;
+  --thumb-bg: #ffffff;
+
+  --sans: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --serif: "Source Serif 4", "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --gutter: 8rem;
+  --gap: 2rem;
+  --topbar-h: 46px;
+
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  color-scheme: light dark;
 }
 
-/* The nav is one non-wrapping row at every width (see .topbar below), so its
-   height is a constant and these two offsets are exact rather than guessed.
-   They previously assumed a single row and left the bar covering content on
-   any viewport where it wrapped. */
-:root {
-  --topbar-h: 46px;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161513;
+    --paper-2: #1f1d1a;
+    --ink: #eceae4;
+    --muted: #a9a59c;
+    --faint: #8f8b82;
+    --line: #3a3732;
+    --link: #90cdf4;
+    --link-hover: #feb2b2;
+    --accent: #feb2b2;
+    --ok: #7bd389;
+    --warn: #f0b86e;
+    --bad: #fc8181;
+    --thumb-bg: #f3f2ee;
+  }
 }
+
+/* ---------- Base ---------- */
+
+* { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: var(--topbar-h);
-}
-
-a {
-  color: #1772d0;
-  text-decoration: none;
-  word-wrap: break-word;
-}
-
-a:hover {
-  color: #f09228;
-  text-decoration: none;
-}
-
-/* Keyboard focus has to read as focus, not as hover. */
-a:focus-visible,
-button:focus-visible,
-summary:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid #1772d0;
-  outline-offset: 2px;
-  border-radius: 2px;
+  scroll-padding-top: calc(var(--topbar-h) + 12px);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: monospace;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.55;
-  padding-top: var(--topbar-h);
-}
-
-.page {
-  width: 100%;
-  max-width: 840px;
-  margin-inline: auto;
-  border: 0;
-  border-spacing: 0;
-  border-collapse: separate;
-}
-
-h1 {
-  margin-bottom: 6px;
-}
-
-.section-heading {
-  margin: 0 0 12px;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-/* A real <h3> for the document outline, sized to sit in the body copy rather
-   than as a display heading. Block, so authors start on the next line. */
-.papertitle {
   margin: 0;
-  font-size: inherit;
-  font-weight: 700;
-  line-height: 1.4;
+  padding-top: var(--topbar-h);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.lastname {
-  font-size: 32px;
-  font-weight: 300;
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  overflow-wrap: break-word;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
 }
 
-.firstname {
-  font-size: 32px;
-  font-weight: 700;
+a:hover {
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
 }
 
-#introduction {
-  margin-right: 10px;
-  margin-left: 10px;
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
-p {
-  margin-top: revert;
-  margin-bottom: revert;
+p { margin: 0 0 0.85em; }
+p:last-child { margin-bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--serif);
+  color: var(--ink);
 }
 
-#publications {
-  margin-right: 10px;
-  margin-left: 10px;
-}
+strong, b { font-weight: 600; }
 
-#ta {
-  margin-right: 10px;
-  margin-left: 10px;
-}
+::selection { background: color-mix(in srgb, var(--link) 22%, transparent); }
 
-#academicservice {
-  margin-right: 10px;
-  margin-left: 10px;
-}
+h1, h2, h3, h4, h5, h6, dl, dd, figure { margin: 0; }
+img, svg, iframe { vertical-align: middle; }
+button { font: inherit; color: inherit; }
+time { font: inherit; }
 
-/* One row, always. The bar is position:fixed, so a wrapping nav silently ate
-   viewport and covered whatever an anchor jump landed on — 93px of a 390px
-   phone at three rows. Scrolling sideways costs the user one gesture; a
-   wrapping bar cost them the top of every section. */
+/* ---------- Top bar ---------- */
+
 .topbar .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  display: flex;
+  height: var(--topbar-h);
+  margin: 0;
+  list-style: none;
+  align-items: center;
   flex-wrap: nowrap;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  /* !important because it has to beat Bootstrap's .justify-content-center
-     utility on this same element, and Bootstrap's utilities are !important by
-     design. `center` on a scroll container puts the overflow on both sides and
-     strands the leading items at a negative offset no scroll position can
-     reach — "Introduction" and "News" become untappable on a phone. The auto
-     margins below centre the row without that failure mode. */
-  justify-content: flex-start !important;
+  /* Not justify-content:center: centring a scroll container strands its
+     first items off-screen on phones. Auto margins below centre it safely. */
+  justify-content: flex-start;
+  background-color: color-mix(in srgb, var(--paper) 86%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 0.5rem;
 }
 
-.topbar .nav::-webkit-scrollbar {
-  display: none;
-}
-
-.topbar .nav-item {
-  flex: none;
-}
-
-/* Auto margins absorb the free space when the row fits (so it reads as
-   centred) and collapse to zero when it doesn't, packing the items to the
-   start so the whole row stays scrollable. */
-.topbar .nav-item:first-child {
-  margin-inline-start: auto;
-}
-
-.topbar .nav-item:last-child {
-  margin-inline-end: auto;
-}
-
-.topbar {
-  font-weight: 400;
-}
+.topbar .nav::-webkit-scrollbar { display: none; }
+.topbar .nav-item { flex: none; }
+.topbar .nav-item:first-child { margin-inline-start: auto; }
+.topbar .nav-item:last-child { margin-inline-end: auto; }
 
 .topbar a {
   display: block;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--muted);
   text-decoration: none;
-  color: white;
   white-space: nowrap;
 }
 
-.topbar a:hover {
-  text-decoration: underline;
-  color: white;
-}
+.topbar a:hover { color: var(--ink); }
 
-/* Underline on hover rather than a weight change: monospace reflows the whole
-   bar when a label goes bold, nudging every item after it. */
-.topbar a:focus-visible {
-  outline-color: #ffffff;
-  outline-offset: -2px;
-}
-
-/* Was an inline style on the anchor; same colour, now themeable. Needs the
-   .topbar prefix to outrank `.topbar a { color: white }`. */
 .topbar a.nav-link--accent,
 .topbar a.nav-link--accent:hover {
   position: relative;
-  color: #f09228;
-  font-weight: 700;
-  text-decoration: none;
+  padding-left: 1.2rem;
+  color: var(--accent);
+  font-weight: 600;
 }
 
-/* PaperSift hover: an orange marker stroke sweeps in behind the label, as if
-   highlighting a search result, and a magnifier appears. The icon sits inside
-   the link's left padding, absolutely placed, so the bar never shifts. */
+/* PaperSift hover: a marker stroke sweeps in behind the label, as if
+   highlighting a search result, and a magnifier appears in the link's left
+   padding. Both are absolutely placed, so the bar never shifts. */
 .topbar .nav-link--accent .ps-label {
   position: relative;
   isolation: isolate;
@@ -206,14 +179,13 @@ p {
   transition: color 200ms ease 120ms;
 }
 
-/* The marker is its own layer behind the text, scaled in from the left. */
 .topbar .nav-link--accent .ps-label::before {
   content: "";
   position: absolute;
-  inset: 0 -2px;
+  inset: 0 -3px;
   z-index: -1;
   border-radius: 2px;
-  background: #f09228;
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 380ms var(--ease-out);
@@ -222,7 +194,7 @@ p {
 .topbar .nav-link--accent .ps-icon {
   position: absolute;
   top: 50%;
-  left: 2px;
+  left: 0.2rem;
   width: 12px;
   height: 12px;
   opacity: 0;
@@ -231,463 +203,512 @@ p {
   pointer-events: none;
 }
 
-.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label {
-  color: #212529;
-}
-
-.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label::before {
-  transform: scaleX(1);
-}
-
+.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label { color: var(--paper); }
+.topbar .nav-link--accent:is(:hover, :focus-visible) .ps-label::before { transform: scaleX(1); }
 .topbar .nav-link--accent:is(:hover, :focus-visible) .ps-icon {
   opacity: 1;
   transform: translate(0, -50%) scale(1);
 }
 
-.paperlinks {
-  padding-top: 10px;
+@media (prefers-reduced-motion: reduce) {
+  .topbar .nav-link--accent .ps-label,
+  .topbar .nav-link--accent .ps-label::before,
+  .topbar .nav-link--accent .ps-icon { transition: none; }
 }
 
-hr {
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(to right, #e9ecef, rgba(0, 0, 0, 0.75), #e9ecef);
+/* ---------- Page frame ---------- */
+
+.wrap {
+  max-width: calc(var(--gutter) + var(--gap) + 42rem);
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-/* Abstract / BibTeX source blocks. Kept in the DOM as the drawer's content
-   source and as crawlable text; never rendered in place. */
-.abstract_text,
-.bibtex_text {
-  display: none;
+/* Masthead: photo sits in the label gutter so it lines up with the
+   section labels below it. */
+.masthead {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  column-gap: var(--gap);
+  align-items: start;
+  padding: 3rem 0 2rem;
 }
 
-.profileimage {
-  width: 205px;
-  height: 255px;
+.masthead__photo {
+  display: block;
+  width: 96px;
+  height: 120px;
   object-fit: cover;
-  margin: 20px;
-  margin-left: 0px;
-  border-radius: 8px;
-  box-shadow: 3px 3px 6px #888;
+  border-radius: 6px;
+  background: var(--paper-2);
 }
 
-/* Publication rows: replaces valign="top" / cellpadding="7" and the inline
-   style repeated on every thumbnail. */
-.pub-table td {
-  vertical-align: top;
-  padding: 7px;
+.masthead h1 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.85rem, 4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-/* A hairline between entries so eight stacked papers read as a list rather
-   than one continuous block. Between rows only — not under the heading, and
-   not trailing after the last paper. */
-.pub-row + .pub-row td {
-  border-top: 1px solid #ebeef2;
+.affil {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
-.pub-row td {
-  padding-top: 16px;
-  padding-bottom: 16px;
+.links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0.9rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.92rem;
 }
 
-.pub-thumb-cell {
-  width: 182px;
+.links-row a { text-decoration: none; }
+.links-row a:hover { text-decoration: underline; }
+.links-row i { width: 1.05em; text-align: center; margin-right: 0.15em; opacity: 0.85; }
+
+.emails {
+  margin: 0.6rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
-/* Same three-step hierarchy the drawer uses: the title carries the weight,
-   the venue steps back, and the award sits between them. */
-.pub-authors {
-  margin: 5px 0 0;
+.emails dt { display: inline; font-weight: 400; }
+.emails dd { display: inline; margin: 0 1.1rem 0 0.25rem; color: var(--ink); }
+
+/* ---------- Ledger rows ---------- */
+
+.ledger {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  column-gap: var(--gap);
+  padding: 1.6rem 0 1.75rem;
+  border-top: 1px solid var(--line);
 }
 
-.pub-meta {
-  margin: 2px 0 0;
-  color: #5c6b7f;
+.ledger__label {
+  position: sticky;
+  top: calc(var(--topbar-h) + 1.25rem);
+  align-self: start;
+  margin: 0.2rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.4;
 }
 
-.pub-award {
-  margin: 2px 0 0;
-  color: #475569;
+.ledger__body { min-width: 0; }
+
+/* ---------- News ---------- */
+
+.news {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
-/* object-fit: contain, not cover. These are method and results figures whose
-   aspect ratios run from 0.91 to 2.31; every one of them used to be squashed
-   into a hard 4:3 box, and cropping a diagram loses its content. The 160x120
-   footprint is unchanged, so the column doesn't move. */
+.news li {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
+  column-gap: 1rem;
+}
+
+.news li + li { margin-top: 0.6rem; }
+
+.news__meta {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.12rem;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.news__kind {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.news__kind--award { color: var(--accent); }
+
+#hiddennews { margin-top: 0.6rem; }
+
+.text-button {
+  display: inline-block;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--link);
+  cursor: pointer;
+}
+
+.text-button:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 0.15em; }
+
+/* ---------- Publications ---------- */
+
+.pubs { display: block; }
+
+.pub {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  column-gap: 1.1rem;
+}
+
+.pub + .pub { margin-top: 1.4rem; }
+
+.pub__thumb {
+  display: block;
+  align-self: start;
+  margin-top: 0.2rem;
+  border-radius: 4px;
+  background: var(--thumb-bg);
+  box-shadow: 0 0 0 1px var(--line);
+  overflow: hidden;
+  transition: box-shadow 140ms ease;
+}
+
+.pub__thumb:hover { box-shadow: 0 0 0 1px var(--muted); }
+
 .pubthumb {
   display: block;
-  width: 160px;
-  height: 120px;
+  width: 96px;
+  height: 72px;
   object-fit: contain;
-  /* padding: 10px; */
-  /* background: #fff; */
-  /* border: 1px solid #000; */
-  /* border-radius: 15px; */
+  padding: 3px;
 }
 
-#news {
-  margin-right: 10px;
-  margin-left: 10px;
+.pub__body { min-width: 0; }
+
+.pub__body > a { text-decoration: none; color: var(--ink); }
+.pub__body > a:hover { color: var(--link-hover); }
+
+.papertitle {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: inherit;
 }
 
-#news li {
-  margin-bottom: 5px;
+.pub-authors,
+.pub-meta,
+.pub-award {
+  margin: 0.15rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 
-.news-list {
-  margin-bottom: 0;
+.pub-meta { color: var(--muted); }
+
+.pub-award {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--accent);
 }
 
-/* Reads as the original plain "---- more ----" link, but it is a real button
-   carrying aria-expanded, so screen readers and the keyboard get the state
-   that the styling deliberately keeps quiet. */
-.news-more {
-  display: inline-block;
-  margin: 10px 0 0;
+.pub-award i { font-size: 0.7rem; margin-right: 0.2rem; }
+
+.paperlinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.plink {
   padding: 0;
   border: 0;
   background: none;
   font: inherit;
-  color: #1772d0;
+  color: var(--link);
+  text-decoration: none;
   cursor: pointer;
 }
 
-.news-more:hover {
-  color: #f09228;
-}
+.plink:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 0.15em; }
 
-#hiddennews {
-  margin-top: 10px;
-}
-
-.teaching-list li + li {
-  margin-top: 12px;
-}
-
-
-#template-reference {
-  font-size: 12px;
-  margin: 10px;
-  text-align: right;
-}
-
-/* ################################################### */
-/* Boxed style for CV/Github and Publication: abstract/code etc. */
-
-.boxed:active {
-  text-decoration: underline;
-  /* background: #dbc9f1; */
-  background: #c9cef1;
-  color: #121212 !important
-}
-
-/* Gated: on touch, :hover sticks after a tap. */
-@media (hover: hover) and (pointer: fine) {
-  .boxed:hover {
-    text-decoration: underline;
-    background: #c9cef1;
-    color: #121212 !important
-  }
-}
-
-.boxed {
-  text-decoration: none !important;
-  color: #000 !important;
-  /* border: 1px solid #839cbf; */
-  border: 1px solid #839cbf;
-  font-family: monospace;
-  padding: 2px 5px 0px;
-  font-size: 14px;
-  /* background: #FFF8DC; */
-  background: #f9fafb;
+.plink + .plink::before {
+  content: "·";
   display: inline-block;
-  vertical-align: bottom;
-  border-radius: 3px;
-  /* margin: 3px; */
-  transition: background-color 120ms ease, color 120ms ease;
+  margin: 0 0.45em;
+  color: var(--faint);
+  text-decoration: none;
 }
 
-/* The abstract/bibtex triggers are <button>, not <a>. */
-button.boxed {
-  line-height: inherit;
-  cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
+/* Abstract / BibTeX source blocks: the drawer's content source, never shown
+   in place. */
+.abstract_text,
+.bibtex_text { display: none; }
+
+/* ---------- Plain lists (service, teaching, resources) ---------- */
+
+.plain-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
 }
 
-.boxed_publication:active {
-  text-decoration: underline;
-  background: #dedede;
-  /* background: #dbc9f1; */
-  color: #121212 !important
+.plain-list li + li { margin-top: 0.55rem; }
+
+.plain-list .sub {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .boxed_publication:hover {
-    text-decoration: underline;
-    background: #dedede;
-    color: #121212 !important
-  }
+/* ---------- Footer ---------- */
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 1.1rem 0 2.5rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
-.boxed_publication {
-  font-size: 12px;
-  background: #ffffff;
-  padding: 1px 5px 1px;
-  margin: 0px;
+/* ---------- Sub-pages ---------- */
+
+.page-head {
+  padding: 2.75rem 0 1.5rem;
 }
 
-/* 11px floor: these carry the date and category of every news item, so they
-   are content, not decoration. Bootstrap's .75em put them at 9.75px. */
-.badge {
-  vertical-align: top;
-  font-size: 11px;
+.page-head h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-/* Category badges. These used to ride Bootstrap's --bs-bg-opacity: 0.6 with a
-   single grey text colour, which put "Presentation" at 3.95:1 — under the 4.5:1
-   floor at 9.75px bold. Each pair below is now stated explicitly and measured;
-   the hues are the ones that were already there, just resolved to opaque tints
-   with enough separation from the ink. */
-.sub-presentation {
-  background-color: #bcd7fd;
-  color: #29313a;
+.page-head p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
 }
 
-.sub-research {
-  background-color: #a8e9f8;
-  color: #3d3520;
-}
+/* ---------- Conference deadlines ---------- */
 
-.sub-award {
-  background-color: #ffe08a;
-  color: #23383d;
-}
-
-
-/* ################################################### */
-/* #########  END  ########### */
-/* ################################################### */
-
-
-
-
-
-/* ########################### */
-/* # Resource Page Stylesheet */
-/* ########################### */
-.heading-spacing {
-  padding-left: 20px;
-  padding-bottom: 20px;
-}
-
-.listitem-spacing {
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
-.resource-heading li {
-  margin-top: 5px;
-}
-
-/* ########################### */
-/* # Conference Deadlines Card */
-/* ########################### */
 .deadline-card {
-  background: #fdfdfd;
-  border: 1px solid #e2e5e9;
-  border-radius: 10px;
-  padding: 20px 22px 16px;
-  margin: 10px 0 30px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin: 0 0 3rem;
+  padding: 1.1rem 0 0.9rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--sans);
 }
 
 .deadline-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eef0f3;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
 }
 
-.deadline-card-header h6 {
+.deadline-card-header h2 {
   margin: 0;
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #1e293b;
-}
-
-.deadline-card-header .deadline-year {
-  font-family: monospace;
-  font-size: 0.72rem;
-  color: #475569;
-  background: #f1f5f9;
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.deadline-card-header .deadline-year.deadline-stale {
-  color: #dc2626;
-  background: #fee2e2;
+  font-family: var(--sans);
+  font-size: 0.78rem;
   font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
+
+.deadline-year {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.deadline-year.deadline-stale { color: var(--bad); font-weight: 600; }
 
 .deadline-next-banner {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.4rem;
   flex-wrap: wrap;
-  font-size: 0.7rem;
-  color: #334155;
-  background: #f8fafc;
-  border: 1px solid #eef0f3;
+  margin-bottom: 1rem;
+  padding: 0.55rem 0.8rem;
+  background: var(--paper-2);
   border-radius: 6px;
-  padding: 7px 10px;
-  margin-bottom: 12px;
+  font-size: 0.85rem;
+  color: var(--ink);
 }
-.deadline-next-banner a { color: #1772d0; font-weight: 600; text-decoration: none; }
-.deadline-next-banner a:hover { text-decoration: underline; }
-.deadline-next-icon { font-size: 0.85rem; }
-.deadline-next-date { color: #64748b; }
 
-/* Sets its own leading: this is a dense scanning table, so it should not
-   inherit the body's prose line-height. */
-.deadline-table { width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.35; }
+.deadline-next-banner a { font-weight: 600; text-decoration: none; }
+.deadline-next-banner a:hover { text-decoration: underline; }
+.deadline-next-icon { font-size: 0.9rem; }
+.deadline-next-date { color: var(--muted); }
+
+.deadline-scroll { overflow-x: auto; }
+
+.deadline-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+}
 
 .deadline-table th {
+  padding: 0 0.5rem 0.55rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.7rem;
   font-weight: 600;
-  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #64748b;
-  padding: 0 6px 8px;
   text-align: left;
-  border-bottom: 1px solid #f1f5f9;
+  color: var(--muted);
 }
 
 .deadline-table td {
-  padding: 7px 6px;
+  padding: 0.5rem;
   vertical-align: middle;
-  border-bottom: 1px solid #f8f9fb;
-  color: #334155;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  color: var(--ink);
 }
 
 .deadline-table tr:last-child td { border-bottom: none; }
-.deadline-table tr:hover td { background: #f8fafc; }
+.deadline-table tbody tr:hover td { background: color-mix(in srgb, var(--paper-2) 70%, transparent); }
 
-/* Rows with a real, officially released deadline (not a pattern-based guess) */
-.deadline-table tr.deadline-row-confirmed td { background: #f0fdf4; }
-.deadline-table tr.deadline-row-confirmed:hover td { background: #dcfce7; }
-.deadline-table tr.deadline-row-confirmed td:first-child { border-left: 2px solid #16a34a; }
+.deadline-table tr.deadline-row-confirmed td { background: color-mix(in srgb, var(--ok) 8%, transparent); }
+.deadline-table tr.deadline-row-confirmed:hover td { background: color-mix(in srgb, var(--ok) 14%, transparent); }
 
-.deadline-confirmed-badge {
-  color: #16a34a;
-  font-size: 0.55rem;
-  vertical-align: middle;
-}
+.deadline-confirmed-badge { color: var(--ok); font-size: 0.7rem; vertical-align: middle; }
 
-.deadline-conf-name { font-weight: 600; color: #0f172a; white-space: nowrap; }
+.deadline-conf-name { font-family: var(--serif); font-weight: 600; white-space: nowrap; }
 .deadline-conf-name a { color: inherit; text-decoration: none; }
-.deadline-conf-name a:hover { color: #1772d0; }
+.deadline-conf-name a:hover { color: var(--link-hover); }
 
 .deadline-tag {
   display: inline-block;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 1px 6px;
+  padding: 0 0.4rem;
+  border: 1px solid var(--line);
   border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
   white-space: nowrap;
 }
 
-.deadline-tag.tag-cv  { background: #ccfbf1; color: #0f766e; }
-.deadline-tag.tag-ml  { background: #dbeafe; color: #1d4ed8; }
-.deadline-tag.tag-med { background: #dcfce7; color: #15803d; }
+.deadline-tag.tag-ml { color: var(--link); border-color: color-mix(in srgb, var(--link) 35%, transparent); }
+.deadline-tag.tag-med { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, transparent); }
 
-.deadline-status { font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
-.deadline-status.status-passed   { color: #64748b; font-weight: 500; }
-.deadline-status.status-upcoming { color: #16a34a; }
-.deadline-status.status-soon     { color: #d97706; }
-.deadline-status.status-urgent   { color: #dc2626; }
+.deadline-status { font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.deadline-status.status-passed { color: var(--faint); font-weight: 400; }
+.deadline-status.status-upcoming { color: var(--ok); }
+.deadline-status.status-soon { color: var(--warn); }
+.deadline-status.status-urgent { color: var(--bad); }
 
-.deadline-date     { white-space: nowrap; }
-.deadline-location { color: #64748b; white-space: nowrap; }
+.deadline-date { white-space: nowrap; }
+.deadline-location { color: var(--muted); white-space: nowrap; }
 
 .deadline-stack { display: flex; flex-direction: column; gap: 2px; }
 .deadline-substack { white-space: nowrap; }
-.deadline-subtype { color: #64748b; font-weight: 600; }
+.deadline-subtype { color: var(--muted); font-weight: 600; }
 
 .deadline-est {
   display: inline-block;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #b45309;
-  background: #fef3c7;
+  margin-left: 4px;
   padding: 0 4px;
   border-radius: 2px;
-  margin-left: 4px;
+  background: color-mix(in srgb, var(--warn) 14%, transparent);
+  color: var(--warn);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   vertical-align: middle;
 }
 
+.deadline-ok-dot { color: var(--ok); }
+
 .deadline-section-label {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #64748b;
-  padding: 12px 6px 4px !important;
+  padding: 1rem 0.5rem 0.3rem !important;
   border-bottom: none !important;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
 }
+
+.deadline-loading { text-align: center; color: var(--muted) !important; padding: 1.25rem 0 !important; }
 
 .deadline-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid #eef0f3;
-  font-size: 0.6875rem;
-  color: #64748b;
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
 .deadline-card-footer-text { text-align: right; }
 
 .deadline-ics-btn {
-  font-size: 0.6875rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #1565c0;
-  background: #eef4fc;
-  border: 1px solid #d7e6f9;
-  border-radius: 5px;
-  padding: 4px 9px;
+  color: var(--link);
   cursor: pointer;
   white-space: nowrap;
+  transition: border-color 120ms ease, background-color 120ms ease;
 }
-.deadline-ics-btn:hover:not(:disabled) { background: #e0edfb; }
+
+.deadline-ics-btn:hover:not(:disabled) { border-color: var(--link); background: var(--paper-2); }
 .deadline-ics-btn:disabled { opacity: 0.5; cursor: default; }
 
-@media (max-width: 600px) {
-  .deadline-card { padding: 14px 12px 10px; overflow-x: auto; }
-  .deadline-table { font-size: 11px; min-width: 520px; }
+@media (max-width: 640px) {
+  .deadline-table { min-width: 560px; }
+  .deadline-card-footer-text { text-align: left; }
 }
 
-/* ################################################### */
-/* Publication drawer (bottom sheet) */
+/* ==========================================================================
+   Publication drawer (bottom sheet) — behaviour in js/pub-drawer.js
+   ========================================================================== */
 
 #pub-drawer {
-  /* Reset the UA dialog box and pin it to the bottom edge. */
   position: fixed;
   inset: 0;
-  /* The dialog spans the visible width and pins to the bottom-left of it;
-     the sheet inside does the centering. --drawer-vw is that visible width,
-     measured by js/pub-drawer.js: the page overflows horizontally on narrow
-     screens, which inflates the containing block of a fixed element, and
-     centering against that inflated box pushes the sheet off screen. */
+  /* --drawer-vw is the visible width, measured by js/pub-drawer.js. */
   margin: auto 0 0;
   width: var(--drawer-vw, 100%);
   max-width: none;
@@ -696,7 +717,7 @@ button.boxed {
   border: 0;
   background: transparent;
   overflow: visible;
-
+  color: var(--ink);
   transform: translateY(0);
   opacity: 1;
   transition:
@@ -706,7 +727,6 @@ button.boxed {
     display 320ms allow-discrete;
 }
 
-/* Exit state, and — via @starting-style — the pre-entry state. */
 #pub-drawer:not([open]) {
   transform: translateY(100%);
   opacity: 0;
@@ -720,7 +740,7 @@ button.boxed {
 }
 
 #pub-drawer::backdrop {
-  background: rgb(15 23 42 / 0.32);
+  background: rgb(20 18 15 / 0.36);
   opacity: 1;
   transition:
     opacity 320ms var(--ease-out),
@@ -728,34 +748,25 @@ button.boxed {
     display 320ms allow-discrete;
 }
 
-#pub-drawer:not([open])::backdrop {
-  opacity: 0;
-}
+#pub-drawer:not([open])::backdrop { opacity: 0; }
 
 @starting-style {
-  #pub-drawer[open]::backdrop {
-    opacity: 0;
-  }
+  #pub-drawer[open]::backdrop { opacity: 0; }
 }
 
 .drawer__sheet {
   display: flex;
   flex-direction: column;
   width: min(720px, 100%);
-  margin-inline: auto;
   max-height: 85dvh;
-  background: #ffffff;
-  border: 0;
-  border-radius: 14px 14px 0 0;
-  /* Elevation only. The dimmed backdrop already separates the sheet from the
-     page, so an outline on top of the shadow would be doing the job twice. */
-  box-shadow: 0 -6px 24px rgb(15 23 42 / 0.20);
+  margin-inline: auto;
   overflow: hidden;
+  background: var(--paper);
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 -6px 28px rgb(0 0 0 / 0.2);
 }
 
-.drawer__sheet:focus {
-  outline: none;
-}
+.drawer__sheet:focus { outline: none; }
 
 .drawer__grabber {
   flex: none;
@@ -763,7 +774,7 @@ button.boxed {
   height: 4px;
   margin: 8px auto 0;
   border-radius: 999px;
-  background: #cbd5e1;
+  background: var(--line);
 }
 
 .drawer__head {
@@ -771,58 +782,50 @@ button.boxed {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 18px 10px;
+  padding: 12px 20px 12px;
 }
 
 .drawer__title {
   margin: 0;
-  font-family: monospace;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.45;
-  color: #0f172a;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ink);
 }
 
 .drawer__venue {
   margin: 4px 0 0;
-  font-size: 12px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
   line-height: 1.4;
-  color: #64748b;
+  color: var(--muted);
 }
 
 .drawer__close {
   flex: none;
+  width: 30px;
+  height: 30px;
   margin-left: auto;
-  width: 28px;
-  height: 28px;
   padding: 0;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: #f8fafc;
-  color: #334155;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
   transition: background-color 120ms ease, color 120ms ease;
 }
 
-.drawer__close:active {
-  background: #e2e8f0;
-}
+.drawer__close:hover { background: var(--paper-2); color: var(--ink); }
 
-@media (hover: hover) and (pointer: fine) {
-  .drawer__close:hover {
-    background: #e2e8f0;
-    color: #0f172a;
-  }
-}
-
-/* Tabs */
 .drawer__tabs {
   flex: none;
   position: relative;
   display: flex;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--line);
 }
 
 .drawer__tabs [role="tab"] {
@@ -830,16 +833,16 @@ button.boxed {
   padding: 9px 0 11px;
   border: 0;
   background: transparent;
-  font-family: monospace;
-  font-size: 12px;
-  color: #64748b;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--muted);
   cursor: pointer;
   transition: color 120ms ease;
 }
 
 .drawer__tabs [role="tab"][aria-selected="true"] {
-  color: #0f172a;
-  font-weight: 700;
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .drawer__tab-indicator {
@@ -848,104 +851,76 @@ button.boxed {
   left: 0;
   width: 50%;
   height: 2px;
-  background: #1772d0;
+  background: var(--ink);
   transform: translateX(0);
   transition: transform 200ms var(--ease-in-out);
 }
 
-/* Panels */
 .drawer__body {
   flex: 1 1 auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 16px 18px 22px;
+  padding: 16px 20px 24px;
 }
 
-.drawer__body [role="tabpanel"] {
-  opacity: 1;
-  transition: opacity 120ms ease;
-}
-
-.drawer__body [role="tabpanel"].is-swapping {
-  opacity: 0;
-}
+.drawer__body [role="tabpanel"] { opacity: 1; transition: opacity 120ms ease; }
+.drawer__body [role="tabpanel"].is-swapping { opacity: 0; }
 
 .drawer__body [role="tabpanel"] p {
   margin: 0;
-  font-size: 13px;
+  font-family: var(--serif);
+  font-size: 0.98rem;
   line-height: 1.65;
-  color: #1e293b;
-  text-align: justify;
-}
-
-/* Justified monospace opens rivers once the measure gets short. */
-@media (max-width: 600px) {
-  .drawer__body [role="tabpanel"] p {
-    text-align: left;
-  }
-
-  /* BibTeX keeps its aligned columns rather than wrapping, so on a phone it
-     scrolls sideways. Buy back what fits with smaller type and tighter
-     padding — most entries then land inside the screen. No edge fade: it
-     would dim the last characters once you scrolled to the end, and a
-     part-visible line is already the clearest "there is more" signal. */
-  .drawer__body pre {
-    font-size: 11px;
-    padding: 12px;
-  }
+  color: var(--ink);
+  hyphens: auto;
 }
 
 .drawer__body pre {
-  /* System monospace: no webfont to wait on, and it keeps the aligned
-     columns crisp on every platform. */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: var(--mono);
   font-size: 12px;
   line-height: 1.6;
   white-space: pre;
-  overflow-x: auto;
-  /* Don't hand the sideways swipe to the page behind the sheet. */
-  overscroll-behavior-x: contain;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 14px 16px;
-  margin: 0;
-  color: #1e293b;
+  color: var(--ink);
   tab-size: 2;
+}
+
+@media (max-width: 600px) {
+  .drawer__body pre { font-size: 11px; padding: 12px; }
 }
 
 .drawer__copy {
   display: block;
   margin: 0 0 10px auto;
-  padding: 3px 9px;
-  border: 1px solid #839cbf;
-  border-radius: 3px;
-  background: #f9fafb;
-  font-family: monospace;
-  font-size: 12px;
-  color: #0f172a;
+  padding: 3px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink);
   cursor: pointer;
   transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 
-.drawer__copy:active {
-  background: #dedede;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .drawer__copy:hover {
-    background: #dedede;
-  }
-}
+.drawer__copy:hover { background: var(--paper-2); }
 
 .drawer__copy.is-copied {
-  background: #ecfdf5;
-  border-color: #6ee7b7;
-  color: #047857;
+  border-color: var(--ok);
+  color: var(--ok);
 }
 
-/* Fewer and gentler, not zero: keep the fade, drop the travel. */
+/* ---------- Reduced motion ---------- */
+
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
   #pub-drawer {
     transition:
       opacity 150ms ease,
@@ -953,20 +928,10 @@ button.boxed {
       display 150ms allow-discrete;
   }
 
-  #pub-drawer:not([open]) {
-    transform: none;
-  }
-
-  .topbar .nav-link--accent .ps-label,
-  .topbar .nav-link--accent .ps-label::before,
-  .topbar .nav-link--accent .ps-icon {
-    transition: none;
-  }
+  #pub-drawer:not([open]) { transform: none; }
 
   @starting-style {
-    #pub-drawer[open] {
-      transform: none;
-    }
+    #pub-drawer[open] { transform: none; }
   }
 
   #pub-drawer::backdrop {
@@ -976,36 +941,46 @@ button.boxed {
       display 150ms allow-discrete;
   }
 
-  .drawer__tab-indicator {
-    transition: none;
-  }
+  .drawer__tab-indicator { transition: none; }
 }
 
+/* ---------- Narrow screens: the gutter folds away ---------- */
 
-/* ################################################### */
-/* Narrow screens: the page is built from layout tables, whose min-content
-   width (thumbnail column + text column) forced the whole document ~460px
-   wide and made it scroll sideways on any phone. Stack the cells instead of
-   shrinking the images, which would distort them: a table cell constrains an
-   image to the column, not the viewport. */
+@media (max-width: 640px) {
+  .wrap { padding: 0 1rem; }
 
-@media (max-width: 600px) {
-  #introduction > tbody > tr > td,
-  #publications > tbody > tr > td {
-    display: block;
-    width: auto !important;
-    padding-left: 0;
-    padding-right: 0;
+  .masthead {
+    grid-template-columns: 64px minmax(0, 1fr);
+    column-gap: 1rem;
+    padding: 1.75rem 0 1.5rem;
   }
 
-  #introduction .profileimage {
-    margin: 0 0 16px;
+  .masthead__photo { width: 64px; height: 80px; }
+
+  .emails dd { display: block; margin: 0 0 0.15rem; }
+  .emails dt { display: block; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .ledger {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.25rem 0 1.5rem;
   }
 
-  /* Stacked, the thumbnail sits directly above the title; the 7px row padding
-     that separates the two columns on desktop becomes a gap in the wrong axis. */
-  .pub-thumb-cell {
-    width: auto;
-    padding-bottom: 2px;
+  .ledger__label {
+    position: static;
+    margin: 0 0 0.75rem;
   }
+
+  .news li { grid-template-columns: minmax(0, 1fr); }
+  .news__meta { flex-direction: row; gap: 0.6rem; padding-top: 0; }
+  .news li + li { margin-top: 0.85rem; }
+
+  .pub { grid-template-columns: 72px minmax(0, 1fr); column-gap: 0.85rem; }
+  .pubthumb { width: 72px; height: 54px; }
+}
+
+@media print {
+  .topbar, #pub-drawer, .text-button { display: none !important; }
+  body { padding-top: 0; background: #fff; color: #000; }
+  .ledger__label { position: static; }
+  #hiddennews { display: block !important; }
 }

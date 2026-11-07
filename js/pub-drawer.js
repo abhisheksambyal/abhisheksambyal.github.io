@@ -4,9 +4,6 @@
 // <pre class="bibtex_text"> stay in the markup inside their
 // <div class="paperlinks" id="..."> and are hidden by CSS. The drawer reads
 // their text on open, so the HTML remains the single source of truth.
-//
-// js/hidebib.js is untouched and still drives the news "---- more ----"
-// expander; only the publication triggers are handled here.
 
 (function () {
   'use strict';
@@ -151,7 +148,7 @@
     var root = document.getElementById(pubId);
     if (!root) return;
 
-    var cell = root.closest('td') || root.parentNode;
+    var cell = root.closest('.pub__body') || root.parentNode;
     var paperTitle = cell.querySelector('.papertitle');
     var venue = cell.querySelector('em');
     var abstract = root.querySelector('.abstract_text');

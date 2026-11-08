@@ -1,15 +1,6 @@
 {
-  "last_updated": "Nov 07, 2026",
+  "last_updated": "Nov 08, 2026",
   "conferences": [
-    {
-      "name": "CVPR",
-      "year": 2027,
-      "link": "https://cvpr.thecvf.com/",
-      "deadline": "2026-11-08",
-      "place": "TBA",
-      "date": "Jun 2027 (est.)",
-      "estimated": true
-    },
     {
       "name": "ISBI",
       "year": 2027,
@@ -125,6 +116,15 @@
       "deadline": "2027-09-26",
       "place": "TBA",
       "date": "Apr-May 2028 (est.)",
+      "estimated": true
+    },
+    {
+      "name": "CVPR",
+      "year": 2028,
+      "link": "https://cvpr.thecvf.com/",
+      "deadline": "2027-11-08",
+      "place": "TBA",
+      "date": "Jun 2028 (est.)",
       "estimated": true
     },
     {

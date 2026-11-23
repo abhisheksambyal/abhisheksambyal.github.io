@@ -179,7 +179,7 @@
     if (!el) return;
     if (!upcoming.length) {
       el.style.display = 'none';
-      el.innerHTML = '';
+      el.replaceChildren();
       return;
     }
     var c = upcoming[0];
@@ -216,7 +216,7 @@
 
     var tbody = document.getElementById('deadline-tbody');
     if (!tbody) return;
-    tbody.innerHTML = '';
+    tbody.replaceChildren();
 
     function row(c) {
       var t = TAGS[c.name] || { area: '?', cls: '' };

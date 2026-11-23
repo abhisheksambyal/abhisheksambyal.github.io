@@ -2,25 +2,58 @@
    abhisheksambyal.com
    Type and colour after the editorial academic style: Source Serif 4 for
    reading, Source Sans 3 for labels and chrome, warm paper, hairlines in
-   place of cards. Theme follows the OS until the visitor picks one with the
-   top-bar button (js/theme.js). Layout is a "ledger": section labels in a left gutter,
+   place of cards. Layout is a "ledger": section labels in a left gutter,
    content in a ~42rem measure to the right.
+
+   Theme: <meta name="color-scheme"> is the single source of truth. It stays
+   "light dark" (follow the OS) unless the visitor overrides it with the
+   top-bar button (js/theme.js), and CSS maps it to the color-scheme
+   property, which drives every light-dark() token below.
    ========================================================================== */
 
 :root {
-  --paper: #fbfaf6;
-  --paper-2: #f1efe8;
-  --ink: #111111;
-  --muted: #474747;
-  --faint: #5c5c5c;
-  --line: #d6d1c6;
-  --link: #174ea6;
-  --link-hover: #9b2c2c;
-  --accent: #9b2c2c;
-  --ok: #24693f;
-  --warn: #8a4d0c;
-  --bad: #a81e1e;
-  --thumb-bg: #ffffff;
+  /* Raw palette, one pair per token. */
+  --paper-light: #fbfaf6;
+  --paper-dark: #161513;
+  --paper-2-light: #f1efe8;
+  --paper-2-dark: #1f1d1a;
+  --ink-light: #111111;
+  --ink-dark: #eceae4;
+  --muted-light: #474747;
+  --muted-dark: #a9a59c;
+  --faint-light: #5c5c5c;
+  --faint-dark: #8f8b82;
+  --line-light: #d6d1c6;
+  --line-dark: #3a3732;
+  --link-light: #174ea6;
+  --link-dark: #90cdf4;
+  --link-hover-light: #9b2c2c;
+  --link-hover-dark: #feb2b2;
+  --accent-light: #9b2c2c;
+  --accent-dark: #feb2b2;
+  --ok-light: #24693f;
+  --ok-dark: #7bd389;
+  --warn-light: #8a4d0c;
+  --warn-dark: #f0b86e;
+  --bad-light: #a81e1e;
+  --bad-dark: #fc8181;
+  --thumb-bg-light: #ffffff;
+  --thumb-bg-dark: #f3f2ee;
+
+  /* Fallback for browsers without light-dark(): light values... */
+  --paper: var(--paper-light);
+  --paper-2: var(--paper-2-light);
+  --ink: var(--ink-light);
+  --muted: var(--muted-light);
+  --faint: var(--faint-light);
+  --line: var(--line-light);
+  --link: var(--link-light);
+  --link-hover: var(--link-hover-light);
+  --accent: var(--accent-light);
+  --ok: var(--ok-light);
+  --warn: var(--warn-light);
+  --bad: var(--bad-light);
+  --thumb-bg: var(--thumb-bg-light);
 
   --sans: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
   --serif: "Source Serif 4", "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
@@ -28,53 +61,64 @@
 
   --gutter: 8rem;
   --gap: 2rem;
-  --topbar-h: 46px;
+  --topbar-h: 2.875rem;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
-  color-scheme: light;
+  /* Base must stay "light dark"; the <meta> override is mapped below. */
+  color-scheme: light dark;
 }
 
-/* Dark tokens: from the OS setting unless the visitor picked light, or from
-   an explicit dark choice (js/theme.js sets <html data-theme>). */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #161513;
-    --paper-2: #1f1d1a;
-    --ink: #eceae4;
-    --muted: #a9a59c;
-    --faint: #8f8b82;
-    --line: #3a3732;
-    --link: #90cdf4;
-    --link-hover: #feb2b2;
-    --accent: #feb2b2;
-    --ok: #7bd389;
-    --warn: #f0b86e;
-    --bad: #fc8181;
-    --thumb-bg: #f3f2ee;
-    color-scheme: dark;
-    -webkit-font-smoothing: antialiased;
+:root:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
+:root:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
+
+/* ...and dark values from the OS setting. */
+@supports not (color: light-dark(white, black)) {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: var(--paper-dark);
+      --paper-2: var(--paper-2-dark);
+      --ink: var(--ink-dark);
+      --muted: var(--muted-dark);
+      --faint: var(--faint-dark);
+      --line: var(--line-dark);
+      --link: var(--link-dark);
+      --link-hover: var(--link-hover-dark);
+      --accent: var(--accent-dark);
+      --ok: var(--ok-dark);
+      --warn: var(--warn-dark);
+      --bad: var(--bad-dark);
+      --thumb-bg: var(--thumb-bg-dark);
+    }
   }
 }
 
-:root[data-theme="dark"] {
-  --paper: #161513;
-  --paper-2: #1f1d1a;
-  --ink: #eceae4;
-  --muted: #a9a59c;
-  --faint: #8f8b82;
-  --line: #3a3732;
-  --link: #90cdf4;
-  --link-hover: #feb2b2;
-  --accent: #feb2b2;
-  --ok: #7bd389;
-  --warn: #f0b86e;
-  --bad: #fc8181;
-  --thumb-bg: #f3f2ee;
-  color-scheme: dark;
-  -webkit-font-smoothing: antialiased;
+@supports (color: light-dark(white, black)) {
+  :root {
+    --paper: light-dark(var(--paper-light), var(--paper-dark));
+    --paper-2: light-dark(var(--paper-2-light), var(--paper-2-dark));
+    --ink: light-dark(var(--ink-light), var(--ink-dark));
+    --muted: light-dark(var(--muted-light), var(--muted-dark));
+    --faint: light-dark(var(--faint-light), var(--faint-dark));
+    --line: light-dark(var(--line-light), var(--line-dark));
+    --link: light-dark(var(--link-light), var(--link-dark));
+    --link-hover: light-dark(var(--link-hover-light), var(--link-hover-dark));
+    --accent: light-dark(var(--accent-light), var(--accent-dark));
+    --ok: light-dark(var(--ok-light), var(--ok-dark));
+    --warn: light-dark(var(--warn-light), var(--warn-dark));
+    --bad: light-dark(var(--bad-light), var(--bad-dark));
+    --thumb-bg: light-dark(var(--thumb-bg-light), var(--thumb-bg-dark));
+  }
+}
+
+/* Non-colour branches for the rendered dark scheme: an explicit dark
+   override, or the OS in dark mode with no light override. */
+:root:has(> head > meta[name="color-scheme"][content="dark"]) body { -webkit-font-smoothing: antialiased; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) body { -webkit-font-smoothing: antialiased; }
 }
 
 /* ---------- Base ---------- */
@@ -97,6 +141,13 @@ body {
   line-height: 1.62;
   font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
+}
+
+/* Cross-fade between the site's pages (progressive enhancement). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
 }
 
 a {
@@ -183,13 +234,14 @@ time { font: inherit; }
 
 .topbar a:hover { color: var(--ink); }
 
-/* Theme toggle: shows the moon in light mode and the sun in dark mode, i.e.
-   the mode a click switches to. */
+/* Theme toggle. The button holds both options (icon + visually hidden
+   action text); CSS shows the one that switches away from the rendered
+   scheme, so it stays correct with no JS when the OS setting changes. */
 .theme-toggle {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   margin-left: 0.35rem;
   padding: 0;
   border: 0;
@@ -200,16 +252,32 @@ time { font: inherit; }
 }
 
 .theme-toggle:hover { color: var(--ink); background: var(--paper-2); }
-.theme-toggle svg { width: 16px; height: 16px; }
-.theme-toggle .icon-sun { display: none; }
+.theme-toggle svg { display: block; width: 16px; height: 16px; }
+.theme-toggle .to-light { display: none; }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle {
+  .to-light { display: block; }
+  .to-dark { display: none; }
 }
 
-:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-toggle {
+    .to-light { display: block; }
+    .to-dark { display: none; }
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Set for one frame while the theme switches, so every colour changes at
    once instead of fading through half-switched states. */
@@ -323,9 +391,35 @@ time { font: inherit; }
   font-size: 0.92rem;
 }
 
-.links-row a { text-decoration: none; }
-.links-row a:hover { text-decoration: underline; }
-.links-row i { width: 1.05em; text-align: center; margin-right: 0.15em; opacity: 0.85; }
+/* Icons sit a fixed gap from the label with the bottom of their visible
+   ink on the text baseline, like the letters, and every glyph sized to the
+   same ink height (the size the live site used). Values come from
+   pixel-measuring each Font Awesome glyph: --icon-dy lifts glyphs whose ink
+   hangs below the baseline. */
+.links-row a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  text-decoration: none;
+}
+
+/* Underline the label only: on the link itself it would run under the icon. */
+.links-row a:hover span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.links-row i {
+  font-size: var(--icon-size, 1em);
+  translate: 0 var(--icon-dy, 0);
+  opacity: 0.85;
+}
+
+.links-row .fa-google-scholar { --icon-size: 1em; --icon-dy: -0.125em; }
+.links-row .fa-github { --icon-size: 1.058em; --icon-dy: -0.085em; }
+.links-row .fa-linkedin-in { --icon-size: 1.143em; --icon-dy: 0em; }
+.links-row .fa-file-lines { --icon-size: 1em; --icon-dy: -0.125em; }
 
 .emails {
   margin: 0.6rem 0 0;
@@ -753,7 +847,7 @@ time { font: inherit; }
 .deadline-ics-btn:hover:not(:disabled) { border-color: var(--link); background: var(--paper-2); }
 .deadline-ics-btn:disabled { opacity: 0.5; cursor: default; }
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
   .deadline-table { min-width: 560px; }
   .deadline-card-footer-text { text-align: left; }
 }
@@ -762,65 +856,79 @@ time { font: inherit; }
    Publication drawer (bottom sheet) — behaviour in js/pub-drawer.js
    ========================================================================== */
 
+/* The dialog is the sheet itself, pinned to the bottom centre, so a click
+   anywhere beside or above it lands on ::backdrop and closedby="any"
+   light-dismisses it. Entry/exit follow the top-layer pattern: @starting-style
+   for entry, display + overlay with allow-discrete for exit, and a
+   [data-closing] hook that js/pub-drawer.js uses where exit transitions are
+   unsupported. */
 #pub-drawer {
-  position: fixed;
   inset: 0;
-  /* --drawer-vw is the visible width, measured by js/pub-drawer.js. */
-  margin: auto 0 0;
-  width: var(--drawer-vw, 100%);
-  max-width: none;
+  margin: auto auto 0;
+  width: min(720px, 100%);
+  max-width: 100%;
   max-height: 85dvh;
   padding: 0;
   border: 0;
-  background: transparent;
-  overflow: visible;
+  border-radius: 14px 14px 0 0;
+  background: var(--paper);
   color: var(--ink);
-  transform: translateY(0);
-  opacity: 1;
-  transition:
-    transform 320ms var(--ease-drawer),
-    opacity 320ms var(--ease-drawer),
-    overlay 320ms allow-discrete,
-    display 320ms allow-discrete;
-}
+  box-shadow: 0 -6px 28px rgb(0 0 0 / 0.2);
+  overflow: hidden;
 
-#pub-drawer:not([open]) {
-  transform: translateY(100%);
   opacity: 0;
-}
+  transition-property: opacity, translate, display, overlay;
+  transition-duration: 320ms;
+  transition-timing-function: var(--ease-drawer);
+  transition-behavior: allow-discrete;
 
-@starting-style {
-  #pub-drawer[open] {
-    transform: translateY(100%);
-    opacity: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    translate: 0 100%;
   }
 }
 
-#pub-drawer::backdrop {
-  background: rgb(20 18 15 / 0.36);
+#pub-drawer[open]:where(:not([data-closing])) {
   opacity: 1;
-  transition:
-    opacity 320ms var(--ease-out),
-    overlay 320ms allow-discrete,
-    display 320ms allow-discrete;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    translate: 0 0;
+
+    @starting-style {
+      translate: 0 100%;
+    }
+  }
 }
 
-#pub-drawer:not([open])::backdrop { opacity: 0; }
+/* Keep scroll gestures from reaching the page underneath (instead of
+   locking <body> overflow). */
+#pub-drawer:modal { overscroll-behavior: contain; }
 
-@starting-style {
-  #pub-drawer[open]::backdrop { opacity: 0; }
+#pub-drawer::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgb(20 18 15 / 0);
+  transition-property: background-color, display, overlay;
+  transition-duration: 320ms;
+  transition-timing-function: var(--ease-out);
+  transition-behavior: allow-discrete;
+}
+
+#pub-drawer[open]:where(:not([data-closing]))::backdrop {
+  background-color: rgb(20 18 15 / 0.36);
+
+  @starting-style {
+    background-color: rgb(20 18 15 / 0);
+  }
 }
 
 .drawer__sheet {
   display: flex;
   flex-direction: column;
-  width: min(720px, 100%);
   max-height: 85dvh;
-  margin-inline: auto;
-  overflow: hidden;
-  background: var(--paper);
-  border-radius: 14px 14px 0 0;
-  box-shadow: 0 -6px 28px rgb(0 0 0 / 0.2);
 }
 
 .drawer__sheet:focus { outline: none; }
@@ -916,6 +1024,7 @@ time { font: inherit; }
 .drawer__body {
   flex: 1 1 auto;
   overflow-y: auto;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding: 16px 20px 24px;
 }
@@ -948,7 +1057,7 @@ time { font: inherit; }
   tab-size: 2;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
   .drawer__body pre { font-size: 11px; padding: 12px; }
 }
 
@@ -978,32 +1087,16 @@ time { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  #pub-drawer {
-    transition:
-      opacity 150ms ease,
-      overlay 150ms allow-discrete,
-      display 150ms allow-discrete;
-  }
-
-  #pub-drawer:not([open]) { transform: none; }
-
-  @starting-style {
-    #pub-drawer[open] { transform: none; }
-  }
-
-  #pub-drawer::backdrop {
-    transition:
-      opacity 150ms ease,
-      overlay 150ms allow-discrete,
-      display 150ms allow-discrete;
-  }
+  /* The slide only runs with no-preference; this shortens the fade. */
+  #pub-drawer,
+  #pub-drawer::backdrop { transition-duration: 150ms; }
 
   .drawer__tab-indicator { transition: none; }
 }
 
 /* ---------- Narrow screens: the gutter folds away ---------- */
 
-@media (max-width: 640px) {
+@media (max-width: 40em) {
   .wrap { padding: 0 1rem; }
 
   .site-footer { padding-left: 0; }

@@ -4,6 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <!-- Apply a stored light/dark override before first paint (see js/theme.js) -->
+  <script>try{var s=localStorage.getItem('color-scheme')||localStorage.getItem('theme');if(s==='light'||s==='dark')document.querySelector('meta[name="color-scheme"]').content=s}catch(e){}</script>
+  <meta name="text-scale" content="scale">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>Abhishek Singh Sambyal</title>
   <meta name="description"
@@ -77,8 +82,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=Source+Serif+4:opsz,ital,wght@8..60,0,400;8..60,0,600;8..60,1,400&display=swap" rel="stylesheet">
 
   <!-- Abhishek's Custom CSS -->
-  <!-- Apply a stored light/dark choice before first paint -->
-  <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
   <script src="js/theme.js" defer></script>
   <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 
@@ -107,24 +110,24 @@
       <li class="nav-item"><a class="nav-link" href="deadlines.html">Deadlines</a></li>
       <li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li>
       <li class="nav-item"><a class="nav-link nav-link--accent" href="https://papersift.github.io/" target="_blank" rel="noopener"><svg class="ps-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><line x1="10" y1="10" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="ps-label">Try PaperSift</span></a></li>
-      <li class="nav-item"><button type="button" class="theme-toggle" aria-label="Switch colour theme"><svg class="icon-moon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M13.5 9.6A5.5 5.5 0 0 1 6.4 2.5a5.5 5.5 0 1 0 7.1 7.1z" fill="currentColor"/></svg><svg class="icon-sun" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06"/></g></svg></button></li>
+      <li class="nav-item"><button type="button" class="theme-toggle"><span class="to-dark"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M13.5 9.6A5.5 5.5 0 0 1 6.4 2.5a5.5 5.5 0 1 0 7.1 7.1z" fill="currentColor"/></svg><span class="visually-hidden">Switch to dark theme</span></span><span class="to-light"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06"/></g></svg><span class="visually-hidden">Switch to light theme</span></span></button></li>
     </ul>
   </div>
 
   <main class="wrap">
 
           <!-- Introduction -->
-          <header id="introduction" class="masthead" aria-labelledby="intro-name">
+          <header id="introduction" class="masthead">
             <img id="profileimage" class="masthead__photo" alt="Abhishek Singh Sambyal" src="images/thumbs/profile.jpg"
               width="96" height="120" fetchpriority="high" decoding="async">
             <div>
               <h1 id="intro-name">Abhishek Singh Sambyal</h1>
               <p class="affil">Postdoctoral Researcher &middot; IMEDS Group, University of Oulu</p>
               <p class="links-row">
-                <a href="https://scholar.google.com/citations?hl=en&user=FX5YpV8AAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener"><i class="fa-brands fa-google-scholar" aria-hidden="true"></i>Scholar</a>
-                <a href="https://github.com/abhisheksambyal" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i>GitHub</a>
-                <a href="https://www.linkedin.com/in/abhishek-singh-sambyal/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>LinkedIn</a>
-                <a href="https://www.dropbox.com/scl/fi/pygritm6vwzoujvl417wi/CV_Resume_Abhishek_Singh_Sambyal.pdf?rlkey=ovgqjsf0jn3v293fnaj5l36dg&st=8a6djsc0&dl=0" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines" aria-hidden="true"></i>CV</a>
+                <a href="https://scholar.google.com/citations?hl=en&user=FX5YpV8AAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener"><i class="fa-brands fa-google-scholar" aria-hidden="true"></i><span>Scholar</span></a>
+                <a href="https://github.com/abhisheksambyal" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i><span>GitHub</span></a>
+                <a href="https://www.linkedin.com/in/abhishek-singh-sambyal/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i><span>LinkedIn</span></a>
+                <a href="https://www.dropbox.com/scl/fi/pygritm6vwzoujvl417wi/CV_Resume_Abhishek_Singh_Sambyal.pdf?rlkey=ovgqjsf0jn3v293fnaj5l36dg&st=8a6djsc0&dl=0" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines" aria-hidden="true"></i><span>CV</span></a>
               </p>
               <dl class="emails">
                 <dt>Academic</dt><dd id="email-work">(enable JavaScript to reveal)</dd>
@@ -143,7 +146,7 @@
             </div>
           </header>
 
-          <section id="about" class="ledger" aria-labelledby="about-label">
+          <section id="about" class="ledger">
             <h2 id="about-label" class="ledger__label">About</h2>
             <div class="ledger__body">
               <p>I am a Postdoctoral Researcher in the Intelligent Medical Systems (IMEDS) Group at the University
@@ -160,7 +163,7 @@
           </section>
 
           <!-- News -->
-          <section id="news" class="ledger" aria-labelledby="news-label">
+          <section id="news" class="ledger">
             <h2 id="news-label" class="ledger__label">News</h2>
             <div class="ledger__body">
               <ul class="news">
@@ -252,7 +255,7 @@
           </section>
 
           <!-- Publications -->
-          <section id="publications" class="ledger" aria-labelledby="pubs-label">
+          <section id="publications" class="ledger">
             <h2 id="pubs-label" class="ledger__label">Publications</h2>
             <div class="ledger__body pubs">
 
@@ -718,7 +721,7 @@
           
 
           <!-- Academic Service + Teaching -->
-          <section id="service" class="ledger" aria-labelledby="service-label">
+          <section id="service" class="ledger">
             <h2 id="service-label" class="ledger__label">Service</h2>
             <div class="ledger__body">
               <ul class="plain-list">
@@ -727,7 +730,7 @@
             </div>
           </section>
 
-          <section id="ta" class="ledger" aria-labelledby="ta-label">
+          <section id="ta" class="ledger">
             <h2 id="ta-label" class="ledger__label">Teaching</h2>
             <div class="ledger__body">
               <ul class="plain-list">
@@ -748,7 +751,7 @@
 
   <!-- Publication bottom sheet. Filled from each paper's hidden
        .abstract_text / .bibtex_text blocks by js/pub-drawer.js -->
-  <dialog id="pub-drawer" aria-labelledby="pub-drawer-title">
+  <dialog id="pub-drawer" closedby="any" aria-labelledby="pub-drawer-title">
     <div class="drawer__sheet" tabindex="-1">
       <div class="drawer__grabber" aria-hidden="true"></div>
       <header class="drawer__head">

@@ -1,55 +1,81 @@
-// Light/dark toggle. The page follows the OS setting until the visitor
-// clicks the button; their choice is then stored and applied on every page
-// as <html data-theme="light|dark">. The tiny inline snippet in each page's
-// <head> applies a stored choice before first paint, so there is no flash.
+// Light/dark toggle, after the Modern Web Guidance "dark-mode-toggle" model.
+//
+// <meta name="color-scheme"> is the source of truth: "light dark" follows the
+// OS, "light" or "dark" pins a scheme. The inline snippet after that <meta>
+// in each page's <head> applies a stored override before first paint; CSS
+// maps the <meta> to the color-scheme property and shows the right button
+// option, so nothing here is needed for the page to render correctly.
+//
+// Two states: the system default (nothing stored) and the opposite of it.
+// A click targets the opposite of what is rendered now; if that equals the
+// OS preference, the override is removed instead of stored.
 
 (function () {
   'use strict';
 
-  var KEY = 'theme';
+  var KEY = 'color-scheme';
   var root = document.documentElement;
+  var meta = document.querySelector('meta[name="color-scheme"]');
   var media = window.matchMedia('(prefers-color-scheme: dark)');
+  if (!meta) return;
 
-  function current() {
-    return root.getAttribute('data-theme') || (media.matches ? 'dark' : 'light');
+  // One-time move from the earlier key.
+  try {
+    var legacy = localStorage.getItem('theme');
+    if (legacy) {
+      localStorage.removeItem('theme');
+      if (!localStorage.getItem(KEY) && (legacy === 'light' || legacy === 'dark')) {
+        localStorage.setItem(KEY, legacy);
+        meta.content = legacy;
+      }
+    }
+  } catch (e) { /* storage blocked */ }
+
+  function systemScheme() {
+    return media.matches ? 'dark' : 'light';
   }
 
-  function label(btn) {
-    var next = current() === 'dark' ? 'light' : 'dark';
-    btn.setAttribute('aria-label', 'Switch to ' + next + ' mode');
-    btn.title = 'Switch to ' + next + ' mode';
+  function renderedScheme() {
+    return meta.content === 'light' || meta.content === 'dark' ? meta.content : systemScheme();
   }
 
   function syncThemeColor() {
-    var color = getComputedStyle(root).getPropertyValue('--paper').trim();
+    var color = getComputedStyle(document.body).backgroundColor;
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
       m.setAttribute('content', color);
     });
   }
 
-  function apply(theme) {
-    // Switch every colour in one step: no per-element fades.
+  function apply(value) {
+    // Switch every colour in one step instead of fading per element.
     root.classList.add('theme-switching');
-    root.setAttribute('data-theme', theme);
-    void root.offsetHeight; // commit styles before transitions come back
+    meta.content = value || 'light dark';
+    void root.offsetHeight;
     root.classList.remove('theme-switching');
     syncThemeColor();
   }
 
+  function toggle() {
+    var target = renderedScheme() === 'dark' ? 'light' : 'dark';
+    var stored = target === systemScheme() ? null : target;
+    try {
+      if (stored) localStorage.setItem(KEY, stored);
+      else localStorage.removeItem(KEY);
+    } catch (e) { /* still apply for this page view */ }
+    apply(stored);
+  }
+
+  // Keep tabs in sync.
+  window.addEventListener('storage', function (event) {
+    if (event.key === KEY || event.key === null) apply(event.newValue);
+  });
+
+  // The theme-color hint follows OS changes while no override is stored.
+  media.addEventListener('change', syncThemeColor);
+
   document.addEventListener('DOMContentLoaded', function () {
+    if (meta.content !== 'light dark') syncThemeColor();
     var btn = document.querySelector('.theme-toggle');
-    if (root.getAttribute('data-theme')) syncThemeColor();
-    if (!btn) return;
-    label(btn);
-
-    btn.addEventListener('click', function () {
-      var next = current() === 'dark' ? 'light' : 'dark';
-      apply(next);
-      try { localStorage.setItem(KEY, next); } catch (e) { /* private mode */ }
-      label(btn);
-    });
-
-    // Keep the label right if the OS flips while no choice is stored.
-    media.addEventListener('change', function () { label(btn); });
+    if (btn) btn.addEventListener('click', toggle);
   });
 })();

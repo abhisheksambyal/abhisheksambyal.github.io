@@ -29,7 +29,6 @@
 
   var supportsDialog = typeof drawer.showModal === 'function';
   var copyResetTimer = null;
-  var scrollbarPad = '';
 
   // ---- tabs ---------------------------------------------------------------
 
@@ -108,38 +107,55 @@
     return text;
   }
 
-  // ---- width ---------------------------------------------------------------
-
-  // documentElement.clientWidth is the width actually on screen. The page
-  // overflows horizontally on narrow viewports, which makes the containing
-  // block of a fixed element wider than that, so measure rather than use 100%.
-  function syncWidth() {
-    drawer.style.setProperty('--drawer-vw', document.documentElement.clientWidth + 'px');
-  }
-
-  function syncLayout() {
-    syncWidth();
+  window.addEventListener('resize', function () {
     if (drawer.open) syncBodyHeight();
-  }
+  });
 
-  syncWidth();
-  window.addEventListener('resize', syncLayout);
-  window.addEventListener('orientationchange', syncLayout);
+  // ---- closing with an exit animation -------------------------------------
 
-  // ---- scroll lock --------------------------------------------------------
-
-  function lockScroll() {
-    var gap = window.innerWidth - document.documentElement.clientWidth;
-    scrollbarPad = document.body.style.paddingRight;
-    if (gap > 0) {
-      document.body.style.paddingRight = gap + 'px';
+  // Exit transitions need discrete `display` and `overlay` transitions. Where
+  // they're missing (Firefox, Safari), [data-closing] runs the exit transition
+  // while the dialog is still in the top layer, then it closes. Firefox
+  // parses allow-discrete without honouring it, so probe the real behaviour.
+  var displayTransition;
+  function canTransitionDisplay() {
+    if (displayTransition !== undefined) return displayTransition;
+    if (!window.CSS || !CSS.supports || !CSS.supports('transition-behavior', 'allow-discrete')) {
+      return (displayTransition = false);
     }
-    document.body.style.overflow = 'hidden';
+    var probe = document.createElement('div');
+    probe.style.cssText = 'transition: display 1s allow-discrete !important; display: block;';
+    document.body.appendChild(probe);
+    getComputedStyle(probe).display;
+    probe.style.display = 'none';
+    displayTransition = getComputedStyle(probe).display === 'block';
+    probe.remove();
+    return displayTransition;
   }
 
-  function unlockScroll() {
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = scrollbarPad;
+  function supportsTopLayerExit() {
+    return !!(window.CSS && CSS.supports && CSS.supports('overlay', 'auto')) && canTransitionDisplay();
+  }
+
+  function close() {
+    if (!drawer.open || drawer.hasAttribute('data-closing')) return;
+    if (supportsTopLayerExit()) {
+      drawer.close();
+      return;
+    }
+    drawer.setAttribute('data-closing', '');
+    var animations = drawer.getAnimations({ subtree: true });
+    var settled = animations.length
+      ? Promise.race([
+          Promise.allSettled(animations.map(function (a) { return a.finished; })),
+          new Promise(function (r) { setTimeout(r, 1000); })
+        ])
+      : Promise.resolve();
+    settled.then(function () {
+      if (!drawer.hasAttribute('data-closing')) return;
+      drawer.removeAttribute('data-closing');
+      drawer.close();
+    });
   }
 
   // ---- open / close -------------------------------------------------------
@@ -171,8 +187,7 @@
     selectTab(startTab, false);
 
     resetCopyButton();
-    syncWidth();
-    lockScroll();
+    drawer.removeAttribute('data-closing');
     drawer.showModal();
     // After showModal: the dialog is display:none until then, so nothing
     // inside it can be measured before this point.
@@ -182,18 +197,25 @@
     sheet.focus();
   }
 
-  function close() {
-    // display/overlay are in the CSS transition with allow-discrete, so the
-    // sheet animates out on its own; no transitionend bookkeeping needed.
-    drawer.close();
-  }
-
-  drawer.addEventListener('close', unlockScroll);
-
-  // Clicking the backdrop lands on the dialog element itself.
-  drawer.addEventListener('click', function (event) {
-    if (event.target === drawer) close();
+  // Esc and closedby="any" light dismiss arrive as `cancel`: route them
+  // through close() so they animate too.
+  drawer.addEventListener('cancel', function (event) {
+    event.preventDefault();
+    close();
   });
+
+  // Light-dismiss fallback where <dialog closedby> is unsupported (Safari):
+  // a click whose target is the dialog itself and that falls outside its box
+  // was on the backdrop.
+  if (!('closedBy' in HTMLDialogElement.prototype)) {
+    drawer.addEventListener('click', function (event) {
+      if (event.target !== drawer) return;
+      var r = drawer.getBoundingClientRect();
+      var inside = r.top <= event.clientY && event.clientY <= r.bottom &&
+        r.left <= event.clientX && event.clientX <= r.right;
+      if (!inside) close();
+    });
+  }
 
   closeBtn.addEventListener('click', close);
 
